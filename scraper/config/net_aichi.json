@@ -43,7 +43,8 @@
       ],
       "block": "野球場",
       "all_blocks": 3,
-      "_note": "硬式は3面同時使用が条件。3面すべて空いている枠だけ空きとする"
+      "_note": "硬式は3面同時使用が条件。3面すべて空いている枠だけ空きとする",
+      "merge": true
     },
     "ichii": {
       "steps": [
@@ -68,7 +69,8 @@
       ],
       "block": "野球場",
       "all_blocks": 3,
-      "_note": "硬式は3面同時使用が条件（チームの利用実績より）"
+      "_note": "硬式は3面同時使用が条件（チームの利用実績より）",
+      "merge": true
     },
     "shinrin": {
       "steps": [
@@ -88,7 +90,8 @@
         }
       ],
       "block": "野球場",
-      "show_block": true
+      "show_block": true,
+      "merge": true
     },
     "shinshiro": {
       "steps": [
@@ -111,7 +114,8 @@
           "contains": "野球"
         }
       ],
-      "block": "野球場"
+      "block": "野球場",
+      "merge": true
     }
   }
 }

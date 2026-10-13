@@ -3,7 +3,7 @@
 名古屋から車でおおむね1.5時間圏の、硬式野球が使える球場の空き状況をまとめて見るためのチーム内ツールです。
 
 - 閲覧ページ: GitHub Pages（`docs/`）
-- 取得: GitHub Actions が毎日 6:07 と 18:07（日本時間）に各予約システムの空き表を読み取り、`docs/data/availability.json` を更新します
+- 取得: GitHub Actions が毎日 8:07 と 18:07（日本時間）に各予約システムの空き表を読み取り、`docs/data/availability.json` を更新します
 - 球場の一覧: `data/fields.csv`（硬式可否・予約システム・電話番号など）
 
 ## 構成
