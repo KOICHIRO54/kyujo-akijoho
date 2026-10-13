@@ -203,8 +203,13 @@ def parse_aichi_kyodo(html: str, field_id: str, today: date,
             if not status:
                 continue
             start, end = parts[4], parts[5]
-            name = labels[i] if i < len(labels) else f"枠{i + 1}"
-            slot = f"{name} {start[:2]}:{start[2:]}-{end[:2]}:{end[2:]}" if start.isdigit() and end.isdigit() else name
+            name = unicodedata.normalize("NFKC", labels[i]) if i < len(labels) else f"枠{i + 1}"
+            if start.isdigit() and end.isdigit():
+                times = f"{start[:2]}:{start[2:]}-{end[:2]}:{end[2:]}"
+                # 「17時～」のように時刻だけの見出しは時刻表記に置き換える
+                slot = times if re.fullmatch(r"\d{1,2}時[～~]?", name) else f"{name} {times}"
+            else:
+                slot = name
             slots.append(Slot(field_id, d.isoformat(), slot, status, raw))
     return slots
 
