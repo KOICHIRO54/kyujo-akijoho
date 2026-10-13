@@ -53,6 +53,20 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
+      - name: 取得画面を debug ブランチに保存（手順調整用・最新1回分のみ）
+        if: always()
+        run: |
+          [ -d debug ] || exit 0
+          tmp=$(mktemp -d)
+          cp -r debug "$tmp/"
+          cd "$tmp"
+          git init -q -b debug
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "取得画面 $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" debug
+
       - name: 結果をコミット
         run: |
           git config user.name "github-actions[bot]"

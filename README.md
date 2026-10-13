@@ -29,7 +29,7 @@
 ## 手順の調整のしかた
 
 1. Actions タブで「空き状況を取得」を手動実行（`only` に `aichi_kyodo` などを入れると1システムだけ）
-2. 実行結果の Artifacts から `debug-pages` をダウンロード
+2. 実行結果の Artifacts の `debug-pages`、または `debug` ブランチで各画面を見る
 3. `pages.txt` と画面のスクリーンショットを見て、どこで止まったか確認
 4. `scraper/config/<システム>.json` のボタン名（`text`）を実際の表記に直す
 
