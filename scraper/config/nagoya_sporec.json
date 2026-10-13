@@ -2,13 +2,8 @@
   "name": "名古屋市スポーツ・レクリエーション情報システム",
   "enabled": true,
   "start_url": "https://www.net.city.nagoya.jp/sporec/index.html",
-  "pages": 8,
-  "_note": "種目「野球（硬式）」を先に選ぶと対象施設に絞られる。期間は「指定日以降の土日祝」。",
-  "next": {
-    "do": "click",
-    "text": "次の週",
-    "optional": false
-  },
+  "pages": 1,
+  "_note": "種目「野球（硬式）」で選べるのはパロマ瑞穂野球場のみ（熱田は対象外）。期間「指定日以降の土日祝」で約1か月分が1画面に出る。",
   "common_steps": [
     {
       "do": "goto",
@@ -20,41 +15,6 @@
     }
   ],
   "fields": {
-    "atsuta": {
-      "steps": [
-        {
-          "do": "select",
-          "selector": "select[name=syumoku]",
-          "label": "野球（硬式）"
-        },
-        {
-          "do": "select",
-          "selector": "select[name=sisetu]",
-          "contains": [
-            "熱田"
-          ]
-        },
-        {
-          "do": "select",
-          "selector": "select[name=month]",
-          "label": "{MM}"
-        },
-        {
-          "do": "select",
-          "selector": "select[name=day]",
-          "label": "{DD}"
-        },
-        {
-          "do": "select",
-          "selector": "select[name=time]",
-          "label": "指定日以降の土日祝"
-        },
-        {
-          "do": "click",
-          "text": "照会"
-        }
-      ]
-    },
     "mizuho": {
       "steps": [
         {
@@ -90,5 +50,6 @@
         }
       ]
     }
-  }
+  },
+  "parser": "nagoya_sporec"
 }

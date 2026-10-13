@@ -69,3 +69,14 @@ def test_aichi_kyodo_day_view():
         ("2026-10-17", "午後 14:10-16:40", "予約済"),
         ("2026-10-17", "夕方 17:00-18:30", "利用不可"),
     ]
+
+
+def test_nagoya_sporec_result():
+    from scraper.common import parse_nagoya_sporec
+    html = """<table class="AKITABLE">
+    <input type="hidden" name="rimd" value="20261017"><input type="hidden" name="rimd" value="20261018">
+    <input type="hidden" name="rimd" value="20261103">
+    <tr><td>10月</td><td>17</td><td>18</td><td>11/3</td></tr>
+    <tr><td>１７：３０－１９：３０（夜間１）</td><td>×</td><td>１</td><td>－</td></tr></table>"""
+    got = [(s.date, s.status) for s in parse_nagoya_sporec(html, "mizuho", TODAY)]
+    assert got == [("2026-10-17", "予約済"), ("2026-10-18", "空き"), ("2026-11-03", "利用不可")]

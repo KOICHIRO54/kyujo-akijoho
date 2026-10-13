@@ -5,13 +5,13 @@
   "pref": "愛知",
   "city": "名古屋市熱田区",
   "address": "名古屋市熱田区旗屋1-10-45",
-  "system": "名古屋市スポレク",
-  "online": true,
+  "system": "熱田神宮公園の管理事務所（名古屋市スポレクでは硬式の対象外）",
+  "online": false,
   "drive_min": 15,
   "note": "ナイターなし",
-  "tel": "",
-  "url": "https://www.net.city.nagoya.jp/sporec/index.html",
-  "adapter": "nagoya_sporec"
+  "tel": "052-681-5010",
+  "url": "https://www.atsutajingu-park.com/facility/ballpark/index.html",
+  "adapter": ""
  },
  {
   "id": "mizuho",
@@ -19,7 +19,7 @@
   "pref": "愛知",
   "city": "名古屋市瑞穂区",
   "address": "名古屋市瑞穂区山下通5-1",
-  "system": "名古屋市スポレク（土日祝・夜間）／平日昼は管理事務所に電話",
+  "system": "名古屋市スポレク（硬式は土日祝の夜間枠のみ表示）／その他は管理事務所に電話",
   "online": true,
   "drive_min": 20,
   "note": "",
@@ -47,10 +47,10 @@
   "pref": "愛知",
   "city": "春日井市",
   "address": "春日井市明知町463-1",
-  "system": "あいち共同（抽選は利用月2か月前の1〜7日、先着は11日〜3日前）",
+  "system": "あいち共同（2026年12月利用分まで）→2027年1月利用分から春日井市独自システム",
   "online": true,
   "drive_min": 40,
-  "note": "団体登録は窓口で本登録が必要",
+  "note": "団体登録は窓口で本登録が必要。2027年1月以降の空きは市の新システムで確認",
   "tel": "",
   "url": "https://www.spofure-kasugai.or.jp/sports/stadium/wp-content/uploads/sites/5/2023/11/riyounonagare-kyujo-2024.11-1.pdf",
   "adapter": "aichi_kyodo"
@@ -145,13 +145,13 @@
   "pref": "愛知",
   "city": "豊橋市",
   "address": "豊橋市（岩田運動公園）",
-  "system": "あいち共同で空き確認→岩田運動公園の窓口で申込",
-  "online": true,
+  "system": "岩田運動公園の窓口（豊橋市スポーツ協会）",
+  "online": false,
   "drive_min": 80,
   "note": "1.5時間圏ぎりぎり",
   "tel": "0532-63-3031",
   "url": "https://www.city.toyohashi.lg.jp/54210.htm",
-  "adapter": "aichi_kyodo"
+  "adapter": ""
  },
  {
   "id": "gamagori",

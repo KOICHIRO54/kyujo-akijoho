@@ -2,7 +2,7 @@
   "name": "あいち共同利用型施設予約システム",
   "enabled": true,
   "start_url": "https://www.e-shisetsu.e-aichi.jp/web_info.html",
-  "_note": "館選択後の1日表示を、左のカレンダーと同じ関数で日付を切り替えて読む。土日祝のみ60日分。",
+  "_note": "館選択後の1日表示を、左のカレンダーと同じ関数で日付を切り替えて読む。土日祝のみ60日分。 豊橋市民球場はあいち共同に登録がない（「岩田」で検索しても庭球場のみ）。",
   "common_steps": [
     {
       "do": "goto",
@@ -65,30 +65,6 @@
         }
       ],
       "block": "メイングラウンド"
-    },
-    "toyohashi": {
-      "steps": [
-        {
-          "do": "click",
-          "text": "豊橋市"
-        },
-        {
-          "do": "fill",
-          "selector": "#textKeyword",
-          "value": "岩田"
-        },
-        {
-          "do": "click",
-          "text": "上記の内容で検索する"
-        },
-        {
-          "do": "click_row",
-          "row_text": "運動公園",
-          "text": "選択"
-        }
-      ],
-      "block": "球場",
-      "_note": "「球場」で検索すると庭球場しか出ない。館名を調査中"
     },
     "gamagori": {
       "steps": [

@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import re
+import unicodedata
 from dataclasses import dataclass, asdict
 from datetime import date, timedelta
 
@@ -209,3 +210,46 @@ def parse_aichi_kyodo(html: str, field_id: str, today: date,
 
 
 PARSERS = {"generic": parse_tables, "aichi_kyodo": parse_aichi_kyodo}
+
+
+def parse_nagoya_sporec(html: str, field_id: str, today: date) -> list[Slot]:
+    """名古屋市スポレクの「空き照会結果」（table.AKITABLE）を読む。
+
+    列ごとに hidden の rimd（YYYYMMDD）があるので、その並び順を列の日付とする。
+    セルは 数字=空き面数 / ×=空きなし / －=施設利用不可 / ＝=未公開。
+    """
+    soup = BeautifulSoup(html, "lxml")
+    slots: list[Slot] = []
+    for table in soup.select("table.AKITABLE"):
+        dates = []
+        for inp in table.find_all("input", attrs={"name": "rimd"}):
+            v = inp.get("value", "")
+            if re.fullmatch(r"\d{8}", v):
+                d = date(int(v[:4]), int(v[4:6]), int(v[6:8]))
+                if d not in dates:
+                    dates.append(d)
+        if not dates:
+            continue
+        for tr in table.find_all("tr"):
+            cells = [cell_text(td) for td in tr.find_all(["td", "th"], recursive=False)]
+            if len(cells) < 2:
+                continue
+            label = unicodedata.normalize("NFKC", cells[0])
+            if not re.search(r"\d{1,2}:\d{2}", label):
+                continue  # 時間帯の行だけ読む
+            values = cells[-len(dates):] if len(cells) - 1 >= len(dates) else cells[1:]
+            for d, raw in zip(dates, values):
+                v = unicodedata.normalize("NFKC", raw).strip()
+                if v.isdigit():
+                    status = "空き" if int(v) > 0 else "予約済"
+                elif v in ("×", "x", "X"):
+                    status = "予約済"
+                elif v in ("-", "－", "―", "ー", "=", "＝"):
+                    status = "利用不可"
+                else:
+                    continue
+                slots.append(Slot(field_id, d.isoformat(), label.replace(" ", ""), status, raw))
+    return slots
+
+
+PARSERS["nagoya_sporec"] = parse_nagoya_sporec
