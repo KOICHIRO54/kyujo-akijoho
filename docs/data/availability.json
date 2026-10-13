@@ -1,25 +1,25 @@
 {
- "generated_at": "2026-10-14T04:27+09:00",
+ "generated_at": "2026-10-14T08:52+09:00",
  "fetched_at": {
-  "komaki": "2026-10-14T04:07+09:00",
-  "mizuho": "2026-10-14T00:02+09:00",
-  "hokusei": "2026-10-14T04:27+09:00",
-  "ichii": "2026-10-14T04:27+09:00",
-  "agui": "2026-10-14T04:27+09:00",
-  "kasugai": "2026-10-14T04:27+09:00",
-  "kani": "2026-10-14T04:27+09:00",
-  "yokkaichi1": "2026-10-14T04:27+09:00",
-  "yokkaichi2": "2026-10-14T04:27+09:00",
-  "tajimi": "2026-10-14T04:27+09:00",
-  "kourogi": "2026-10-14T04:27+09:00",
-  "ichinomiya": "2026-10-14T04:27+09:00",
-  "seto": "2026-10-14T04:27+09:00",
-  "obu": "2026-10-14T04:27+09:00",
-  "handa": "2026-10-14T04:27+09:00",
-  "shinrin": "2026-10-14T04:27+09:00",
-  "miyoshi": "2026-10-14T04:27+09:00",
-  "gamagori": "2026-10-14T04:27+09:00",
-  "shinshiro": "2026-10-14T04:27+09:00"
+  "kasugai": "2026-10-14T08:52+09:00",
+  "kani": "2026-10-14T08:52+09:00",
+  "obu": "2026-10-14T08:52+09:00",
+  "yokkaichi1": "2026-10-14T08:52+09:00",
+  "seto": "2026-10-14T08:52+09:00",
+  "handa": "2026-10-14T08:52+09:00",
+  "ichii": "2026-10-14T08:52+09:00",
+  "shinrin": "2026-10-14T08:52+09:00",
+  "ichinomiya": "2026-10-14T08:52+09:00",
+  "yokkaichi2": "2026-10-14T08:52+09:00",
+  "kourogi": "2026-10-14T08:52+09:00",
+  "mizuho": "2026-10-14T08:52+09:00",
+  "tajimi": "2026-10-14T08:52+09:00",
+  "komaki": "2026-10-14T08:52+09:00",
+  "agui": "2026-10-14T08:52+09:00",
+  "hokusei": "2026-10-14T08:52+09:00",
+  "miyoshi": "2026-10-14T08:52+09:00",
+  "gamagori": "2026-10-14T08:52+09:00",
+  "shinshiro": "2026-10-14T08:52+09:00"
  },
  "status": {
   "aichi_kyodo:kasugai": {
@@ -73,12 +73,14 @@
    "error": null
   },
   "komaki:komaki": {
-   "ok": false,
-   "error": "Error: Page.content: Unable to retrieve content because the page is navigating and changing the content."
+   "ok": true,
+   "count": 44,
+   "error": null
   },
   "nagoya_sporec:mizuho": {
-   "ok": false,
-   "error": "StepError: プルダウンが見つからない: select[name=syumoku]"
+   "ok": true,
+   "count": 28,
+   "error": null
   },
   "net_aichi:kourogi": {
    "ok": true,
