@@ -1,0 +1,16 @@
+{
+  "name": "名古屋市スポーツ・レクリエーション情報システム",
+  "enabled": true,
+  "start_url": "https://www.net.city.nagoya.jp/sporec/index.html",
+  "pages": 8,
+  "_note": "画面遷移は推測。初回実行の debug/ の保存画面を見て text を直す。",
+  "next": {"do": "click", "text": "次の週", "optional": false},
+  "common_steps": [
+    {"do": "goto", "url": "https://www.net.city.nagoya.jp/sporec/index.html"},
+    {"do": "click", "text": "空き状況"}
+  ],
+  "fields": {
+    "atsuta": {"steps": [{"do": "click", "text": "野球場"}, {"do": "click", "text": "熱田神宮公園"}]},
+    "mizuho": {"steps": [{"do": "click", "text": "野球場"}, {"do": "click", "text": "瑞穂"}]}
+  }
+}

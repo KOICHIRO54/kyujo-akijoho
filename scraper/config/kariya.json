@@ -1,0 +1,9 @@
+{
+  "name": "kariya（未対応）",
+  "enabled": false,
+  "_note": "あいち共同・スポレクが動いてから追加する。",
+  "start_url": "",
+  "pages": 8,
+  "common_steps": [],
+  "fields": {}
+}

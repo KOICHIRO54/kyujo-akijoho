@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>硬式球場 空き状況</title>
+<meta name="theme-color" content="#1f3d2b">
+<style>
+  :root {
+    --bg: #f4f1ea;
+    --card: #ffffff;
+    --ink: #1d2420;
+    --muted: #6b716c;
+    --line: #e2ddd2;
+    --grass: #1f3d2b;
+    --grass-2: #2f5a3f;
+    --dirt: #b8743f;
+    --free: #1e7a46;
+    --free-bg: #e3f3e8;
+    --partial: #9a6a00;
+    --partial-bg: #fbf0d4;
+    --taken: #8a8f8b;
+    --taken-bg: #eeeeec;
+    --lottery: #3d5ba8;
+    --lottery-bg: #e6ecfa;
+    --warn-bg: #fff3e0;
+    --warn-ink: #8a4b00;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121614; --card: #1b201d; --ink: #e8ebe8; --muted: #9aa29c; --line: #2c332f;
+      --grass: #16301f; --grass-2: #24452f;
+      --free: #6fd39a; --free-bg: #173524; --partial: #f0c062; --partial-bg: #3a2f14;
+      --taken: #8b928d; --taken-bg: #262b28; --lottery: #9fb5f0; --lottery-bg: #1f2740;
+      --warn-bg: #3a2a14; --warn-ink: #f3c27d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", sans-serif;
+    font-size: 15px; line-height: 1.5; -webkit-text-size-adjust: 100%;
+  }
+  header {
+    background: var(--grass); color: #fff; padding: 18px 16px 0;
+    padding-top: max(18px, env(safe-area-inset-top));
+    position: sticky; top: 0; z-index: 5;
+  }
+  header h1 { margin: 0; font-size: 19px; letter-spacing: .02em; }
+  header .sub { font-size: 12px; opacity: .8; margin-top: 2px; }
+  .tabs { display: flex; gap: 4px; margin-top: 12px; }
+  .tabs button {
+    flex: 1; border: 0; background: transparent; color: #fff; opacity: .65;
+    font: inherit; font-weight: 600; padding: 10px 0 12px; border-bottom: 3px solid transparent; cursor: pointer;
+  }
+  .tabs button[aria-selected="true"] { opacity: 1; border-bottom-color: var(--dirt); }
+  main { max-width: 720px; margin: 0 auto; padding: 12px 16px 48px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
+  .chip {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 13px; cursor: pointer;
+  }
+  .chip[aria-pressed="true"] { background: var(--grass-2); color: #fff; border-color: var(--grass-2); }
+  .notice {
+    background: var(--warn-bg); color: var(--warn-ink); border-radius: 10px;
+    padding: 10px 12px; font-size: 13px; margin-bottom: 12px;
+  }
+  .day { margin: 18px 0 8px; display: flex; align-items: baseline; gap: 8px; }
+  .day h2 { margin: 0; font-size: 17px; }
+  .day .dow { font-size: 13px; color: var(--muted); }
+  .day.sat h2 { color: #3d5ba8; } .day.sun h2, .day.hol h2 { color: #b23b3b; }
+  @media (prefers-color-scheme: dark) { .day.sat h2 { color: #9fb5f0; } .day.sun h2, .day.hol h2 { color: #f08f8f; } }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; margin-bottom: 8px;
+  }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .name { font-weight: 700; font-size: 15px; }
+  .meta { font-size: 12px; color: var(--muted); }
+  .slots { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .slot { font-size: 12px; border-radius: 6px; padding: 3px 8px; font-weight: 600; }
+  .s-空き { background: var(--free-bg); color: var(--free); }
+  .s-一部空き { background: var(--partial-bg); color: var(--partial); }
+  .s-予約済, .s-利用不可 { background: var(--taken-bg); color: var(--taken); }
+  .s-抽選 { background: var(--lottery-bg); color: var(--lottery); }
+  .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .links a {
+    font-size: 13px; text-decoration: none; color: var(--grass-2); border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px 10px; background: var(--bg);
+  }
+  @media (prefers-color-scheme: dark) { .links a { color: #9fd3b0; } }
+  .badge { font-size: 11px; border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 2px; }
+  .b-on { background: var(--free-bg); color: var(--free); }
+  .b-off { background: var(--taken-bg); color: var(--taken); }
+  .note { font-size: 13px; margin-top: 6px; }
+  .empty { text-align: center; color: var(--muted); padding: 40px 12px; }
+  .section-title { font-size: 13px; color: var(--muted); margin: 20px 0 8px; font-weight: 600; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header>
+  <h1>硬式球場 空き状況</h1>
+  <div class="sub" id="updated">読み込み中…</div>
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="slots">空き</button>
+    <button role="tab" aria-selected="false" data-tab="fields">球場</button>
+  </div>
+</header>
+
+<main>
+  <section id="tab-slots">
+    <div class="filters">
+      <button class="chip" id="f-weekend" aria-pressed="true">土日祝のみ</button>
+      <button class="chip" id="f-free" aria-pressed="true">空きのみ</button>
+      <button class="chip" data-pref="愛知" aria-pressed="true">愛知</button>
+      <button class="chip" data-pref="三重" aria-pressed="true">三重</button>
+      <button class="chip" data-pref="岐阜" aria-pressed="true">岐阜</button>
+    </div>
+    <div id="warnings"></div>
+    <div id="slot-list"></div>
+  </section>
+
+  <section id="tab-fields" hidden>
+    <div id="field-list"></div>
+  </section>
+</main>
+
+<script>
+// 国民の祝日（2026年10月〜2027年12月）。年1回更新する。
+const HOLIDAYS = new Set([
+  "2026-10-12","2026-11-03","2026-11-23",
+  "2027-01-01","2027-01-11","2027-02-11","2027-02-23","2027-03-21","2027-03-22",
+  "2027-04-29","2027-05-03","2027-05-04","2027-05-05","2027-07-19","2027-08-11",
+  "2027-09-20","2027-09-23","2027-10-11","2027-11-03","2027-11-23",
+]);
+const DOW = ["日","月","火","水","木","金","土"];
+
+const state = { weekend: true, freeOnly: true, prefs: new Set(["愛知","三重","岐阜"]) };
+let fields = [], avail = { slots: [], fetched_at: {}, status: {} };
+
+function load(key, fallback) {
+  try { const v = localStorage.getItem(key); return v === null ? fallback : JSON.parse(v); }
+  catch { return fallback; }
+}
+function save(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch {} }
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function dayInfo(iso) {
+  const d = new Date(iso + "T00:00:00+09:00");
+  const w = d.getDay();
+  const hol = HOLIDAYS.has(iso);
+  return { label: `${d.getMonth()+1}/${d.getDate()}`, dow: DOW[w] + (hol ? "・祝" : ""),
+           cls: hol ? "hol" : w === 0 ? "sun" : w === 6 ? "sat" : "", weekend: hol || w === 0 || w === 6 };
+}
+function ago(iso) {
+  if (!iso) return "未取得";
+  const h = Math.round((Date.now() - new Date(iso)) / 36e5);
+  return h < 1 ? "1時間以内" : h < 48 ? `${h}時間前` : `${Math.round(h/24)}日前`;
+}
+
+function renderSlots() {
+  const byId = Object.fromEntries(fields.map(f => [f.id, f]));
+  const list = document.getElementById("slot-list");
+  const groups = new Map();
+  for (const s of avail.slots) {
+    const f = byId[s.field];
+    if (!f || !state.prefs.has(f.pref)) continue;
+    if (state.weekend && !dayInfo(s.date).weekend) continue;
+    if (state.freeOnly && !(s.status === "空き" || s.status === "一部空き")) continue;
+    if (!groups.has(s.date)) groups.set(s.date, new Map());
+    const g = groups.get(s.date);
+    if (!g.has(s.field)) g.set(s.field, []);
+    g.get(s.field).push(s);
+  }
+
+  // 古いデータの警告
+  const warn = [];
+  const stale = fields.filter(f => f.adapter && avail.fetched_at[f.id] &&
+    (Date.now() - new Date(avail.fetched_at[f.id])) > 36 * 36e5);
+  if (stale.length) warn.push(`前回の取得に失敗し、古い情報のままの球場があります：${stale.map(f => esc(f.name.replace(/（.*）/, ""))).join("、")}`);
+  document.getElementById("warnings").innerHTML = warn.map(w => `<div class="notice">${w}</div>`).join("");
+
+  if (!groups.size) {
+    list.innerHTML = avail.slots.length
+      ? `<div class="empty">条件に合う空きはありません。<br>絞り込みを外すと表示が増えます。</div>`
+      : `<div class="empty">まだ空き状況を取得できていません。<br>「球場」タブから各予約ページを確認できます。</div>`;
+    return;
+  }
+  let html = "";
+  for (const date of [...groups.keys()].sort()) {
+    const di = dayInfo(date);
+    html += `<div class="day ${di.cls}"><h2>${di.label}</h2><span class="dow">(${di.dow})</span></div>`;
+    const g = groups.get(date);
+    const ids = [...g.keys()].sort((a, b) => (byId[a].drive_min ?? 999) - (byId[b].drive_min ?? 999));
+    for (const id of ids) {
+      const f = byId[id];
+      const chips = g.get(id).map(s => `<span class="slot s-${esc(s.status)}">${esc(s.slot)}・${esc(s.status)}</span>`).join("");
+      html += `<div class="card">
+        <div class="row"><span class="name">${esc(f.name.replace(/（.*）/, ""))}</span>
+          <span class="meta">${esc(f.city)}${f.drive_min ? `・車${f.drive_min}分` : ""}</span></div>
+        <div class="slots">${chips}</div>
+        ${f.url ? `<div class="links"><a href="${esc(f.url)}" target="_blank" rel="noopener">予約ページ</a></div>` : ""}
+      </div>`;
+    }
+  }
+  list.innerHTML = html;
+}
+
+function renderFields() {
+  const sorted = [...fields].sort((a, b) => (b.online - a.online) || ((a.drive_min ?? 999) - (b.drive_min ?? 999)));
+  const card = f => `<div class="card">
+      <div class="row"><span class="name">${esc(f.name)}</span></div>
+      <div class="meta">${esc(f.city)}${f.drive_min ? `・車 約${f.drive_min}分（目安）` : ""}
+        <span class="badge ${f.online ? "b-on" : "b-off"}">${f.online ? "ネットで空き確認" : "電話・窓口"}</span></div>
+      <div class="note">予約：${esc(f.system)}</div>
+      ${f.note ? `<div class="note meta">${esc(f.note)}</div>` : ""}
+      ${f.adapter ? `<div class="note meta">最終取得：${ago(avail.fetched_at[f.id])}</div>` : ""}
+      <div class="links">
+        ${f.url ? `<a href="${esc(f.url)}" target="_blank" rel="noopener">予約・案内ページ</a>` : ""}
+        ${f.tel ? `<a href="tel:${esc(f.tel.replace(/-/g, ""))}">電話 ${esc(f.tel)}</a>` : ""}
+        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(f.name.replace(/（.*）/, "") + " " + f.address)}" target="_blank" rel="noopener">地図</a>
+      </div>
+    </div>`;
+  document.getElementById("field-list").innerHTML =
+    `<div class="section-title">ネットで空きが見られる球場</div>` + sorted.filter(f => f.online).map(card).join("") +
+    `<div class="section-title">電話・窓口で確認する球場</div>` + sorted.filter(f => !f.online).map(card).join("");
+}
+
+function render() { renderSlots(); renderFields(); }
+
+function bindFilters() {
+  const w = document.getElementById("f-weekend"), fr = document.getElementById("f-free");
+  const sync = () => {
+    w.setAttribute("aria-pressed", state.weekend);
+    fr.setAttribute("aria-pressed", state.freeOnly);
+    document.querySelectorAll("[data-pref]").forEach(b => b.setAttribute("aria-pressed", state.prefs.has(b.dataset.pref)));
+    save("filters", { weekend: state.weekend, freeOnly: state.freeOnly, prefs: [...state.prefs] });
+    renderSlots();
+  };
+  w.onclick = () => { state.weekend = !state.weekend; sync(); };
+  fr.onclick = () => { state.freeOnly = !state.freeOnly; sync(); };
+  document.querySelectorAll("[data-pref]").forEach(b => b.onclick = () => {
+    state.prefs.has(b.dataset.pref) ? state.prefs.delete(b.dataset.pref) : state.prefs.add(b.dataset.pref);
+    sync();
+  });
+  const saved = load("filters", null);
+  if (saved) { state.weekend = saved.weekend; state.freeOnly = saved.freeOnly; state.prefs = new Set(saved.prefs); }
+  sync();
+}
+
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
+  document.querySelectorAll(".tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
+  document.getElementById("tab-slots").hidden = b.dataset.tab !== "slots";
+  document.getElementById("tab-fields").hidden = b.dataset.tab !== "fields";
+});
+
+(async () => {
+  const bust = `?t=${Date.now()}`;
+  fields = await fetch("data/fields.json" + bust).then(r => r.json());
+  try { avail = await fetch("data/availability.json" + bust).then(r => r.ok ? r.json() : avail); } catch {}
+  document.getElementById("updated").textContent =
+    avail.generated_at ? `最終更新 ${avail.generated_at.replace("T", " ").slice(0, 16)}（${ago(avail.generated_at)}）` : "まだ取得していません";
+  bindFilters();
+  render();
+})();
+</script>
+</body>
+</html>

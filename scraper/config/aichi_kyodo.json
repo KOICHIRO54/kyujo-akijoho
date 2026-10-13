@@ -1,0 +1,19 @@
+{
+  "name": "あいち共同利用型施設予約システム",
+  "enabled": true,
+  "start_url": "https://www.e-shisetsu.e-aichi.jp/web_info.html",
+  "pages": 8,
+  "_note": "画面遷移は公開資料（西尾市の操作説明）をもとにした推測。初回実行の debug/ の保存画面を見て text を直す。",
+  "next": {"do": "click", "text": "次の週", "optional": false},
+  "common_steps": [
+    {"do": "goto", "url": "https://www.e-shisetsu.e-aichi.jp/web_info.html"},
+    {"do": "click", "text": "多機能版"},
+    {"do": "click", "text": "施設名から"}
+  ],
+  "fields": {
+    "kasugai":   {"steps": [{"do": "click", "text": "春日井市"}, {"do": "click", "text": "市民球場"}]},
+    "obu":       {"steps": [{"do": "click", "text": "大府市"},   {"do": "click", "text": "市民球場"}]},
+    "toyohashi": {"steps": [{"do": "click", "text": "豊橋市"},   {"do": "click", "text": "市民球場"}]},
+    "gamagori":  {"steps": [{"do": "click", "text": "蒲郡市"},   {"do": "click", "text": "公園グラウンド"}, {"do": "click", "text": "野球場", "optional": true}]}
+  }
+}
