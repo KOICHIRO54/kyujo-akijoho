@@ -5,6 +5,11 @@ on:
     # 日本時間 6:07 と 18:07（UTC で指定）。毎時0分は混むので少しずらす
     - cron: "7 21 * * *"
     - cron: "7 9 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scraper/**"
+      - "data/fields.csv"
   workflow_dispatch:
     inputs:
       only:
@@ -76,5 +81,6 @@ jobs:
             echo "変更なし"
           else
             git commit -m "空き状況を更新 $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
+            git pull --rebase origin main
             git push
           fi
