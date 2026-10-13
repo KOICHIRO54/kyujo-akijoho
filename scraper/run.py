@@ -110,7 +110,7 @@ def scrape(configs: dict[str, dict]) -> tuple[list[dict], dict]:
                         dates = target_dates(today, int(walk.get("days", 60)),
                                              walk.get("weekends_only", True), holidays,
                                              fcfg.get("until"))
-                        htmls = collect_by_dates(page, steps, walk["js"], dates, rec)
+                        htmls = collect_by_dates(page, steps, walk.get("js") or walk["url"], dates, rec)
                     else:
                         htmls = collect_pages(page, steps, cfg.get("next"),
                                               int(cfg.get("pages", 1)), rec)

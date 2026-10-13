@@ -1,9 +1,18 @@
 {
-  "name": "komaki（未対応）",
-  "enabled": false,
-  "_note": "あいち共同・スポレクが動いてから追加する。",
-  "start_url": "",
-  "pages": 8,
-  "common_steps": [],
-  "fields": {}
+  "name": "小牧市施設予約システム",
+  "enabled": true,
+  "start_url": "https://www.pf489.com/komaki/webR/",
+  "pages": 1,
+  "_note": "画面構造の調査中（初回は入口の画面を保存するだけ）",
+  "common_steps": [
+    {
+      "do": "goto",
+      "url": "https://www.pf489.com/komaki/webR/"
+    }
+  ],
+  "fields": {
+    "komaki": {
+      "steps": []
+    }
+  }
 }

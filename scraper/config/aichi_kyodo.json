@@ -88,6 +88,52 @@
         }
       ],
       "block": "野球場"
+    },
+    "seto": {
+      "steps": [
+        {
+          "do": "click",
+          "text": "瀬戸市"
+        },
+        {
+          "do": "fill",
+          "selector": "#textKeyword",
+          "value": "野球場"
+        },
+        {
+          "do": "click",
+          "text": "上記の内容で検索する"
+        },
+        {
+          "do": "click_row",
+          "row_text": "市民公園",
+          "text": "選択"
+        }
+      ],
+      "block": "野球場"
+    },
+    "handa": {
+      "steps": [
+        {
+          "do": "click",
+          "text": "半田市"
+        },
+        {
+          "do": "fill",
+          "selector": "#textKeyword",
+          "value": "球場"
+        },
+        {
+          "do": "click",
+          "text": "上記の内容で検索する"
+        },
+        {
+          "do": "click_row",
+          "row_text": "球場",
+          "text": "選択"
+        }
+      ],
+      "block": "球場"
     }
   },
   "parser": "aichi_kyodo",

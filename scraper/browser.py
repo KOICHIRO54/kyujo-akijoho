@@ -203,7 +203,14 @@ def collect_by_dates(page: Page, steps: list[dict], js_template: str,
     htmls = []
     for d in dates:
         scope = _target(page)
-        js = js_template.format(Y=d.year, M=d.month, D=d.day)
+        fmt = dict(Y=d.year, M=d.month, D=d.day, MM=f"{d.month:02d}", DD=f"{d.day:02d}")
+        if js_template.startswith("http"):
+            # 日付をURLで指定できるサイトは、そのページを直接開く
+            page.goto(js_template.format(**fmt), wait_until="domcontentloaded")
+            time.sleep(WAIT_BETWEEN_ACTIONS)
+            htmls.append(rec.save(page, d.isoformat()) if d == dates[0] else _target(page).content())
+            continue
+        js = js_template.format(**fmt)
         try:
             with page.expect_navigation(wait_until="domcontentloaded", timeout=20000):
                 scope.evaluate(js)

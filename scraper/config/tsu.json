@@ -1,0 +1,18 @@
+{
+  "name": "津市運動施設 施設空き状況",
+  "enabled": true,
+  "start_url": "https://www.tsushiundoshisetsu.jp/schedule/",
+  "pages": 1,
+  "_note": "画面構造の調査中（初回は入口の画面を保存するだけ）",
+  "common_steps": [
+    {
+      "do": "goto",
+      "url": "https://www.tsushiundoshisetsu.jp/schedule/"
+    }
+  ],
+  "fields": {
+    "tsu": {
+      "steps": []
+    }
+  }
+}

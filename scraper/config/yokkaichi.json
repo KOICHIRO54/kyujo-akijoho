@@ -1,9 +1,23 @@
 {
-  "name": "yokkaichi（未対応）",
-  "enabled": false,
-  "_note": "あいち共同・スポレクが動いてから追加する。",
-  "start_url": "",
-  "pages": 8,
-  "common_steps": [],
-  "fields": {}
+  "name": "四日市市公共施設案内・予約システム",
+  "enabled": true,
+  "start_url": "https://yoyacool.e-harp.jp/yokkaichi",
+  "pages": 1,
+  "_note": "画面構造の調査中（初回は入口の画面を保存するだけ）",
+  "common_steps": [
+    {
+      "do": "goto",
+      "url": "https://yoyacool.e-harp.jp/yokkaichi"
+    }
+  ],
+  "fields": {
+    "yokkaichi1": {
+      "steps": [
+        {
+          "do": "click",
+          "text": "施設一覧・検索"
+        }
+      ]
+    }
+  }
 }

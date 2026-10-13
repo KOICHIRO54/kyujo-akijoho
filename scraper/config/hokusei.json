@@ -1,0 +1,18 @@
+{
+  "name": "北勢中央公園 予約状況の確認",
+  "enabled": true,
+  "start_url": "https://www.hokusei-park.jp/method/check-form/",
+  "_note": "日付ごとの予約状況ページ（?ymd=YYYYMMDD）を土日祝の60日分開く。",
+  "common_steps": [],
+  "parser": "generic",
+  "walk": {
+    "url": "https://www.hokusei-park.jp/method/check-form/?ymd={Y}{MM}{DD}",
+    "days": 60,
+    "weekends_only": true
+  },
+  "fields": {
+    "hokusei": {
+      "steps": []
+    }
+  }
+}
