@@ -207,7 +207,9 @@ def parse_aichi_kyodo(html: str, field_id: str, today: date,
             if start.isdigit() and end.isdigit():
                 times = f"{start[:2]}:{start[2:]}-{end[:2]}:{end[2:]}"
                 # 「17時～」のように時刻だけの見出しは時刻表記に置き換える
-                slot = times if re.fullmatch(r"\d{1,2}時[～~]?", name) else f"{name} {times}"
+                # 「17時～」「9」「30」のように時刻だけの見出しは時刻表記に置き換える
+                plain = re.fullmatch(r"\d{1,2}(時[～~]?)?", name)
+                slot = times if plain else f"{name} {times}"
             else:
                 slot = name
             if with_block:
@@ -241,6 +243,45 @@ def require_all_blocks(slots: list[dict], blocks: int) -> list[dict]:
         out.append({"field": items[0]["field"], "date": d, "slot": f"{blocks}面 {time}",
                     "status": status, "raw": f"{free}/{len(items)}面空き"})
     return out
+
+
+_RANGE = re.compile(r"^(?P<pre>.*?)(?P<s>\d{1,2}:\d{2})-(?P<e>\d{1,2}:\d{2})$")
+
+
+def merge_adjacent(slots: list[dict]) -> list[dict]:
+    """30分・1時間刻みの枠を、同じ状態が続く範囲にまとめる（例: 9:00-12:00 空き）。
+
+    時刻の前に面の名前などが付いている場合は、同じ名前どうしでまとめる。
+    時刻の形でない枠はそのまま残す。
+    """
+    def minutes(t):
+        h, m = t.split(":")
+        return int(h) * 60 + int(m)
+    out, groups = [], {}
+    for s in slots:
+        m = _RANGE.match(s["slot"])
+        if not m:
+            out.append(s)
+            continue
+        groups.setdefault((s["field"], s["date"], m["pre"]), []).append((minutes(m["s"]), minutes(m["e"]), s))
+    for (field, d, pre), items in groups.items():
+        items.sort(key=lambda x: x[0])
+        cur = None
+        for st, en, s in items:
+            if cur and cur["status"] == s["status"] and cur["_end"] == st:
+                cur["_end"] = en
+            else:
+                if cur:
+                    out.append(cur)
+                cur = {**s, "_start": st, "_end": en}
+        if cur:
+            out.append(cur)
+    for s in out:
+        if "_start" in s:
+            st, en = s.pop("_start"), s.pop("_end")
+            pre = _RANGE.match(s["slot"])["pre"]
+            s["slot"] = f"{pre}{st // 60:02d}:{st % 60:02d}-{en // 60:02d}:{en % 60:02d}"
+    return sorted(out, key=lambda s: (s["date"], s["slot"]))
 
 
 PARSERS = {"generic": parse_tables, "aichi_kyodo": parse_aichi_kyodo}

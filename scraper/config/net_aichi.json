@@ -35,6 +35,10 @@
           "do": "click_row",
           "row_text": "口論義",
           "text": "選択"
+        },
+        {
+          "do": "pick_blocks",
+          "contains": "野球"
         }
       ],
       "block": "野球場",
@@ -56,6 +60,10 @@
           "do": "click_row",
           "row_text": "一宮",
           "text": "選択"
+        },
+        {
+          "do": "pick_blocks",
+          "contains": "野球"
         }
       ],
       "block": "野球場",
@@ -79,7 +87,8 @@
           "text": "選択"
         }
       ],
-      "block": "野球場"
+      "block": "野球場",
+      "show_block": true
     },
     "shinshiro": {
       "steps": [
@@ -96,6 +105,10 @@
           "do": "click_row",
           "row_text": "新城",
           "text": "選択"
+        },
+        {
+          "do": "pick_blocks",
+          "contains": "野球"
         }
       ],
       "block": "野球場"

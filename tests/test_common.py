@@ -91,3 +91,12 @@ def test_require_all_blocks():
     assert got == {"3面 午前": ("空き", "3/3面空き"), "3面 午後": ("予約済", "2/3面空き")}
     # 2面しか読めなかった日は空きにしない
     assert require_all_blocks(slots[:2], 3)[0]["status"] == "予約済"
+
+
+def test_merge_adjacent():
+    from scraper.common import merge_adjacent
+    mk = lambda t, st: {"field": "agui", "date": "2026-10-17", "slot": t, "status": st, "raw": ""}
+    got = [(s["slot"], s["status"]) for s in merge_adjacent([
+        mk("06:00-06:30", "利用不可"), mk("06:30-07:00", "利用不可"), mk("07:00-07:30", "空き"),
+        mk("07:30-08:00", "空き"), mk("08:00-08:30", "予約済")])]
+    assert got == [("06:00-07:00", "利用不可"), ("07:00-08:00", "空き"), ("08:00-08:30", "予約済")]

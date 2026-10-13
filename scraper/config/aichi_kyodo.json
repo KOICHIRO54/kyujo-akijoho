@@ -156,7 +156,8 @@
           "text": "選択"
         }
       ],
-      "block": "野球場"
+      "block": "野球場",
+      "merge": true
     },
     "agui": {
       "steps": [
@@ -179,7 +180,8 @@
           "text": "選択"
         }
       ],
-      "block": "野球場"
+      "block": "野球場",
+      "merge": true
     }
   },
   "parser": "aichi_kyodo",

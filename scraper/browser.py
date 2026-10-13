@@ -148,6 +148,20 @@ def run_step(page: Page, step: dict, rec: Recorder) -> None:
             _locator(scope, step).fill(_expand(step["value"]))
         elif kind == "select":
             _select(scope, step)
+        elif kind == "pick_blocks":
+            # 館内の施設一覧（チェックボックス）で、名前に contains を含む施設だけを選ぶ
+            n = scope.evaluate("""(word) => {
+                let n = 0;
+                document.querySelectorAll('input[type=checkbox][name=chkIcd]').forEach(cb => {
+                    const label = (cb.closest('td') || cb.parentElement).innerText || '';
+                    cb.checked = label.includes(word);
+                    if (cb.checked) n++;
+                });
+                return n;
+            }""", step["contains"])
+            if not n:
+                raise StepError(f"施設が見つからない: {step['contains']}")
+            _locator(scope, {"text": step.get("reload_text", "表示の反映")}).click()
         elif kind == "check":
             _locator(scope, step).check()
         elif kind == "wait":
