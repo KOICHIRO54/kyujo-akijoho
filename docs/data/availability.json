@@ -1,0 +1,31 @@
+{
+ "generated_at": "2026-10-13T22:40+09:00",
+ "fetched_at": {},
+ "status": {
+  "aichi_kyodo:kasugai": {
+   "ok": false,
+   "error": "StepError: 見つからない: 市民球場"
+  },
+  "aichi_kyodo:obu": {
+   "ok": false,
+   "error": "StepError: 見つからない: 市民球場"
+  },
+  "aichi_kyodo:toyohashi": {
+   "ok": false,
+   "error": "StepError: 見つからない: 市民球場"
+  },
+  "aichi_kyodo:gamagori": {
+   "ok": false,
+   "error": "StepError: 見つからない: 公園グラウンド"
+  },
+  "nagoya_sporec:atsuta": {
+   "ok": false,
+   "error": "StepError: 見つからない: 空き状況"
+  },
+  "nagoya_sporec:mizuho": {
+   "ok": false,
+   "error": "StepError: 見つからない: 空き状況"
+  }
+ },
+ "slots": []
+}
