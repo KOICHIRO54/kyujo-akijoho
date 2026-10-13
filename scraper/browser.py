@@ -227,9 +227,13 @@ def collect_by_dates(page: Page, steps: list[dict], js_template: str,
             htmls.append(rec.save(page, d.isoformat()) if d == dates[0] else _target(page).content())
             continue
         js = js_template.format(**fmt)
+        # 関数が定義されているフレームで実行する（まず本体、次にほかのフレーム）
+        frames = [page.main_frame] + [f for f in page.frames if f is not page.main_frame]
+        target = next((f for f in frames
+                       if f.evaluate(f"typeof {js.split('(')[0].strip()} === 'function'")), scope)
         try:
             with page.expect_navigation(wait_until="domcontentloaded", timeout=20000):
-                scope.evaluate(js)
+                target.evaluate(js)
         except PWTimeout:
             pass  # 画面遷移しない作りの場合もあるので、そのまま読む
         except Exception as e:
