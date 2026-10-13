@@ -1,24 +1,25 @@
 {
- "generated_at": "2026-10-14T03:48+09:00",
+ "generated_at": "2026-10-14T04:07+09:00",
  "fetched_at": {
-  "mizuho": "2026-10-14T00:02+09:00",
-  "kasugai": "2026-10-14T03:48+09:00",
-  "ichii": "2026-10-14T03:48+09:00",
-  "miyoshi": "2026-10-14T03:48+09:00",
-  "handa": "2026-10-14T03:48+09:00",
-  "gamagori": "2026-10-14T03:48+09:00",
-  "agui": "2026-10-14T03:48+09:00",
-  "hokusei": "2026-10-14T03:48+09:00",
-  "shinrin": "2026-10-14T03:48+09:00",
-  "komaki": "2026-10-14T03:48+09:00",
-  "obu": "2026-10-14T03:48+09:00",
   "tajimi": "2026-10-14T03:48+09:00",
-  "ichinomiya": "2026-10-14T03:48+09:00",
-  "kourogi": "2026-10-14T03:48+09:00",
-  "yokkaichi1": "2026-10-14T03:48+09:00",
-  "seto": "2026-10-14T03:48+09:00",
-  "yokkaichi2": "2026-10-14T03:48+09:00",
-  "shinshiro": "2026-10-14T03:48+09:00"
+  "mizuho": "2026-10-14T00:02+09:00",
+  "gamagori": "2026-10-14T04:07+09:00",
+  "hokusei": "2026-10-14T04:07+09:00",
+  "ichii": "2026-10-14T04:07+09:00",
+  "yokkaichi2": "2026-10-14T04:07+09:00",
+  "kourogi": "2026-10-14T04:07+09:00",
+  "shinshiro": "2026-10-14T04:07+09:00",
+  "agui": "2026-10-14T04:07+09:00",
+  "ichinomiya": "2026-10-14T04:07+09:00",
+  "kani": "2026-10-14T04:07+09:00",
+  "komaki": "2026-10-14T04:07+09:00",
+  "handa": "2026-10-14T04:07+09:00",
+  "shinrin": "2026-10-14T04:07+09:00",
+  "yokkaichi1": "2026-10-14T04:07+09:00",
+  "seto": "2026-10-14T04:07+09:00",
+  "kasugai": "2026-10-14T04:07+09:00",
+  "obu": "2026-10-14T04:07+09:00",
+  "miyoshi": "2026-10-14T04:07+09:00"
  },
  "status": {
   "aichi_kyodo:kasugai": {
@@ -67,8 +68,9 @@
    "error": null
   },
   "kani:kani": {
-   "ok": false,
-   "error": "Error: Page.evaluate: ReferenceError: __doPostBack is not defined\n    at eval (eval at evaluate (:234:30), <anonymous>:1:1)\n    at eval (<anonymous>)\n    at UtilityScript.evaluate (<anonymous>:234:30)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+   "ok": true,
+   "count": 1,
+   "error": null
   },
   "komaki:komaki": {
    "ok": true,
@@ -100,9 +102,8 @@
    "error": null
   },
   "tajimi:tajimi": {
-   "ok": true,
-   "count": 86,
-   "error": null
+   "ok": false,
+   "error": "Error: Page.content: Unable to retrieve content because the page is navigating and changing the content."
   },
   "yokkaichi:yokkaichi1": {
    "ok": true,
@@ -122,6 +123,13 @@
    "slot": "終日（日単位の目安）",
    "status": "利用不可",
    "raw": "－"
+  },
+  {
+   "field": "kani",
+   "date": "2026-10-14",
+   "slot": "09:00-21:00",
+   "status": "予約済",
+   "raw": "10/14(水) 07:00～21:00"
   },
   {
    "field": "komaki",
