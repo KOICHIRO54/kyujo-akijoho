@@ -52,3 +52,20 @@ def test_dates_in_first_column_with_rowspan():
 def test_ignores_layout_tables():
     html = "<table><tr><td>お知らせ</td><td>10/17 メンテナンス</td></tr></table>"
     assert parse_tables(html, "x", TODAY) == []
+
+
+def test_aichi_kyodo_day_view():
+    from scraper.common import parse_aichi_kyodo
+    html = """<table><tbody>
+    <tr><td class="time-table1"><div>午前</div></td><td class="time-table1"><div>午後</div></td><td class="time-table1"><div>夕方</div></td></tr>
+    <tr>
+     <td class="time-table2"><div><img alt="空き"><input type="hidden" name="selectInfo" value="A7085:A7085005:20261017:00010:0850:1120:A7085:1:0"></div></td>
+     <td class="time-table2"><div><img alt="予約"><input type="hidden" name="selectInfo" value="A7085:A7085005:20261017:00030:1410:1640:A7085:1:0"></div></td>
+     <td class="time-table2"><div><img alt="時間帯なし"><input type="hidden" name="selectInfo" value="A7085:A7085005:20261017:00040:1700:1830:A7085:1:0"></div></td>
+    </tr></tbody></table>"""
+    got = [(s.date, s.slot, s.status) for s in parse_aichi_kyodo(html, "kasugai", TODAY)]
+    assert got == [
+        ("2026-10-17", "午前 08:50-11:20", "空き"),
+        ("2026-10-17", "午後 14:10-16:40", "予約済"),
+        ("2026-10-17", "夕方 17:00-18:30", "利用不可"),
+    ]

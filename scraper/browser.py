@@ -189,3 +189,30 @@ def collect_pages(page: Page, steps: list[dict], next_step: dict | None,
             break
         htmls.append(_target(page).content())
     return htmls
+
+
+def collect_by_dates(page: Page, steps: list[dict], js_template: str,
+                     dates: list, rec: Recorder) -> list[str]:
+    """手順で施設の空き画面まで進んだあと、日付ごとに画面を切り替えて集める。
+
+    js_template はサイト側のカレンダーが呼ぶ関数（例: selectCalendarDate({Y},{M},{D})）。
+    クリックと同じ関数を呼ぶだけなので、画面上で日付を押すのと同じ動きになる。
+    """
+    for step in steps:
+        run_step(page, step, rec)
+    htmls = []
+    for d in dates:
+        scope = _target(page)
+        js = js_template.format(Y=d.year, M=d.month, D=d.day)
+        try:
+            with page.expect_navigation(wait_until="domcontentloaded", timeout=20000):
+                scope.evaluate(js)
+        except PWTimeout:
+            pass  # 画面遷移しない作りの場合もあるので、そのまま読む
+        except Exception as e:
+            # 遷移中に評価の文脈が消えるのは正常
+            if "context was destroyed" not in str(e) and "navigat" not in str(e):
+                raise
+        time.sleep(WAIT_BETWEEN_ACTIONS)
+        htmls.append(rec.save(page, d.isoformat()) if d == dates[0] else _target(page).content())
+    return htmls

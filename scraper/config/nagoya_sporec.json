@@ -3,7 +3,7 @@
   "enabled": true,
   "start_url": "https://www.net.city.nagoya.jp/sporec/index.html",
   "pages": 8,
-  "_note": "施設ごとの空き照会フォーム（地域・施設・期間のプルダウン）まで確認済み。期間は「指定日以降の土日祝」。",
+  "_note": "種目「野球（硬式）」を先に選ぶと対象施設に絞られる。期間は「指定日以降の土日祝」。",
   "next": {
     "do": "click",
     "text": "次の週",
@@ -24,15 +24,14 @@
       "steps": [
         {
           "do": "select",
-          "selector": "select[name=area]",
-          "label": "熱田"
+          "selector": "select[name=syumoku]",
+          "label": "野球（硬式）"
         },
         {
           "do": "select",
           "selector": "select[name=sisetu]",
           "contains": [
-            "熱田",
-            "野球"
+            "熱田"
           ]
         },
         {
@@ -60,8 +59,8 @@
       "steps": [
         {
           "do": "select",
-          "selector": "select[name=area]",
-          "label": "瑞穂"
+          "selector": "select[name=syumoku]",
+          "label": "野球（硬式）"
         },
         {
           "do": "select",

@@ -16,9 +16,10 @@ from bs4 import BeautifulSoup
 STATUS_MAP = [
     (re.compile(r"^(○|◯|〇|空き?|空有|予約可|可)$"), "空き"),
     (re.compile(r"^(△|一部空き?|残りわずか)$"), "一部空き"),
-    (re.compile(r"^(×|✕|✖|予約済み?|満|不可|使用中|貸出中)$"), "予約済"),
+    (re.compile(r"^(×|✕|✖|予約|予約済み?|満|不可|使用中|貸出中)$"), "予約済"),
     (re.compile(r"^(抽|抽選|抽選中|抽選受付中?)$"), "抽選"),
-    (re.compile(r"^(休|休館|休場|閉|閉館|点検|－|-|―|ー|/|対象外|受付外|期間外)$"), "利用不可"),
+    (re.compile(r"^(休|休館|休場|閉|閉館|点検|保守|雨天|一般開放|時間帯なし|受付期間外|"
+                r"－|-|―|ー|/|対象外|受付外|期間外)$"), "利用不可"),
 ]
 
 DATE_PATTERNS = [
@@ -163,3 +164,48 @@ def parse_tables(html: str, field_id: str, today: date) -> list[Slot]:
                         slots[(d.isoformat(), label)] = Slot(field_id, d.isoformat(), label, st, row[i])
 
     return sorted(slots.values(), key=lambda s: (s.date, s.slot))
+
+
+def parse_aichi_kyodo(html: str, field_id: str, today: date,
+                      block_contains: str | None = None) -> list[Slot]:
+    """あいち共同利用型施設予約システムの「利用可能な施設と空き状況」画面を読む。
+
+    各枠のセルに hidden の selectInfo（館:施設:YYYYMMDD:枠:開始:終了:…）があり、
+    状態はアイコン画像の alt に入っている。見出し行（time-table1）が枠の名前。
+    1つの館に複数の施設（グラウンド・室内練習場など）があるときは、
+    block_contains を含む名前の施設だけを読む。
+    """
+    soup = BeautifulSoup(html, "lxml")
+    slots: list[Slot] = []
+    for status_row in soup.select("tr"):
+        cells = status_row.find_all("td", class_="time-table2", recursive=False)
+        if not cells:
+            continue
+        block = status_row.find_parent("table")
+        label_td = block.find("td", id="blabel") if block else None
+        block_name = label_td.get_text(" ", strip=True) if label_td else ""
+        if block_contains and block_contains not in block_name:
+            continue
+        header_row = status_row.find_previous_sibling("tr")
+        labels = [td.get_text(strip=True) for td in header_row.find_all("td", class_="time-table1")] if header_row else []
+        for i, td in enumerate(cells):
+            info = td.find("input", attrs={"name": "selectInfo"})
+            img = td.find("img")
+            if not info or not img:
+                continue
+            parts = (info.get("value") or "").split(":")
+            if len(parts) < 6 or not re.fullmatch(r"\d{8}", parts[2]):
+                continue
+            d = date(int(parts[2][:4]), int(parts[2][4:6]), int(parts[2][6:8]))
+            raw = img.get("alt", "").strip()
+            status = normalize_status(raw)
+            if not status:
+                continue
+            start, end = parts[4], parts[5]
+            name = labels[i] if i < len(labels) else f"枠{i + 1}"
+            slot = f"{name} {start[:2]}:{start[2:]}-{end[:2]}:{end[2:]}" if start.isdigit() and end.isdigit() else name
+            slots.append(Slot(field_id, d.isoformat(), slot, status, raw))
+    return slots
+
+
+PARSERS = {"generic": parse_tables, "aichi_kyodo": parse_aichi_kyodo}

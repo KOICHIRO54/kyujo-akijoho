@@ -2,13 +2,7 @@
   "name": "あいち共同利用型施設予約システム",
   "enabled": true,
   "start_url": "https://www.e-shisetsu.e-aichi.jp/web_info.html",
-  "pages": 8,
-  "_note": "多機能版→施設名から→自治体→キーワード検索→館選択まで確認済み（2026-10-13）。以降は調整中。",
-  "next": {
-    "do": "click",
-    "text": "次の週",
-    "optional": false
-  },
+  "_note": "館選択後の1日表示を、左のカレンダーと同じ関数で日付を切り替えて読む。土日祝のみ60日分。",
   "common_steps": [
     {
       "do": "goto",
@@ -43,14 +37,11 @@
           "do": "click_row",
           "row_text": "春日井市民球場",
           "text": "選択"
-        },
-        {
-          "do": "click_row",
-          "row_text": "野球",
-          "text": "選択",
-          "optional": true
         }
-      ]
+      ],
+      "block": "球場",
+      "until": "2026-12-31",
+      "_note": "春日井市は令和9年1月利用分から市独自の予約システムに移行するため、あいち共同では12月分まで"
     },
     "obu": {
       "steps": [
@@ -71,14 +62,9 @@
           "do": "click_row",
           "row_text": "市民球場",
           "text": "選択"
-        },
-        {
-          "do": "click_row",
-          "row_text": "野球",
-          "text": "選択",
-          "optional": true
         }
-      ]
+      ],
+      "block": "メイングラウンド"
     },
     "toyohashi": {
       "steps": [
@@ -89,7 +75,7 @@
         {
           "do": "fill",
           "selector": "#textKeyword",
-          "value": "球技場"
+          "value": "岩田"
         },
         {
           "do": "click",
@@ -97,16 +83,12 @@
         },
         {
           "do": "click_row",
-          "row_text": "岩田総合球技場",
+          "row_text": "運動公園",
           "text": "選択"
-        },
-        {
-          "do": "click_row",
-          "row_text": "野球",
-          "text": "選択",
-          "optional": true
         }
-      ]
+      ],
+      "block": "球場",
+      "_note": "「球場」で検索すると庭球場しか出ない。館名を調査中"
     },
     "gamagori": {
       "steps": [
@@ -127,14 +109,15 @@
           "do": "click_row",
           "row_text": "公園グラウンド",
           "text": "選択"
-        },
-        {
-          "do": "click_row",
-          "row_text": "野球",
-          "text": "選択",
-          "optional": true
         }
-      ]
+      ],
+      "block": "野球場"
     }
+  },
+  "parser": "aichi_kyodo",
+  "walk": {
+    "js": "selectCalendarDate({Y},{M},{D})",
+    "days": 60,
+    "weekends_only": true
   }
 }

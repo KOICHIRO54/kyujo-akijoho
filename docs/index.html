@@ -127,13 +127,8 @@
 </main>
 
 <script>
-// 国民の祝日（2026年10月〜2027年12月）。年1回更新する。
-const HOLIDAYS = new Set([
-  "2026-10-12","2026-11-03","2026-11-23",
-  "2027-01-01","2027-01-11","2027-02-11","2027-02-23","2027-03-21","2027-03-22",
-  "2027-04-29","2027-05-03","2027-05-04","2027-05-05","2027-07-19","2027-08-11",
-  "2027-09-20","2027-09-23","2027-10-11","2027-11-03","2027-11-23",
-]);
+// 国民の祝日は data/holidays.json から読む（取得側と共通）
+let HOLIDAYS = new Set();
 const DOW = ["日","月","火","水","木","金","土"];
 
 const state = { weekend: true, freeOnly: true, prefs: new Set(["愛知","三重","岐阜"]) };
@@ -260,6 +255,7 @@ document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
 (async () => {
   const bust = `?t=${Date.now()}`;
   fields = await fetch("data/fields.json" + bust).then(r => r.json());
+  try { HOLIDAYS = new Set((await fetch("data/holidays.json" + bust).then(r => r.json())).dates); } catch {}
   try { avail = await fetch("data/availability.json" + bust).then(r => r.ok ? r.json() : avail); } catch {}
   document.getElementById("updated").textContent =
     avail.generated_at ? `最終更新 ${avail.generated_at.replace("T", " ").slice(0, 16)}（${ago(avail.generated_at)}）` : "まだ取得していません";

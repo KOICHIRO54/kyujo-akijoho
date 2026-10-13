@@ -65,14 +65,29 @@ def load_configs(only: str | None) -> dict[str, dict]:
     return configs
 
 
+def target_dates(today, days: int, weekends_only: bool, holidays: set[str],
+                 until: str | None = None) -> list:
+    """取得する日。相手の負荷を抑えるため、既定では土日祝だけにする。"""
+    out = []
+    for i in range(1, days + 1):
+        d = today + timedelta(days=i)
+        if until and d.isoformat() > until:
+            break
+        if weekends_only and d.weekday() < 5 and d.isoformat() not in holidays:
+            continue
+        out.append(d)
+    return out
+
+
 def scrape(configs: dict[str, dict]) -> tuple[list[dict], dict]:
     # Playwright は取得時だけ必要なので、ここで読み込む
     from playwright.sync_api import sync_playwright
 
-    from scraper.browser import USER_AGENT, Recorder, collect_pages, robots_allows
-    from scraper.common import parse_tables
+    from scraper.browser import USER_AGENT, Recorder, collect_by_dates, collect_pages, robots_allows
+    from scraper.common import PARSERS
 
     today = datetime.now(JST).date()
+    holidays = set(json.loads((OUT_DIR / "holidays.json").read_text(encoding="utf-8"))["dates"])
     slots: list[dict] = []
     status: dict[str, dict] = {}
 
@@ -90,11 +105,20 @@ def scrape(configs: dict[str, dict]) -> tuple[list[dict], dict]:
                 page = context.new_page()
                 try:
                     steps = cfg.get("common_steps", []) + fcfg.get("steps", [])
-                    htmls = collect_pages(page, steps, cfg.get("next"),
-                                          int(cfg.get("pages", 1)), rec)
+                    walk = cfg.get("walk")
+                    if walk:
+                        dates = target_dates(today, int(walk.get("days", 60)),
+                                             walk.get("weekends_only", True), holidays,
+                                             fcfg.get("until"))
+                        htmls = collect_by_dates(page, steps, walk["js"], dates, rec)
+                    else:
+                        htmls = collect_pages(page, steps, cfg.get("next"),
+                                              int(cfg.get("pages", 1)), rec)
+                    parser = PARSERS[cfg.get("parser", "generic")]
+                    kwargs = {"block_contains": fcfg["block"]} if fcfg.get("block") else {}
                     found = []
                     for html in htmls:
-                        found += [s.to_dict() for s in parse_tables(html, field_id, today)]
+                        found += [s.to_dict() for s in parser(html, field_id, today, **kwargs)]
                     # 同じ日・枠が複数ページに出たら後勝ち
                     dedup = {(s["date"], s["slot"]): s for s in found}
                     slots += list(dedup.values())
