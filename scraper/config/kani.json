@@ -3,7 +3,7 @@
   "enabled": true,
   "start_url": "https://kani.shisetsu-info.jp/",
   "pages": 1,
-  "_note": "トップの「スタジアム」カードの「空き状況」（4番目）を押す。以降は調整中。",
+  "_note": "スタジアムの1日表示を、カレンダーと同じポストバック（2000/1/1からの日数）で日付を切り替えて読む。土日祝60日分。",
   "common_steps": [
     {
       "do": "goto",
@@ -17,7 +17,15 @@
           "do": "click",
           "selector": ":text-is('空き状況') >> nth=3"
         }
-      ]
+      ],
+      "block": "カヤバスタジアム",
+      "merge": true
     }
+  },
+  "parser": "kani",
+  "walk": {
+    "js": "__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','{N2000}')",
+    "days": 60,
+    "weekends_only": true
   }
 }

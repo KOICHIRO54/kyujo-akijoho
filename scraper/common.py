@@ -435,3 +435,50 @@ def parse_pf489(html: str, field_id: str, today: date, block_contains: str | Non
 
 
 PARSERS["pf489"] = parse_pf489
+
+
+def parse_kani(html: str, field_id: str, today: date, block_contains: str | None = None) -> list[Slot]:
+    """可児市施設予約Webサイトの1日表示を読む。
+
+    施設行（tr.ScheduleFacilityRow）に時間のセルが colspan 付きで並ぶ。空いている枠には
+    予約ボタン（input.ScheduleCellButtonLink）があり、予約済などは色付きの帯になる。
+    見出しの時刻と colspan の合計から1単位の分数を求め、時刻に直す。
+    """
+    soup = BeautifulSoup(html, "lxml")
+    m = re.search(r"(20\d{2})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日", soup.get_text(" "))
+    if not m:
+        return []
+    d = date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    hours = []
+    for tr in soup.find_all("tr"):
+        cells = [c.get_text(strip=True) for c in tr.find_all(["td", "th"], recursive=False)]
+        if cells and cells[0] == "時間":
+            hours = [int(c) for c in cells[1:] if c.isdigit()]
+            break
+    if not hours:
+        return []
+    slots: list[Slot] = []
+    for tr in soup.select("tr.ScheduleFacilityRow"):
+        first = tr.find("td")
+        name = first.get_text(strip=True) if first else ""
+        if block_contains and block_contains not in name:
+            continue
+        cells = tr.find_all("td", class_="ScheduleCell")
+        total = sum(int(c.get("colspan", 1) or 1) for c in cells)
+        if not total:
+            continue
+        unit = 60 * len(hours) / total  # 1単位あたりの分
+        t = hours[0] * 60
+        for c in cells:
+            span = int(c.get("colspan", 1) or 1)
+            end = t + span * unit
+            free = c.find("input", class_="ScheduleCellButtonLink") is not None
+            st, en = int(t), int(end)
+            slots.append(Slot(field_id, d.isoformat(), f"{st // 60:02d}:{st % 60:02d}-{en // 60:02d}:{en % 60:02d}",
+                              "空き" if free else "予約済", c.get("title", "") or ("空き" if free else "")))
+            t = end
+        break
+    return slots
+
+
+PARSERS["kani"] = parse_kani

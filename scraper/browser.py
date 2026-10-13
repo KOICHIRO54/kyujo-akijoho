@@ -217,7 +217,9 @@ def collect_by_dates(page: Page, steps: list[dict], js_template: str,
     htmls = []
     for d in dates:
         scope = _target(page)
-        fmt = dict(Y=d.year, M=d.month, D=d.day, MM=f"{d.month:02d}", DD=f"{d.day:02d}")
+        from datetime import date as _date
+        fmt = dict(Y=d.year, M=d.month, D=d.day, MM=f"{d.month:02d}", DD=f"{d.day:02d}",
+                   N2000=(d - _date(2000, 1, 1)).days)  # 2000/1/1 からの日数（可児で使用）
         if js_template.startswith("http"):
             # 日付をURLで指定できるサイトは、そのページを直接開く
             page.goto(js_template.format(**fmt), wait_until="domcontentloaded")
