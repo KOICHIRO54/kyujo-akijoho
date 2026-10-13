@@ -370,3 +370,32 @@ def parse_hokusei(html: str, field_id: str, today: date, row_label: str = "野�
 
 
 PARSERS["hokusei"] = parse_hokusei
+
+
+EHARP_STATUS = {
+    "利用可能": "空き", "空き状況のみ": "空き", "電話受付": "空き", "窓口受付": "空き",
+    "空きなし": "予約済",
+    "抽選申込可": "抽選", "抽選待ち": "抽選",
+}
+
+
+def parse_eharp(html: str, field_id: str, today: date) -> list[Slot]:
+    """e-harp（四日市市など）の空き状況カレンダーを読む。
+
+    日ごとのボタンに datetime と「10月17日土曜日 空きなし」のような aria-label がある。
+    時間帯ごとの状況は日付を開かないと出ないため、ここでは日単位の目安として扱う。
+    """
+    soup = BeautifulSoup(html, "lxml")
+    slots: list[Slot] = []
+    for btn in soup.select("button.AvailabilityTable_item"):
+        t = btn.find("time")
+        label = (btn.get("aria-label") or "").strip()
+        if not t or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", t.get("datetime", "")) or not label:
+            continue
+        word = label.split()[-1]
+        status = EHARP_STATUS.get(word, "利用不可")
+        slots.append(Slot(field_id, t["datetime"], "終日（日単位の目安）", status, word))
+    return slots
+
+
+PARSERS["eharp"] = parse_eharp

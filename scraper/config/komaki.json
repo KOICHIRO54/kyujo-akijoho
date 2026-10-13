@@ -25,7 +25,16 @@
   ],
   "fields": {
     "komaki": {
-      "steps": []
+      "steps": [
+        {
+          "do": "click",
+          "text": "総合運動場（野球場）"
+        },
+        {
+          "do": "click",
+          "text": "次へ進む"
+        }
+      ]
     }
   }
 }

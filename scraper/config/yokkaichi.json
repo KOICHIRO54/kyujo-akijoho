@@ -2,8 +2,8 @@
   "name": "四日市市公共施設案内・予約システム",
   "enabled": true,
   "start_url": "https://yoyacool.e-harp.jp/yokkaichi",
-  "pages": 1,
-  "_note": "霞ケ浦緑地公園運動施設(0401)の部屋コード: 第1=002, 第2=003, 第3=012。空き状況ページを直接開く。",
+  "pages": 3,
+  "_note": "霞ケ浦緑地公園運動施設(0401)の部屋コード: 第1=002, 第2=003, 第3=012。空き状況ページを直接開く。 月カレンダーの日ごとの状態を3か月分読む（時間帯は日付を開かないと出ないため日単位）。",
   "common_steps": [],
   "fields": {
     "yokkaichi1": {
@@ -11,6 +11,11 @@
         {
           "do": "goto",
           "url": "https://yoyacool.e-harp.jp/yokkaichi/FacilityAvailability/Index/242021/0401?rc=002&ptn=1"
+        },
+        {
+          "do": "click",
+          "text": "スキップ",
+          "optional": true
         }
       ]
     },
@@ -19,8 +24,18 @@
         {
           "do": "goto",
           "url": "https://yoyacool.e-harp.jp/yokkaichi/FacilityAvailability/Index/242021/0401?rc=003&ptn=1"
+        },
+        {
+          "do": "click",
+          "text": "スキップ",
+          "optional": true
         }
       ]
     }
+  },
+  "parser": "eharp",
+  "next": {
+    "do": "click",
+    "selector": "button[aria-label^='次の月']"
   }
 }

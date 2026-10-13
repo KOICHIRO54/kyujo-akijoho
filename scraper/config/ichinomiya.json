@@ -25,7 +25,16 @@
   ],
   "fields": {
     "ichinomiya": {
-      "steps": []
+      "steps": [
+        {
+          "do": "click",
+          "text": "平島公園野球場"
+        },
+        {
+          "do": "click",
+          "text": "次へ進む"
+        }
+      ]
     }
   }
 }

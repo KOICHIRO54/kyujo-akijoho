@@ -100,3 +100,12 @@ def test_merge_adjacent():
         mk("06:00-06:30", "利用不可"), mk("06:30-07:00", "利用不可"), mk("07:00-07:30", "空き"),
         mk("07:30-08:00", "空き"), mk("08:00-08:30", "予約済")])]
     assert got == [("06:00-07:00", "利用不可"), ("07:00-08:00", "空き"), ("08:00-08:30", "予約済")]
+
+
+def test_eharp_calendar():
+    from scraper.common import parse_eharp
+    html = """<button class="AvailabilityTable_item" aria-label="10月17日土曜日 空きなし"><time datetime="2026-10-17">17</time></button>
+    <button class="AvailabilityTable_item" aria-label="10月20日火曜日 空き状況のみ"><time datetime="2026-10-20">20</time></button>
+    <button class="AvailabilityTable_item" aria-label="10月12日月曜日 スポーツの日 受付終了"><time datetime="2026-10-12">12</time></button>"""
+    got = [(s.date, s.status) for s in parse_eharp(html, "yokkaichi1", TODAY)]
+    assert got == [("2026-10-17", "予約済"), ("2026-10-20", "空き"), ("2026-10-12", "利用不可")]

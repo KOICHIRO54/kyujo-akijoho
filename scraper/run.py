@@ -100,7 +100,7 @@ def scrape(configs: dict[str, dict]) -> tuple[list[dict], dict]:
             for field_id, fcfg in cfg["fields"].items():
                 key = f"{name}:{field_id}"
                 rec = Recorder(DEBUG_DIR / name / field_id)
-                context = browser.new_context(user_agent=USER_AGENT, locale="ja-JP",
+                context = browser.new_context(user_agent=USER_AGENT, locale="ja-JP", timezone_id="Asia/Tokyo",
                                               viewport={"width": 1280, "height": 900})
                 page = context.new_page()
                 try:
