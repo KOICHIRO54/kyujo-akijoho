@@ -3,7 +3,7 @@
   "enabled": true,
   "start_url": "https://www.e-shisetsu.e-aichi.jp/web_info.html",
   "pages": 8,
-  "_note": "多機能版→施設名から→自治体→キーワード検索まで確認済み（2026-10-13）。以降は調整中。",
+  "_note": "多機能版→施設名から→自治体→キーワード検索→館選択まで確認済み（2026-10-13）。以降は調整中。",
   "next": {
     "do": "click",
     "text": "次の週",
@@ -40,12 +40,14 @@
           "text": "上記の内容で検索する"
         },
         {
-          "do": "click",
-          "text": "市民球場"
+          "do": "click_row",
+          "row_text": "春日井市民球場",
+          "text": "選択"
         },
         {
-          "do": "click",
-          "text": "野球場",
+          "do": "click_row",
+          "row_text": "野球",
+          "text": "選択",
           "optional": true
         }
       ]
@@ -66,12 +68,14 @@
           "text": "上記の内容で検索する"
         },
         {
-          "do": "click",
-          "text": "市民球場"
+          "do": "click_row",
+          "row_text": "市民球場",
+          "text": "選択"
         },
         {
-          "do": "click",
-          "text": "野球場",
+          "do": "click_row",
+          "row_text": "野球",
+          "text": "選択",
           "optional": true
         }
       ]
@@ -85,19 +89,21 @@
         {
           "do": "fill",
           "selector": "#textKeyword",
-          "value": "球場"
+          "value": "球技場"
         },
         {
           "do": "click",
           "text": "上記の内容で検索する"
         },
         {
-          "do": "click",
-          "text": "市民球場"
+          "do": "click_row",
+          "row_text": "岩田総合球技場",
+          "text": "選択"
         },
         {
-          "do": "click",
-          "text": "野球場",
+          "do": "click_row",
+          "row_text": "野球",
+          "text": "選択",
           "optional": true
         }
       ]
@@ -118,12 +124,14 @@
           "text": "上記の内容で検索する"
         },
         {
-          "do": "click",
-          "text": "公園グラウンド"
+          "do": "click_row",
+          "row_text": "公園グラウンド",
+          "text": "選択"
         },
         {
-          "do": "click",
-          "text": "野球場",
+          "do": "click_row",
+          "row_text": "野球",
+          "text": "選択",
           "optional": true
         }
       ]

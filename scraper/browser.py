@@ -89,35 +89,89 @@ def _locator(scope, step: dict):
     raise StepError(f"見つからない: {text}")
 
 
+def _expand(value: str) -> str:
+    """設定値の {MM} {DD} {YYYY} を今日の日付（日本時間）に置き換える。"""
+    from datetime import datetime, timedelta, timezone
+    now = datetime.now(timezone(timedelta(hours=9)))
+    return (value.replace("{YYYY}", f"{now.year}")
+                 .replace("{MM}", f"{now.month:02d}")
+                 .replace("{DD}", f"{now.day:02d}"))
+
+
+def _select(scope, step: dict) -> None:
+    """プルダウンを選ぶ。label は完全一致、contains は部分一致（複数語はすべて含むもの）。"""
+    sel = scope.locator(step["selector"]).first
+    if not sel.count():
+        raise StepError(f"プルダウンが見つからない: {step['selector']}")
+    # 選択肢の後ろに全角空白が詰まっていることが多いので、空白を除いて比べる
+    norm = lambda s: re.sub(r"[\s　]+", "", s or "")
+    options = sel.evaluate("e => Array.from(e.options).map(o => [o.value, o.text])")
+    if "label" in step:
+        want = norm(_expand(step["label"]))
+        match = next((v for v, t in options if norm(t) == want), None)
+        desc = want
+    else:
+        words = step["contains"] if isinstance(step["contains"], list) else [step["contains"]]
+        match = next((v for v, t in options if all(w in norm(t) for w in words)), None)
+        desc = words
+    if match is None:
+        raise StepError(f"選択肢が見つからない: {desc}（候補: {[norm(t) for _, t in options][:40]}）")
+    sel.select_option(value=match, timeout=10000)
+
+
+def _click_in_row(scope, step: dict) -> None:
+    """表の中で row_text を含む行にある、text のボタン／リンクを押す。"""
+    rows = scope.locator("tr", has_text=step["row_text"])
+    if not rows.count():
+        raise StepError(f"行が見つからない: {step['row_text']}")
+    row = rows.last  # 入れ子の表では一番内側の行が最後に来る
+    text = step["text"]
+    for loc in (row.get_by_role("button", name=text), row.get_by_role("link", name=text),
+                row.locator(f"input[value*='{text}']"), row.get_by_text(text)):
+        if loc.count():
+            loc.first.click()
+            return
+    raise StepError(f"行内に見つからない: {step['row_text']} / {text}")
+
+
 def run_step(page: Page, step: dict, rec: Recorder) -> None:
     kind = step["do"]
     scope = _target(page) if step.get("in_frame", True) else page
-    if kind == "goto":
-        page.goto(step["url"], wait_until="domcontentloaded")
-    elif kind == "click":
-        try:
+    try:
+        if kind == "goto":
+            page.goto(step["url"], wait_until="domcontentloaded")
+        elif kind == "click":
             _locator(scope, step).click()
-        except StepError:
-            if step.get("optional"):
-                return
-            raise
-    elif kind == "fill":
-        _locator(scope, step).fill(step["value"])
-    elif kind == "select":
-        _locator(scope, step).select_option(label=step["label"])
-    elif kind == "check":
-        _locator(scope, step).check()
-    elif kind == "wait":
-        time.sleep(float(step.get("seconds", 1)))
-    else:
-        raise StepError(f"不明な手順: {kind}")
+        elif kind == "click_row":
+            _click_in_row(scope, step)
+        elif kind == "fill":
+            _locator(scope, step).fill(_expand(step["value"]))
+        elif kind == "select":
+            _select(scope, step)
+        elif kind == "check":
+            _locator(scope, step).check()
+        elif kind == "wait":
+            time.sleep(float(step.get("seconds", 1)))
+        else:
+            raise StepError(f"不明な手順: {kind}")
+    except StepError:
+        if step.get("optional"):
+            return
+        raise
+    _settle(page, step, rec)
+
+
+def _settle(page: Page, step: dict, rec: Recorder) -> None:
+    """画面の読み込みを待ち、相手サーバーのために間を空けてから画面を保存する。"""
     try:
         page.wait_for_load_state("domcontentloaded", timeout=15000)
     except PWTimeout:
         pass
     time.sleep(WAIT_BETWEEN_ACTIONS)
     if step.get("snapshot", True):
-        rec.save(page, step.get("text") or step.get("url") or kind)
+        label = (step.get("row_text") or step.get("text") or step.get("label")
+                 or str(step.get("contains") or "") or step.get("url") or step["do"])
+        rec.save(page, label)
 
 
 def collect_pages(page: Page, steps: list[dict], next_step: dict | None,
