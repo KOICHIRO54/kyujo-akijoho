@@ -3,11 +3,24 @@
   "enabled": true,
   "start_url": "https://www2.pf489.com/tajimi/WebR/",
   "pages": 1,
-  "_note": "画面構造の調査中（初回は入口の画面を保存するだけ）",
+  "_note": "施設名から探す→名前で検索。以降は調整中。",
   "common_steps": [
     {
       "do": "goto",
       "url": "https://www2.pf489.com/tajimi/WebR/"
+    },
+    {
+      "do": "click",
+      "text": "施設名から探す"
+    },
+    {
+      "do": "fill",
+      "selector": "#shisetsuNameTxt",
+      "value": "球場"
+    },
+    {
+      "do": "click",
+      "selector": "#btnSearchShisetsuName"
     }
   ],
   "fields": {

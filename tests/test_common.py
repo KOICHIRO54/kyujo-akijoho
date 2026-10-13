@@ -80,3 +80,14 @@ def test_nagoya_sporec_result():
     <tr><td>１７：３０－１９：３０（夜間１）</td><td>×</td><td>１</td><td>－</td></tr></table>"""
     got = [(s.date, s.status) for s in parse_nagoya_sporec(html, "mizuho", TODAY)]
     assert got == [("2026-10-17", "予約済"), ("2026-10-18", "空き"), ("2026-11-03", "利用不可")]
+
+
+def test_require_all_blocks():
+    from scraper.common import require_all_blocks
+    mk = lambda b, t, st: {"field": "kourogi", "date": "2026-10-17", "slot": f"{b}|{t}", "status": st, "raw": ""}
+    slots = [mk("第1野球場", "午前", "空き"), mk("第2野球場", "午前", "空き"), mk("第3野球場", "午前", "空き"),
+             mk("第1野球場", "午後", "空き"), mk("第2野球場", "午後", "予約済"), mk("第3野球場", "午後", "空き")]
+    got = {s["slot"]: (s["status"], s["raw"]) for s in require_all_blocks(slots, 3)}
+    assert got == {"3面 午前": ("空き", "3/3面空き"), "3面 午後": ("予約済", "2/3面空き")}
+    # 2面しか読めなかった日は空きにしない
+    assert require_all_blocks(slots[:2], 3)[0]["status"] == "予約済"

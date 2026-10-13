@@ -3,19 +3,22 @@
   "enabled": true,
   "start_url": "https://yoyacool.e-harp.jp/yokkaichi",
   "pages": 1,
-  "_note": "画面構造の調査中（初回は入口の画面を保存するだけ）",
-  "common_steps": [
-    {
-      "do": "goto",
-      "url": "https://yoyacool.e-harp.jp/yokkaichi"
-    }
-  ],
+  "_note": "霞ケ浦緑地公園運動施設(0401)の部屋コード: 第1=002, 第2=003, 第3=012。空き状況ページを直接開く。",
+  "common_steps": [],
   "fields": {
     "yokkaichi1": {
       "steps": [
         {
-          "do": "click",
-          "text": "施設一覧・検索"
+          "do": "goto",
+          "url": "https://yoyacool.e-harp.jp/yokkaichi/FacilityAvailability/Index/242021/0401?rc=002&ptn=1"
+        }
+      ]
+    },
+    "yokkaichi2": {
+      "steps": [
+        {
+          "do": "goto",
+          "url": "https://yoyacool.e-harp.jp/yokkaichi/FacilityAvailability/Index/242021/0401?rc=003&ptn=1"
         }
       ]
     }

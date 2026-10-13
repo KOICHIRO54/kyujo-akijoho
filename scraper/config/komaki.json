@@ -1,13 +1,26 @@
 {
-  "name": "小牧市施設予約システム",
+  "name": "小牧市公共施設予約システム",
   "enabled": true,
   "start_url": "https://www.pf489.com/komaki/webR/",
   "pages": 1,
-  "_note": "画面構造の調査中（初回は入口の画面を保存するだけ）",
+  "_note": "施設名から探す→名前で検索。以降は調整中。",
   "common_steps": [
     {
       "do": "goto",
       "url": "https://www.pf489.com/komaki/webR/"
+    },
+    {
+      "do": "click",
+      "text": "施設名から探す"
+    },
+    {
+      "do": "fill",
+      "selector": "#shisetsuNameTxt",
+      "value": "総合運動場"
+    },
+    {
+      "do": "click",
+      "selector": "#btnSearchShisetsuName"
     }
   ],
   "fields": {

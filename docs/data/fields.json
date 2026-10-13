@@ -288,10 +288,10 @@
   "system": "津市運動施設（空き状況ページあり）／津市公共施設予約システム",
   "online": true,
   "drive_min": 70,
-  "note": "",
+  "note": "空き状況は津市運動施設の「施設空き状況」ページ（PDF）で確認",
   "tel": "059-225-3171",
-  "url": "https://www.tsushiundoshisetsu.jp/how_to_use/",
-  "adapter": "tsu"
+  "url": "https://www.tsushiundoshisetsu.jp/schedule/",
+  "adapter": ""
  },
  {
   "id": "tajimi",

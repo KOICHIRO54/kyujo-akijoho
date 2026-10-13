@@ -168,7 +168,7 @@ def parse_tables(html: str, field_id: str, today: date) -> list[Slot]:
 
 
 def parse_aichi_kyodo(html: str, field_id: str, today: date,
-                      block_contains: str | None = None) -> list[Slot]:
+                      block_contains: str | None = None, with_block: bool = False) -> list[Slot]:
     """あいち共同利用型施設予約システムの「利用可能な施設と空き状況」画面を読む。
 
     各枠のセルに hidden の selectInfo（館:施設:YYYYMMDD:枠:開始:終了:…）があり、
@@ -210,8 +210,37 @@ def parse_aichi_kyodo(html: str, field_id: str, today: date,
                 slot = times if re.fullmatch(r"\d{1,2}時[～~]?", name) else f"{name} {times}"
             else:
                 slot = name
+            if with_block:
+                slot = f"{block_name.lstrip('●').strip()}|{slot}"
             slots.append(Slot(field_id, d.isoformat(), slot, status, raw))
     return slots
+
+
+def require_all_blocks(slots: list[dict], blocks: int) -> list[dict]:
+    """複数面の同時使用が条件の球場向け。全面が空いている時間帯だけを「空き」にする。
+
+    slot は「面の名前|時間帯」の形で渡す。同じ日・時間帯の面がそろっていなければ
+    （表示されない面がある＝読めていない）空きとは扱わない。
+    """
+    groups: dict[tuple, list[dict]] = {}
+    for s in slots:
+        block, _, time = s["slot"].partition("|")
+        groups.setdefault((s["date"], time or block), []).append(s)
+    out = []
+    for (d, time), items in sorted(groups.items()):
+        statuses = [i["status"] for i in items]
+        if len(items) >= blocks and all(st == "空き" for st in statuses):
+            status = "空き"
+        elif all(st == "利用不可" for st in statuses):
+            status = "利用不可"
+        elif any(st == "抽選" for st in statuses):
+            status = "抽選"
+        else:
+            status = "予約済"
+        free = sum(st == "空き" for st in statuses)
+        out.append({"field": items[0]["field"], "date": d, "slot": f"{blocks}面 {time}",
+                    "status": status, "raw": f"{free}/{len(items)}面空き"})
+    return out
 
 
 PARSERS = {"generic": parse_tables, "aichi_kyodo": parse_aichi_kyodo}
@@ -258,3 +287,45 @@ def parse_nagoya_sporec(html: str, field_id: str, today: date) -> list[Slot]:
 
 
 PARSERS["nagoya_sporec"] = parse_nagoya_sporec
+
+
+def parse_hokusei(html: str, field_id: str, today: date, row_label: str = "野球場",
+                  max_hour: int = 17) -> list[Slot]:
+    """北勢中央公園「予約状況の確認」の1日表示を読む。
+
+    施設ごとの行に 6〜22時の1時間ごとのセルが並び、予約があるセルだけ背景色が付く。
+    連続する同じ状態の時間をまとめて1枠にする（例: 6:00-8:00 空き）。
+    夜間（照明使用）は軟式のみのため、既定では17時までを対象にする。
+    """
+    soup = BeautifulSoup(html, "lxml")
+    m = re.search(r"(20\d{2})年(\d{1,2})月(\d{1,2})日", soup.get_text(" "))
+    th = soup.find("th", class_="calendar_title")
+    if not m or not th:
+        return []
+    d = date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    table = th.find_parent("table")
+    rows = table.find_all("tr")
+    hours = [int(c.get_text(strip=True)) for c in rows[1].find_all(["th", "td"]) if c.get_text(strip=True).isdigit()]
+    target = next((tr for tr in rows if tr.find("td") and tr.find("td").get_text(strip=True) == row_label), None)
+    if not target or not hours:
+        return []
+    cells = target.find_all("td")[1:]
+    states = []
+    for h, td in zip(hours, cells):
+        if h >= max_hour:
+            break
+        booked = "background-color" in (td.get("style") or "")
+        states.append((h, "予約済" if booked else "空き"))
+    slots: list[Slot] = []
+    start = 0
+    for i in range(1, len(states) + 1):
+        if i == len(states) or states[i][1] != states[start][1]:
+            h0, st = states[start]
+            h1 = states[i - 1][0] + 1
+            slots.append(Slot(field_id, d.isoformat(), f"{h0}:00-{h1}:00", st,
+                              "予約あり" if st == "予約済" else "予約なし"))
+            start = i
+    return slots
+
+
+PARSERS["hokusei"] = parse_hokusei

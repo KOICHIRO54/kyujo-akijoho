@@ -84,7 +84,7 @@ def scrape(configs: dict[str, dict]) -> tuple[list[dict], dict]:
     from playwright.sync_api import sync_playwright
 
     from scraper.browser import USER_AGENT, Recorder, collect_by_dates, collect_pages, robots_allows
-    from scraper.common import PARSERS
+    from scraper.common import PARSERS, require_all_blocks
 
     today = datetime.now(JST).date()
     holidays = set(json.loads((OUT_DIR / "holidays.json").read_text(encoding="utf-8"))["dates"])
@@ -116,9 +116,13 @@ def scrape(configs: dict[str, dict]) -> tuple[list[dict], dict]:
                                               int(cfg.get("pages", 1)), rec)
                     parser = PARSERS[cfg.get("parser", "generic")]
                     kwargs = {"block_contains": fcfg["block"]} if fcfg.get("block") else {}
+                    if fcfg.get("all_blocks"):
+                        kwargs["with_block"] = True
                     found = []
                     for html in htmls:
                         found += [s.to_dict() for s in parser(html, field_id, today, **kwargs)]
+                    if fcfg.get("all_blocks"):
+                        found = require_all_blocks(found, int(fcfg["all_blocks"]))
                     # 同じ日・枠が複数ページに出たら後勝ち
                     dedup = {(s["date"], s["slot"]): s for s in found}
                     slots += list(dedup.values())
