@@ -208,7 +208,7 @@ def parse_aichi_kyodo(html: str, field_id: str, today: date,
                 times = f"{start[:2]}:{start[2:]}-{end[:2]}:{end[2:]}"
                 # 「17時～」のように時刻だけの見出しは時刻表記に置き換える
                 # 「17時～」「9」「30」のように時刻だけの見出しは時刻表記に置き換える
-                plain = re.fullmatch(r"\d{1,2}(時[～~]?)?", name)
+                plain = re.fullmatch(r"\d{1,2}時?[～~]?", name)
                 slot = times if plain else f"{name} {times}"
             else:
                 slot = name
@@ -363,7 +363,7 @@ def parse_hokusei(html: str, field_id: str, today: date, row_label: str = "野�
         if i == len(states) or states[i][1] != states[start][1]:
             h0, st = states[start]
             h1 = states[i - 1][0] + 1
-            slots.append(Slot(field_id, d.isoformat(), f"{h0}:00-{h1}:00", st,
+            slots.append(Slot(field_id, d.isoformat(), f"{h0:02d}:00-{h1:02d}:00", st,
                               "予約あり" if st == "予約済" else "予約なし"))
             start = i
     return slots
