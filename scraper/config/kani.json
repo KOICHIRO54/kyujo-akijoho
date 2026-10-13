@@ -3,7 +3,7 @@
   "enabled": true,
   "start_url": "https://kani.shisetsu-info.jp/",
   "pages": 1,
-  "_note": "スタジアムの1日表示を、カレンダーと同じポストバック（2000/1/1からの日数）で日付を切り替えて読む。土日祝60日分。",
+  "_note": "スタジアムの1日表示を、左カレンダーの日付リンク（title=10月17日）を押して切り替え、土日祝60日分を読む。",
   "common_steps": [
     {
       "do": "goto",
@@ -24,7 +24,7 @@
   },
   "parser": "kani",
   "walk": {
-    "js": "__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','{N2000}')",
+    "js": "title:{M}月{D}日",
     "days": 60,
     "weekends_only": true
   }

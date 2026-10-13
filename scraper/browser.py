@@ -220,6 +220,29 @@ def collect_by_dates(page: Page, steps: list[dict], js_template: str,
         from datetime import date as _date
         fmt = dict(Y=d.year, M=d.month, D=d.day, MM=f"{d.month:02d}", DD=f"{d.day:02d}",
                    N2000=(d - _date(2000, 1, 1)).days)  # 2000/1/1 からの日数（可児で使用）
+        if js_template.startswith("title:"):
+            # カレンダーの日付リンクを title（例: 10月17日）で探して押す。なければ翌月へ
+            title = js_template[len("title:"):].format(**fmt)
+            for _ in range(3):
+                link = page.locator(f"a[title='{title}']")
+                if link.count():
+                    link.first.click()
+                    break
+                nxt = page.get_by_role("link", name="翌月")
+                if not nxt.count():
+                    break
+                nxt.first.click()
+                page.wait_for_load_state("domcontentloaded")
+                time.sleep(WAIT_BETWEEN_ACTIONS)
+            else:
+                continue
+            try:
+                page.wait_for_load_state("domcontentloaded", timeout=15000)
+            except PWTimeout:
+                pass
+            time.sleep(WAIT_BETWEEN_ACTIONS)
+            htmls.append(rec.save(page, d.isoformat()) if d == dates[0] else _target(page).content())
+            continue
         if js_template.startswith("http"):
             # 日付をURLで指定できるサイトは、そのページを直接開く
             page.goto(js_template.format(**fmt), wait_until="domcontentloaded")
