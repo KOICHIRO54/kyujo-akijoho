@@ -134,6 +134,52 @@
         }
       ],
       "block": "球場"
+    },
+    "miyoshi": {
+      "steps": [
+        {
+          "do": "click",
+          "text": "みよし市"
+        },
+        {
+          "do": "fill",
+          "selector": "#textKeyword",
+          "value": "三好公園"
+        },
+        {
+          "do": "click",
+          "text": "上記の内容で検索する"
+        },
+        {
+          "do": "click_row",
+          "row_text": "三好公園",
+          "text": "選択"
+        }
+      ],
+      "block": "野球場"
+    },
+    "agui": {
+      "steps": [
+        {
+          "do": "click",
+          "text": "阿久比町"
+        },
+        {
+          "do": "fill",
+          "selector": "#textKeyword",
+          "value": "スポーツ村"
+        },
+        {
+          "do": "click",
+          "text": "上記の内容で検索する"
+        },
+        {
+          "do": "click_row",
+          "row_text": "スポーツ村",
+          "text": "選択"
+        }
+      ],
+      "block": "野球場"
     }
   },
   "parser": "aichi_kyodo",

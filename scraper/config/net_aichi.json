@@ -1,0 +1,104 @@
+{
+  "name": "ネットあいち施設予約システム（県営公園）",
+  "enabled": true,
+  "start_url": "https://www4.pref.aichi.jp/yoyaku/index.jsp",
+  "_note": "あいち共同と同じ作りと推測。初回は画面を保存して確認する。",
+  "parser": "aichi_kyodo",
+  "walk": {
+    "js": "selectCalendarDate({Y},{M},{D})",
+    "days": 60,
+    "weekends_only": true
+  },
+  "common_steps": [
+    {
+      "do": "goto",
+      "url": "https://www4.pref.aichi.jp/yoyaku/index.jsp"
+    },
+    {
+      "do": "click",
+      "text": "施設名から"
+    }
+  ],
+  "fields": {
+    "kourogi": {
+      "steps": [
+        {
+          "do": "fill",
+          "selector": "#textKeyword",
+          "value": "口論義"
+        },
+        {
+          "do": "click",
+          "text": "上記の内容で検索する"
+        },
+        {
+          "do": "click_row",
+          "row_text": "口論義",
+          "text": "選択"
+        }
+      ],
+      "block": "野球場",
+      "all_blocks": 3,
+      "_note": "硬式は3面同時使用が条件。3面すべて空いている枠だけ空きとする"
+    },
+    "ichii": {
+      "steps": [
+        {
+          "do": "fill",
+          "selector": "#textKeyword",
+          "value": "一宮総合運動場"
+        },
+        {
+          "do": "click",
+          "text": "上記の内容で検索する"
+        },
+        {
+          "do": "click_row",
+          "row_text": "一宮",
+          "text": "選択"
+        }
+      ],
+      "block": "野球場",
+      "all_blocks": 3,
+      "_note": "硬式は3面同時使用が条件（チームの利用実績より）"
+    },
+    "shinrin": {
+      "steps": [
+        {
+          "do": "fill",
+          "selector": "#textKeyword",
+          "value": "森林公園"
+        },
+        {
+          "do": "click",
+          "text": "上記の内容で検索する"
+        },
+        {
+          "do": "click_row",
+          "row_text": "森林公園",
+          "text": "選択"
+        }
+      ],
+      "block": "野球場"
+    },
+    "shinshiro": {
+      "steps": [
+        {
+          "do": "fill",
+          "selector": "#textKeyword",
+          "value": "新城総合公園"
+        },
+        {
+          "do": "click",
+          "text": "上記の内容で検索する"
+        },
+        {
+          "do": "click_row",
+          "row_text": "新城",
+          "text": "選択"
+        }
+      ],
+      "block": "野球場"
+    }
+  }
+}
