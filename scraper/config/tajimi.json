@@ -2,8 +2,8 @@
   "name": "多治見市公共施設予約システム",
   "enabled": true,
   "start_url": "https://www2.pf489.com/tajimi/WebR/",
-  "pages": 1,
-  "_note": "施設名から探す→名前で検索。以降は調整中。",
+  "pages": 3,
+  "_note": "施設別空き状況（日単位の○△×）を1か月表示で読む。月送りは調整中。",
   "common_steps": [
     {
       "do": "goto",
@@ -33,8 +33,25 @@
         {
           "do": "click",
           "text": "次へ進む"
+        },
+        {
+          "do": "click",
+          "selector": "label[for=radioPeriod1month]",
+          "optional": true
+        },
+        {
+          "do": "click",
+          "selector": "#btnHyoji",
+          "optional": true
         }
-      ]
+      ],
+      "block": "ＴＹＫ球場"
     }
+  },
+  "parser": "pf489",
+  "next": {
+    "do": "click",
+    "selector": "a.nextMonth, a[title*='次'], .calendar-next, a:has(i.fa-chevron-right)",
+    "optional": true
   }
 }

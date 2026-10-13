@@ -109,3 +109,13 @@ def test_eharp_calendar():
     <button class="AvailabilityTable_item" aria-label="10月12日月曜日 スポーツの日 受付終了"><time datetime="2026-10-12">12</time></button>"""
     got = [(s.date, s.status) for s in parse_eharp(html, "yokkaichi1", TODAY)]
     assert got == [("2026-10-17", "予約済"), ("2026-10-20", "空き"), ("2026-10-12", "利用不可")]
+
+
+def test_pf489_table():
+    from scraper.common import parse_pf489
+    html = """<table><tr><td class="shisetsu">ＴＹＫ球場（市営球場）</td><td class="teiin">－</td>
+      <td><input name="checkdate" value="2026101701502   0"><label>△</label></td>
+      <td><input name="checkdate" value="2026101801502   0"><label>×</label></td></tr>
+      <tr><td class="shisetsu">滝呂球場</td><td><input name="checkdate" value="2026101701503   0"><label>○</label></td></tr></table>"""
+    got = [(s.date, s.status) for s in parse_pf489(html, "tajimi", TODAY, "ＴＹＫ球場")]
+    assert got == [("2026-10-17", "一部空き"), ("2026-10-18", "予約済")]

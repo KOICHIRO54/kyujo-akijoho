@@ -399,3 +399,39 @@ def parse_eharp(html: str, field_id: str, today: date) -> list[Slot]:
 
 
 PARSERS["eharp"] = parse_eharp
+
+
+PF489_STATUS = {"○": "空き", "△": "一部空き", "×": "予約済"}
+
+
+def parse_pf489(html: str, field_id: str, today: date, block_contains: str | None = None) -> list[Slot]:
+    """pf489 系（小牧・多治見・一宮）の「施設別空き状況」を読む。
+
+    施設ごとの行に日付ごとのセルがあり、セル内の checkbox の value 先頭8桁が日付、
+    label が記号（○空き / △一部空き / ×空きなし / －申込期間外 / ＊公開対象外）。
+    """
+    soup = BeautifulSoup(html, "lxml")
+    slots: list[Slot] = []
+    for tr in soup.find_all("tr"):
+        name_td = tr.find("td", class_="shisetsu")
+        if not name_td:
+            continue
+        name = unicodedata.normalize("NFKC", name_td.get_text(" ", strip=True))
+        if block_contains and unicodedata.normalize("NFKC", block_contains) not in name:
+            continue
+        for td in tr.find_all("td"):
+            cb = td.find("input", attrs={"name": "checkdate"})
+            lab = td.find("label")
+            if not cb or not lab:
+                continue
+            v = (cb.get("value") or "")[:8]
+            if not re.fullmatch(r"\d{8}", v):
+                continue
+            mark = lab.get_text(strip=True)
+            status = PF489_STATUS.get(mark, "利用不可")
+            d = date(int(v[:4]), int(v[4:6]), int(v[6:8]))
+            slots.append(Slot(field_id, d.isoformat(), "終日（日単位の目安）", status, mark))
+    return slots
+
+
+PARSERS["pf489"] = parse_pf489
