@@ -2,8 +2,8 @@
   "name": "可児市体育施設予約システム",
   "enabled": true,
   "start_url": "https://kani.shisetsu-info.jp/",
-  "pages": 1,
-  "_note": "スタジアムの1日表示を、左カレンダーの日付リンク（title=10月17日）を押して切り替え、土日祝60日分を読む。",
+  "pages": 60,
+  "_note": "スタジアムの1日表示を「翌日を表示」で60日分送って読む（日付リンクはページ上のスクリプトが無く動かないため）。",
   "common_steps": [
     {
       "do": "goto",
@@ -23,9 +23,8 @@
     }
   },
   "parser": "kani",
-  "walk": {
-    "js": "title:{M}月{D}日",
-    "days": 60,
-    "weekends_only": true
+  "next": {
+    "do": "click",
+    "text": "翌日を表示"
   }
 }
