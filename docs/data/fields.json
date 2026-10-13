@@ -400,10 +400,10 @@
   "system": "せきとるnet（関市公共施設予約システム）／中池かわせみスタジアム管理棟",
   "online": true,
   "drive_min": 55,
-  "note": "抽選は利用月3か月前の15〜25日、通常は2か月前の1日から3日前まで",
+  "note": "抽選は利用月3か月前の15〜25日、通常は2か月前の1日から3日前まで。空き状況はせきとるnetで確認（自動取得はサイトの方針により行わない）",
   "tel": "0575-22-5502",
-  "url": "https://www.city.seki.lg.jp/0000004411.html",
-  "adapter": "seki"
+  "url": "https://sekicity-sisetsuyoyaku.azurewebsites.net/",
+  "adapter": ""
  },
  {
   "id": "ogaki_kita",

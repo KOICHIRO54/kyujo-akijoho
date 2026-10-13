@@ -3,7 +3,7 @@
   "enabled": true,
   "start_url": "https://kani.shisetsu-info.jp/",
   "pages": 1,
-  "_note": "画面構造の調査中（初回は入口の画面を保存するだけ）",
+  "_note": "トップの「スタジアム」カードの「空き状況」（4番目）を押す。以降は調整中。",
   "common_steps": [
     {
       "do": "goto",
@@ -12,7 +12,12 @@
   ],
   "fields": {
     "kani": {
-      "steps": []
+      "steps": [
+        {
+          "do": "click",
+          "selector": ":text-is('空き状況') >> nth=3"
+        }
+      ]
     }
   }
 }

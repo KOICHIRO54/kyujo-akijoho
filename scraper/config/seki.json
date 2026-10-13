@@ -1,9 +1,9 @@
 {
   "name": "せきとるnet（関市公共施設予約システム）",
-  "enabled": true,
+  "enabled": false,
   "start_url": "https://sekicity-sisetsuyoyaku.azurewebsites.net/",
   "pages": 1,
-  "_note": "画面構造の調査中（初回は入口の画面を保存するだけ）",
+  "_note": "robots.txt で自動アクセスが禁止されているため取得しない。アプリからはリンクのみ。",
   "common_steps": [
     {
       "do": "goto",
