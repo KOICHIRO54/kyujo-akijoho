@@ -1,21 +1,24 @@
 {
- "generated_at": "2026-10-14T00:50+09:00",
+ "generated_at": "2026-10-14T01:07+09:00",
  "fetched_at": {
-  "mizuho": "2026-10-13T23:29+09:00",
-  "hokusei": "2026-10-14T00:50+09:00",
-  "obu": "2026-10-14T00:50+09:00",
-  "handa": "2026-10-14T00:50+09:00",
-  "ichii": "2026-10-14T00:50+09:00",
-  "kourogi": "2026-10-14T00:50+09:00",
-  "kasugai": "2026-10-14T00:50+09:00",
-  "shinrin": "2026-10-14T00:50+09:00",
-  "agui": "2026-10-14T00:50+09:00",
-  "yokkaichi2": "2026-10-14T00:50+09:00",
-  "miyoshi": "2026-10-14T00:50+09:00",
-  "shinshiro": "2026-10-14T00:50+09:00",
-  "gamagori": "2026-10-14T00:50+09:00",
-  "seto": "2026-10-14T00:50+09:00",
-  "yokkaichi1": "2026-10-14T00:50+09:00"
+  "mizuho": "2026-10-14T00:02+09:00",
+  "ichii": "2026-10-14T01:07+09:00",
+  "kourogi": "2026-10-14T01:07+09:00",
+  "shinshiro": "2026-10-14T01:07+09:00",
+  "komaki": "2026-10-14T01:07+09:00",
+  "shinrin": "2026-10-14T01:07+09:00",
+  "ichinomiya": "2026-10-14T01:07+09:00",
+  "agui": "2026-10-14T01:07+09:00",
+  "yokkaichi1": "2026-10-14T01:07+09:00",
+  "yokkaichi2": "2026-10-14T01:07+09:00",
+  "tajimi": "2026-10-14T01:07+09:00",
+  "kasugai": "2026-10-14T01:07+09:00",
+  "gamagori": "2026-10-14T01:07+09:00",
+  "handa": "2026-10-14T01:07+09:00",
+  "obu": "2026-10-14T01:07+09:00",
+  "seto": "2026-10-14T01:07+09:00",
+  "hokusei": "2026-10-14T01:07+09:00",
+  "miyoshi": "2026-10-14T01:07+09:00"
  },
  "status": {
   "aichi_kyodo:kasugai": {
@@ -59,14 +62,14 @@
    "error": null
   },
   "ichinomiya:ichinomiya": {
-   "ok": false,
-   "count": 0,
-   "error": "空き表を読み取れず（debug/ を確認）"
+   "ok": true,
+   "count": 75,
+   "error": null
   },
   "komaki:komaki": {
-   "ok": false,
-   "count": 0,
-   "error": "空き表を読み取れず（debug/ を確認）"
+   "ok": true,
+   "count": 44,
+   "error": null
   },
   "nagoya_sporec:mizuho": {
    "ok": false,
@@ -93,9 +96,9 @@
    "error": null
   },
   "tajimi:tajimi": {
-   "ok": false,
-   "count": 0,
-   "error": "空き表を読み取れず（debug/ を確認）"
+   "ok": true,
+   "count": 86,
+   "error": null
   },
   "yokkaichi:yokkaichi1": {
    "ok": true,
@@ -110,6 +113,27 @@
  },
  "slots": [
   {
+   "field": "ichinomiya",
+   "date": "2026-10-14",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-14",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-14",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-14",
    "slot": "終日（日単位の目安）",
@@ -124,6 +148,27 @@
    "raw": "空き状況のみ"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-15",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-15",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-15",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-15",
    "slot": "終日（日単位の目安）",
@@ -136,6 +181,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "空き状況のみ"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-10-16",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-16",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-16",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -264,6 +330,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-17",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
    "field": "kasugai",
    "date": "2026-10-17",
    "slot": "午前 08:50-11:20",
@@ -290,6 +363,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-17",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -418,6 +498,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-10-17",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-17",
    "slot": "終日（日単位の目安）",
@@ -523,6 +610,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-18",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
    "field": "kasugai",
    "date": "2026-10-18",
    "slot": "午前 08:50-11:20",
@@ -549,6 +643,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-18",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -684,6 +785,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-10-18",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-18",
    "slot": "終日（日単位の目安）",
@@ -696,6 +804,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "空き状況のみ"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-10-19",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-19",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-19",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -712,6 +841,27 @@
    "raw": "空き状況のみ"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-20",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-20",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-20",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-20",
    "slot": "終日（日単位の目安）",
@@ -726,6 +876,27 @@
    "raw": "空き状況のみ"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-21",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-21",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-21",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-21",
    "slot": "終日（日単位の目安）",
@@ -740,6 +911,27 @@
    "raw": "空き状況のみ"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-22",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-22",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-22",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-22",
    "slot": "終日（日単位の目安）",
@@ -752,6 +944,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "空き状況のみ"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-10-23",
+   "slot": "終日（日単位の目安）",
+   "status": "利用不可",
+   "raw": "－"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-23",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-23",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -873,6 +1086,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-24",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-10-24",
    "slot": "午前 08:50-11:20",
@@ -899,6 +1119,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-24",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -1018,6 +1245,13 @@
    "slot": "17:00-19:00",
    "status": "利用不可",
    "raw": "保守"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-24",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -1146,6 +1380,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-25",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-10-25",
    "slot": "午前 08:50-11:20",
@@ -1172,6 +1413,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-25",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -1307,6 +1555,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-10-25",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-25",
    "slot": "終日（日単位の目安）",
@@ -1319,6 +1574,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "空き状況のみ"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-10-26",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-26",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-26",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -1335,6 +1611,27 @@
    "raw": "空き状況のみ"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-27",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-27",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-27",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-27",
    "slot": "終日（日単位の目安）",
@@ -1349,6 +1646,27 @@
    "raw": "空き状況のみ"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-28",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-28",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-28",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-28",
    "slot": "終日（日単位の目安）",
@@ -1363,6 +1681,27 @@
    "raw": "空き状況のみ"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-29",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-29",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-29",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-29",
    "slot": "終日（日単位の目安）",
@@ -1375,6 +1714,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "空き状況のみ"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-10-30",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-30",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-10-30",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -1496,6 +1856,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-10-31",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "kasugai",
    "date": "2026-10-31",
    "slot": "午前 08:50-11:20",
@@ -1522,6 +1889,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-10-31",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "kourogi",
@@ -1643,6 +2017,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-10-31",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-10-31",
    "slot": "終日（日単位の目安）",
@@ -1762,6 +2143,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-01",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-11-01",
    "slot": "午前 08:50-11:20",
@@ -1788,6 +2176,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-01",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -1916,6 +2311,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-11-01",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-01",
    "slot": "終日（日単位の目安）",
@@ -1928,6 +2330,27 @@
    "slot": "終日（日単位の目安）",
    "status": "予約済",
    "raw": "空きなし"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-11-02",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-02",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-02",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -2049,6 +2472,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-03",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-11-03",
    "slot": "午前 08:50-11:20",
@@ -2075,6 +2505,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-03",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -2203,6 +2640,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-11-03",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-03",
    "slot": "終日（日単位の目安）",
@@ -2215,6 +2659,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "空き状況のみ"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-11-04",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-04",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-04",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -2231,6 +2696,20 @@
    "raw": "空き状況のみ"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-05",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-05",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-05",
    "slot": "終日（日単位の目安）",
@@ -2243,6 +2722,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "空き状況のみ"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-11-06",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-06",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-06",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -2364,6 +2864,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-07",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-11-07",
    "slot": "午前 08:50-11:20",
@@ -2390,6 +2897,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-07",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -2539,6 +3053,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-11-07",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-07",
    "slot": "終日（日単位の目安）",
@@ -2658,6 +3179,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-08",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-11-08",
    "slot": "午前 08:50-11:20",
@@ -2684,6 +3212,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-08",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -2819,6 +3354,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-11-08",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-08",
    "slot": "終日（日単位の目安）",
@@ -2831,6 +3373,27 @@
    "slot": "終日（日単位の目安）",
    "status": "予約済",
    "raw": "空きなし"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-11-09",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-09",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-09",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -2847,6 +3410,27 @@
    "raw": "空き状況のみ"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-10",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-10",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-10",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-10",
    "slot": "終日（日単位の目安）",
@@ -2861,6 +3445,27 @@
    "raw": "空き状況のみ"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-11",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-11",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-11",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-11",
    "slot": "終日（日単位の目安）",
@@ -2875,6 +3480,20 @@
    "raw": "空き状況のみ"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-12",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-12",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-12",
    "slot": "終日（日単位の目安）",
@@ -2887,6 +3506,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "空き状況のみ"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-11-13",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-13",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-13",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -3008,6 +3648,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-14",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-11-14",
    "slot": "午前 08:50-11:20",
@@ -3034,6 +3681,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-14",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -3162,6 +3816,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-11-14",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-14",
    "slot": "終日（日単位の目安）",
@@ -3281,6 +3942,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-15",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-11-15",
    "slot": "午前 08:50-11:20",
@@ -3307,6 +3975,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-15",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -3442,6 +4117,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-11-15",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-15",
    "slot": "終日（日単位の目安）",
@@ -3454,6 +4136,27 @@
    "slot": "終日（日単位の目安）",
    "status": "予約済",
    "raw": "空きなし"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-11-16",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-16",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-16",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -3470,6 +4173,27 @@
    "raw": "空きなし"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-17",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-17",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-17",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-17",
    "slot": "終日（日単位の目安）",
@@ -3482,6 +4206,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-11-18",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-18",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-18",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -3498,6 +4243,20 @@
    "raw": "利用可能"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-19",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-19",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-19",
    "slot": "終日（日単位の目安）",
@@ -3510,6 +4269,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-11-20",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-20",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-20",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -3631,6 +4411,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-21",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-11-21",
    "slot": "午前 08:50-11:20",
@@ -3657,6 +4444,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-21",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -3792,6 +4586,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-11-21",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-21",
    "slot": "終日（日単位の目安）",
@@ -3911,6 +4712,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-22",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-11-22",
    "slot": "午前 08:50-11:20",
@@ -3937,6 +4745,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-22",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -4072,6 +4887,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-11-22",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-22",
    "slot": "終日（日単位の目安）",
@@ -4191,6 +5013,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-23",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-11-23",
    "slot": "午前 08:50-11:20",
@@ -4217,6 +5046,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-23",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -4345,6 +5181,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-11-23",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-23",
    "slot": "終日（日単位の目安）",
@@ -4359,6 +5202,27 @@
    "raw": "空きなし"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-24",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-24",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-24",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-24",
    "slot": "終日（日単位の目安）",
@@ -4371,6 +5235,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-11-25",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-25",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-25",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
   },
   {
    "field": "yokkaichi1",
@@ -4387,6 +5272,20 @@
    "raw": "利用可能"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-26",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-26",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-26",
    "slot": "終日（日単位の目安）",
@@ -4399,6 +5298,27 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-11-27",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-27",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-27",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -4520,6 +5440,13 @@
    "raw": "1/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-28",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-11-28",
    "slot": "午前 08:50-11:20",
@@ -4546,6 +5473,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-28",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -4660,6 +5594,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-11-28",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-28",
    "slot": "終日（日単位の目安）",
@@ -4779,6 +5720,13 @@
    "raw": "0/3面空き"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-11-29",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
    "field": "kasugai",
    "date": "2026-11-29",
    "slot": "午前 08:50-11:20",
@@ -4805,6 +5753,13 @@
    "slot": "昼間 11:30-14:00",
    "status": "予約済",
    "raw": "予約"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-29",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kourogi",
@@ -4919,6 +5874,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-11-29",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-11-29",
    "slot": "終日（日単位の目安）",
@@ -4931,6 +5893,27 @@
    "slot": "終日（日単位の目安）",
    "status": "予約済",
    "raw": "空きなし"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-11-30",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "komaki",
+   "date": "2026-11-30",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-11-30",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -4947,6 +5930,20 @@
    "raw": "利用可能"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-01",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-01",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-01",
    "slot": "終日（日単位の目安）",
@@ -4959,6 +5956,20 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-02",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-02",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
   },
   {
    "field": "yokkaichi1",
@@ -4975,6 +5986,20 @@
    "raw": "利用可能"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-03",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-03",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-03",
    "slot": "終日（日単位の目安）",
@@ -4987,6 +6012,20 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-04",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-04",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -5092,6 +6131,13 @@
    "slot": "3面 09:00-17:00",
    "status": "予約済",
    "raw": "1/3面空き"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-05",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kasugai",
@@ -5248,6 +6294,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-12-05",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-05",
    "slot": "終日（日単位の目安）",
@@ -5351,6 +6404,13 @@
    "slot": "3面 09:00-17:00",
    "status": "予約済",
    "raw": "0/3面空き"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-06",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kasugai",
@@ -5500,6 +6560,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-12-06",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-06",
    "slot": "終日（日単位の目安）",
@@ -5514,6 +6581,20 @@
    "raw": "空きなし"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-07",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-07",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-07",
    "slot": "終日（日単位の目安）",
@@ -5526,6 +6607,20 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-08",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-08",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
   },
   {
    "field": "yokkaichi1",
@@ -5542,6 +6637,20 @@
    "raw": "利用可能"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-09",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-09",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-09",
    "slot": "終日（日単位の目安）",
@@ -5556,6 +6665,20 @@
    "raw": "利用可能"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-10",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-10",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-10",
    "slot": "終日（日単位の目安）",
@@ -5568,6 +6691,20 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-11",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-11",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -5673,6 +6810,13 @@
    "slot": "3面 09:00-17:00",
    "status": "予約済",
    "raw": "1/3面空き"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-12",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kasugai",
@@ -5822,6 +6966,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-12-12",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-12",
    "slot": "終日（日単位の目安）",
@@ -5925,6 +7076,13 @@
    "slot": "3面 09:00-17:00",
    "status": "予約済",
    "raw": "0/3面空き"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-13",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
   },
   {
    "field": "kasugai",
@@ -6067,6 +7225,13 @@
    "raw": "保守"
   },
   {
+   "field": "tajimi",
+   "date": "2026-12-13",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-13",
    "slot": "終日（日単位の目安）",
@@ -6079,6 +7244,20 @@
    "slot": "終日（日単位の目安）",
    "status": "予約済",
    "raw": "空きなし"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-14",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-14",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -6095,6 +7274,20 @@
    "raw": "空きなし"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-15",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-15",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-15",
    "slot": "終日（日単位の目安）",
@@ -6107,6 +7300,20 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-16",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-16",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
   },
   {
    "field": "yokkaichi1",
@@ -6123,6 +7330,20 @@
    "raw": "利用可能"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-17",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-17",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-17",
    "slot": "終日（日単位の目安）",
@@ -6135,6 +7356,20 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-18",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-18",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -6151,6 +7386,20 @@
    "raw": "利用可能"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-19",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-19",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-19",
    "slot": "終日（日単位の目安）",
@@ -6163,6 +7412,20 @@
    "slot": "終日（日単位の目安）",
    "status": "予約済",
    "raw": "空きなし"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-20",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-20",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -6179,6 +7442,20 @@
    "raw": "空きなし"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-21",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-21",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-21",
    "slot": "終日（日単位の目安）",
@@ -6191,6 +7468,20 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-22",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-22",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
   },
   {
    "field": "yokkaichi1",
@@ -6207,6 +7498,20 @@
    "raw": "利用可能"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-23",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-23",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-23",
    "slot": "終日（日単位の目安）",
@@ -6219,6 +7524,20 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-24",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-24",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
   },
   {
    "field": "yokkaichi1",
@@ -6235,6 +7554,20 @@
    "raw": "空きなし"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-25",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-25",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-25",
    "slot": "終日（日単位の目安）",
@@ -6249,6 +7582,20 @@
    "raw": "利用可能"
   },
   {
+   "field": "ichinomiya",
+   "date": "2026-12-26",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-26",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
    "field": "yokkaichi1",
    "date": "2026-12-26",
    "slot": "終日（日単位の目安）",
@@ -6261,6 +7608,20 @@
    "slot": "終日（日単位の目安）",
    "status": "空き",
    "raw": "利用可能"
+  },
+  {
+   "field": "ichinomiya",
+   "date": "2026-12-27",
+   "slot": "終日（日単位の目安）",
+   "status": "予約済",
+   "raw": "×"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-27",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -6275,6 +7636,13 @@
    "slot": "終日（日単位の目安）",
    "status": "予約済",
    "raw": "空きなし"
+  },
+  {
+   "field": "tajimi",
+   "date": "2026-12-28",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "yokkaichi1",
@@ -6359,6 +7727,76 @@
    "slot": "終日（日単位の目安）",
    "status": "利用不可",
    "raw": "休館日"
+  },
+  {
+   "field": "tajimi",
+   "date": "2027-01-04",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2027-01-05",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2027-01-06",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2027-01-07",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
+  },
+  {
+   "field": "tajimi",
+   "date": "2027-01-08",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2027-01-09",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2027-01-10",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2027-01-11",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2027-01-12",
+   "slot": "終日（日単位の目安）",
+   "status": "一部空き",
+   "raw": "△"
+  },
+  {
+   "field": "tajimi",
+   "date": "2027-01-13",
+   "slot": "終日（日単位の目安）",
+   "status": "空き",
+   "raw": "○"
   }
  ]
 }
