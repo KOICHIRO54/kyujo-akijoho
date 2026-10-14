@@ -3,7 +3,7 @@
   "enabled": true,
   "start_url": "https://www.pf489.com/komaki/webR/",
   "pages": 3,
-  "_note": "施設別空き状況（日単位の○△×）を1か月表示で読む。月送りは調整中。",
+  "_note": "施設別空き状況（日単位の○△×）を1か月表示で読み、土日祝の○△の日は時間帯別空き状況まで進んで1時間ごとに読む。",
   "common_steps": [
     {
       "do": "goto",
@@ -46,7 +46,8 @@
         }
       ],
       "block": "野球場",
-      "drill": "pf489_times"
+      "drill": "pf489_times",
+      "merge": true
     }
   },
   "parser": "pf489",

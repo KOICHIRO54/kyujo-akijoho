@@ -91,12 +91,16 @@ def drill(context, cfg: dict, fcfg: dict, field_id: str, found: list[dict], toda
                       if s["status"] in ("空き", "一部空き") and is_weekend(s["date"])})
     if not targets:
         return found
-    page = context.new_page()
+    # サーバー側が画面の状態を覚えているため、別のブラウザセッションで最初からたどる
+    from scraper.browser import USER_AGENT
+    ctx2 = context.browser.new_context(user_agent=USER_AGENT, locale="ja-JP", timezone_id="Asia/Tokyo",
+                                       viewport={"width": 1280, "height": 900})
+    page = ctx2.new_page()
     try:
         steps = cfg.get("common_steps", []) + fcfg.get("steps", [])
         html = drill_pf489(page, steps, fcfg["block"], [d.replace("-", "") for d in targets], rec)
     finally:
-        page.close()
+        ctx2.close()
     if not html:
         return found
     detail = [s.to_dict() for s in PARSERS[fcfg["drill"]](html, field_id, today, fcfg["block"])]

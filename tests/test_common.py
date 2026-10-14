@@ -119,3 +119,15 @@ def test_pf489_table():
       <tr><td class="shisetsu">滝呂球場</td><td><input name="checkdate" value="2026101701503   0"><label>○</label></td></tr></table>"""
     got = [(s.date, s.status) for s in parse_pf489(html, "tajimi", TODAY, "ＴＹＫ球場")]
     assert got == [("2026-10-17", "一部空き"), ("2026-10-18", "予約済")]
+
+
+def test_pf489_times():
+    from scraper.common import parse_pf489_times
+    html = """<table class="calendar"><thead><tr><th class="shisetsu sat">2026年10月17日(土)</th><th class="teiin">定員</th>
+      <th>6:00<span>～</span>7:00</th><th>7:00<span>～</span>8:00</th><th>18:00<span>～</span>19:00</th></tr></thead>
+      <tbody><tr><td class="shisetsu">ＴＹＫ球場（市営球場）</td><td class="teiin">－</td>
+      <td><input name="checktime"><label>○</label></td><td class="readonly"><label>×</label></td>
+      <td class="long readonly"><label>整備</label></td></tr></tbody></table>"""
+    got = [(s.date, s.slot, s.status) for s in parse_pf489_times(html, "tajimi", TODAY, "ＴＹＫ球場")]
+    assert got == [("2026-10-17", "06:00-07:00", "空き"), ("2026-10-17", "07:00-08:00", "予約済"),
+                   ("2026-10-17", "18:00-19:00", "利用不可")]

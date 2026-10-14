@@ -485,8 +485,45 @@ PARSERS["kani"] = parse_kani
 
 
 def parse_pf489_times(html: str, field_id: str, today: date, block_contains: str | None = None) -> list[Slot]:
-    """pf489 系の「時間帯別空き状況」を読む（構造確認前の暫定版。汎用の表読み取りを使う）。"""
-    return parse_tables(html, field_id, today)
+    """pf489 系の「時間帯別空き状況」を読む。
+
+    日付ごとに table.calendar があり、見出しの th.shisetsu に「2026年10月17日(土)」、
+    続く th に「6:00～7:00」の時間帯、施設行の各セルの label に ○ / △ / × / 整備 などが入る。
+    """
+    soup = BeautifulSoup(html, "lxml")
+    slots: list[Slot] = []
+    for table in soup.select("table.calendar"):
+        head = table.find("th", class_="shisetsu")
+        m = re.search(r"(20\d{2})年(\d{1,2})月(\d{1,2})日", head.get_text() if head else "")
+        if not m:
+            continue
+        d = date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+        times = []
+        for th in head.find_parent("tr").find_all("th"):
+            t = unicodedata.normalize("NFKC", th.get_text("", strip=True))
+            mt = re.fullmatch(r"(\d{1,2}):(\d{2})[~～](\d{1,2}):(\d{2})", t)
+            if mt:
+                times.append(f"{int(mt[1]):02d}:{mt[2]}-{int(mt[3]):02d}:{mt[4]}")
+        for tr in table.select("tbody tr"):
+            name_td = tr.find("td", class_="shisetsu")
+            if not name_td:
+                continue
+            name = unicodedata.normalize("NFKC", name_td.get_text(" ", strip=True))
+            if block_contains and unicodedata.normalize("NFKC", block_contains) not in name:
+                continue
+            i = 0
+            for td in tr.find_all("td"):
+                if "shisetsu" in (td.get("class") or []) or "teiin" in (td.get("class") or []):
+                    continue
+                span = int(td.get("colspan", 1) or 1)
+                lab = td.find("label")
+                mark = lab.get_text(strip=True) if lab else td.get_text(strip=True)
+                status = {"○": "空き", "△": "一部空き", "×": "予約済"}.get(mark, "利用不可")
+                for k in range(span):
+                    if i + k < len(times):
+                        slots.append(Slot(field_id, d.isoformat(), times[i + k], status, mark))
+                i += span
+    return slots
 
 
 PARSERS["pf489_times"] = parse_pf489_times
