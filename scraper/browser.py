@@ -269,7 +269,7 @@ def collect_by_dates(page: Page, steps: list[dict], js_template: str,
 
 
 def drill_pf489(page: Page, steps: list[dict], row_contains: str, dates: list[str],
-                rec: Recorder) -> str | None:
+                rec: Recorder, start: str | None = None) -> str | None:
     """pf489 系で、施設別空き状況の日付にチェックを入れて「次へ進む」を押し、
     時間帯別空き状況の画面を返す。対象の日付がなければ None。
 
@@ -277,6 +277,15 @@ def drill_pf489(page: Page, steps: list[dict], row_contains: str, dates: list[st
     """
     for step in steps:
         run_step(page, step, rec)
+    if start:
+        # 表示開始日を変えて、その日から1か月分を表示する（start は YYYY/MM/DD）
+        page.evaluate("""(v) => {
+            const el = document.querySelector('#dpStartDate');
+            if (el) { el.value = v; el.dispatchEvent(new Event('change', {bubbles: true})); }
+            const r = document.querySelector('#radioPeriod1month');
+            if (r) r.checked = true;
+        }""", start)
+        run_step(page, {"do": "click", "selector": "#btnHyoji"}, rec)
     n = page.evaluate("""([word, dates]) => {
         let n = 0;
         document.querySelectorAll('tr').forEach(tr => {

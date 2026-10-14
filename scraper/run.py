@@ -91,19 +91,32 @@ def drill(context, cfg: dict, fcfg: dict, field_id: str, found: list[dict], toda
                       if s["status"] in ("空き", "一部空き") and is_weekend(s["date"])})
     if not targets:
         return found
-    # サーバー側が画面の状態を覚えているため、別のブラウザセッションで最初からたどる
+    # 1画面で選べるのは約1か月分なので、表示開始日をずらしながら1か月ずつ進む。
+    # サーバー側が画面の状態を覚えているため、毎回別のブラウザセッションで最初からたどる
+    from datetime import date as _d, timedelta as _td
     from scraper.browser import USER_AGENT
-    ctx2 = context.browser.new_context(user_agent=USER_AGENT, locale="ja-JP", timezone_id="Asia/Tokyo",
-                                       viewport={"width": 1280, "height": 900})
-    page = ctx2.new_page()
-    try:
-        steps = cfg.get("common_steps", []) + fcfg.get("steps", [])
-        html = drill_pf489(page, steps, fcfg["block"], [d.replace("-", "") for d in targets], rec)
-    finally:
-        ctx2.close()
-    if not html:
-        return found
-    detail = [s.to_dict() for s in PARSERS[fcfg["drill"]](html, field_id, today, fcfg["block"])]
+    steps = cfg.get("common_steps", []) + fcfg.get("steps", [])
+    detail: list[dict] = []
+    remaining = list(targets)
+    for _ in range(4):
+        if not remaining:
+            break
+        start = _d.fromisoformat(remaining[0])
+        window = [d for d in remaining if _d.fromisoformat(d) < start + _td(days=28)]
+        remaining = [d for d in remaining if d not in window]
+        ctx2 = context.browser.new_context(user_agent=USER_AGENT, locale="ja-JP", timezone_id="Asia/Tokyo",
+                                           viewport={"width": 1280, "height": 900})
+        page = ctx2.new_page()
+        try:
+            html = drill_pf489(page, steps, fcfg["block"], [d.replace("-", "") for d in window], rec,
+                               start=None if start <= today + _td(days=1) else start.strftime("%Y/%m/%d"))
+        except Exception:
+            traceback.print_exc()
+            html = None
+        finally:
+            ctx2.close()
+        if html:
+            detail += [s.to_dict() for s in PARSERS[fcfg["drill"]](html, field_id, today, fcfg["block"])]
     got = {s["date"] for s in detail}
     # 時間帯まで読めた日は、日単位の目安を置き換える
     return [s for s in found if s["date"] not in got] + detail

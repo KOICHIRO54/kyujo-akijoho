@@ -160,7 +160,10 @@ function renderSlots() {
   const byId = Object.fromEntries(fields.map(f => [f.id, f]));
   const list = document.getElementById("slot-list");
   const groups = new Map();
+  // 今日（日本時間）より前の日は出さない。更新の合間に日付が変わっても古い日が残らないように
+  const today = new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Tokyo" }).format(new Date());
   for (const s of avail.slots) {
+    if (s.date < today) continue;
     const f = byId[s.field];
     if (!f || !state.prefs.has(f.pref)) continue;
     if (state.weekend && !dayInfo(s.date).weekend) continue;
