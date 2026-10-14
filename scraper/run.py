@@ -79,11 +79,37 @@ def target_dates(today, days: int, weekends_only: bool, holidays: set[str],
     return out
 
 
+def drill(context, cfg: dict, fcfg: dict, field_id: str, found: list[dict], today, holidays: set[str], rec) -> list[dict]:
+    from scraper.browser import drill_pf489
+    from scraper.common import PARSERS
+
+    def is_weekend(iso):
+        from datetime import date as _d
+        return _d.fromisoformat(iso).weekday() >= 5 or iso in holidays
+
+    targets = sorted({s["date"] for s in found
+                      if s["status"] in ("空き", "一部空き") and is_weekend(s["date"])})
+    if not targets:
+        return found
+    page = context.new_page()
+    try:
+        steps = cfg.get("common_steps", []) + fcfg.get("steps", [])
+        html = drill_pf489(page, steps, fcfg["block"], [d.replace("-", "") for d in targets], rec)
+    finally:
+        page.close()
+    if not html:
+        return found
+    detail = [s.to_dict() for s in PARSERS[fcfg["drill"]](html, field_id, today, fcfg["block"])]
+    got = {s["date"] for s in detail}
+    # 時間帯まで読めた日は、日単位の目安を置き換える
+    return [s for s in found if s["date"] not in got] + detail
+
+
 def scrape(configs: dict[str, dict]) -> tuple[list[dict], dict]:
     # Playwright は取得時だけ必要なので、ここで読み込む
     from playwright.sync_api import sync_playwright
 
-    from scraper.browser import USER_AGENT, Recorder, collect_by_dates, collect_pages, robots_allows
+    from scraper.browser import USER_AGENT, Recorder, collect_by_dates, collect_pages, drill_pf489, robots_allows
     from scraper.common import PARSERS, merge_adjacent, require_all_blocks
 
     today = datetime.now(JST).date()
@@ -126,6 +152,9 @@ def scrape(configs: dict[str, dict]) -> tuple[list[dict], dict]:
                     elif fcfg.get("show_block"):
                         for s in found:
                             s["slot"] = s["slot"].replace("|", " ")
+                    if fcfg.get("drill"):
+                        # 日単位の○△の土日祝を、時間帯別の画面で詳しく読む（別のタブで同じ手順をたどる）
+                        found = drill(context, cfg, fcfg, field_id, found, today, holidays, rec)
                     if fcfg.get("merge"):
                         found = merge_adjacent(found)
                     # 同じ日・枠が複数ページに出たら後勝ち

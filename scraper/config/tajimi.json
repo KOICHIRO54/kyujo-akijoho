@@ -45,7 +45,8 @@
           "optional": true
         }
       ],
-      "block": "ＴＹＫ球場"
+      "block": "ＴＹＫ球場",
+      "drill": "pf489_times"
     }
   },
   "parser": "pf489",

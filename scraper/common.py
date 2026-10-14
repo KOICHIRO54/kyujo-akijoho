@@ -482,3 +482,11 @@ def parse_kani(html: str, field_id: str, today: date, block_contains: str | None
 
 
 PARSERS["kani"] = parse_kani
+
+
+def parse_pf489_times(html: str, field_id: str, today: date, block_contains: str | None = None) -> list[Slot]:
+    """pf489 系の「時間帯別空き状況」を読む（構造確認前の暫定版。汎用の表読み取りを使う）。"""
+    return parse_tables(html, field_id, today)
+
+
+PARSERS["pf489_times"] = parse_pf489_times

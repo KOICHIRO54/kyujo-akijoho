@@ -266,3 +266,37 @@ def collect_by_dates(page: Page, steps: list[dict], js_template: str,
         time.sleep(WAIT_BETWEEN_ACTIONS)
         htmls.append(rec.save(page, d.isoformat()) if d == dates[0] else _target(page).content())
     return htmls
+
+
+def drill_pf489(page: Page, steps: list[dict], row_contains: str, dates: list[str],
+                rec: Recorder) -> str | None:
+    """pf489 系で、施設別空き状況の日付にチェックを入れて「次へ進む」を押し、
+    時間帯別空き状況の画面を返す。対象の日付がなければ None。
+
+    dates は YYYYMMDD の文字列。○・△の日だけチェックする（×や受付外は時間帯を見ても意味がない）。
+    """
+    for step in steps:
+        run_step(page, step, rec)
+    n = page.evaluate("""([word, dates]) => {
+        let n = 0;
+        document.querySelectorAll('tr').forEach(tr => {
+            const name = tr.querySelector('td.shisetsu');
+            if (!name || !name.innerText.normalize('NFKC').includes(word.normalize('NFKC'))) return;
+            tr.querySelectorAll('input[name=checkdate]').forEach(cb => {
+                const d = (cb.value || '').slice(0, 8);
+                const label = cb.parentElement.querySelector('label');
+                const mark = label ? label.innerText.trim() : '';
+                if (dates.includes(d) && (mark === '○' || mark === '△') && !cb.checked) {
+                    (label || cb).click();
+                    n++;
+                }
+            });
+        });
+        return n;
+    }""", [row_contains, dates])
+    if not n:
+        return None
+    time.sleep(WAIT_BETWEEN_ACTIONS)
+    rec.save(page, f"checked_{n}")
+    run_step(page, {"do": "click", "text": "次へ進む"}, rec)
+    return _target(page).content()

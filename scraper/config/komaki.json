@@ -45,7 +45,8 @@
           "optional": true
         }
       ],
-      "block": "野球場"
+      "block": "野球場",
+      "drill": "pf489_times"
     }
   },
   "parser": "pf489",
