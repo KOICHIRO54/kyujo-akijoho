@@ -1,0 +1,649 @@
+<!DOCTYPE html><html lang="ja" style=""><!--<![endif]--><head><meta charset="utf-8"><title>
+	一宮市スポーツ・公園施設予約システム
+</title><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Expires" content="-1"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="/Ichinomiya/Web/Content/css/font-awesome.min.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/jquery-ui-1.11.2.min.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/default.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/default_print.css?LastUpdDate=20190901" media="print" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/tooltipster.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/jquery.remodal.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery-1.11.1.min.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery-ui-1.11.2.min.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/common.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery.tooltipster.min.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery.remodal.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery.inputfocus.js?LastUpdDate=20190901"></script>
+	<!--[if lt IE 9]> 
+	<script src="/Ichinomiya/Web/Scripts/html5.js?LastUpdDate=20190901"></script>
+	<script src="/Ichinomiya/Web/Scripts/IE9.js?LastUpdDate=20190901"></script>
+	<script src="/Ichinomiya/Web/Scripts/css3-mediaqueries.js?LastUpdDate=20190901"></script> 
+	<![endif]-->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            
+
+            unload_flg = 1;
+            
+            // 文字サイズ変更時のみスケール調整
+            
+        });
+	    $(document).on('close', '[data-remodal-id=logoutInfo]', function () {
+		    dialog_flg = 0;
+	    });
+	    $(document).on('close', '[data-remodal-id=loginInfo]', function () {
+		    dialog_flg = 0;
+	    });
+        $.ajaxSetup({
+            error: function (xhr, status, error) {
+                    var errorpage = '';
+                    if (errorpage) {
+                        dialog_flg = 1; // アンロードのメッセージを表示させない
+                        window.location.href = errorpage;
+                    }
+                }
+        });
+
+        
+
+    </script>
+
+  <script type="text/javascript">
+$(window).load(function() {
+    var timerID;
+    clearInterval(timerID);
+    timerID = setTimeout('setMessage()', 1140000);
+});
+    function setMessage() 
+    {
+        if (isPostBack == 1) return;
+        
+
+        $.remodal.lookup[$('[data-remodal-id=SesseionTimeoutWarn]').data('remodal')].open();
+    }
+  </script>
+
+</head><body style="overflow-x: hidden;">
+  
+<link href="/Ichinomiya/Web/Content/css/WgR_ShisetsubetsuAkiJoukyou.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+<link href="/Ichinomiya/Web/Content/css/datepicker.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery.ui.datepicker-ja.js?LastUpdDate=20190901"></script>
+<script type="text/javascript" src="/Ichinomiya/Web/Scripts/fixed_midashi.js?LastUpdDate=20190901"></script>
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script type="text/javascript" src="/Ichinomiya/Web/Scripts/dragCell.js?LastUpdDate=20190901"></script>
+<!--<![endif]-->
+<!--[if lt IE 9]><!-->
+<script type="text/javascript" src="/Ichinomiya/Web/Scripts/checkCell.js?LastUpdDate=20190901"></script>
+<!--<![endif]-->
+
+<script type="text/javascript">
+    var maxCnt = 10;
+    var checkCnt = 0;
+    $(document).ready(function () {
+        checkCnt = $(':checkbox[name="checkdate"]:checked').length;
+        $('.desc a').tooltipster({theme:'tooltip-light',position:'bottom',trigger:'click',hideOnClick:true});
+        $('.breadcrumbs a').tooltipster({ position: 'bottom' });
+        $('#dpStartDate').datepicker().trigger('datepicker');
+        $('#radioDisplayCalendar').change(function () {
+            if(this.checked){
+                $('#radioPeriod1month').prop({'checked':'checked'});
+                $('#lblPeriod1month').removeClass('switch-off').addClass('switch-on');
+                $("input:radio[name='radioPeriod']").prop({'disabled':'disabled'});
+                $("input:radio[name='radioPeriod']").addClass('disabled')
+
+                $("input:checkbox[name='checkYobi']").prop({'checked':false});
+                $("input:checkbox[name='checkYobi']").prop({'disabled':'disabled'});
+                $("input:checkbox[name='checkYobi']").addClass('disabled')
+            }
+        });
+        $('#radioDisplayHorizontal').change(function () {
+            if(this.checked){
+                $("input:radio[name='radioPeriod']").prop({'disabled':false});
+                $("input:radio[name='radioPeriod']").removeClass('disabled')
+
+                $("input:checkbox[name='checkYobi']").prop({'disabled':false});
+                $("input:checkbox[name='checkYobi']").removeClass('disabled')
+            }
+        });
+        
+        $('#radioDisplayHorizontal').trigger('change');
+        $('th.shisetsu a').tooltipster();
+        
+        var hyoujiOpenCloseFlg = "close";
+        if (hyoujiOpenCloseFlg == "close") {
+            $(".joken .option").hide();
+            $("#btnShowDetail").prop('value',String.fromCharCode("0xf067") + ' その他の条件で絞り込む');
+        }else{
+            $("#btnShowDetail").prop('value',String.fromCharCode("0xf068") + ' その他の条件で絞り込む');
+        }
+        $("#btnShowDetail").click(function () {
+            $(".joken .option").slideToggle();
+            if (hyoujiOpenCloseFlg == "close") {
+                hyoujiOpenCloseFlg = "open";
+                $("#btnShowDetail").prop('value',String.fromCharCode("0xf068") + ' その他の条件で絞り込む');
+            } else {
+                hyoujiOpenCloseFlg = "close";
+                $("#btnShowDetail").prop('value',String.fromCharCode("0xf067") + ' その他の条件で絞り込む');
+            }
+            setHyoujiOpenCloseFlg(hyoujiOpenCloseFlg);
+        });
+        $("#spinnerStayDays").spinner({
+            min: 1,
+            max: 99
+        });
+        // テーブルのドラッグ選択を設定（モバイル、IE8以下は対象外）
+		var ua = window.navigator.userAgent.toLowerCase();
+		var av = window.navigator.appVersion.toLowerCase();
+		if (ua.indexOf('iphone') < 0 && (ua.indexOf('android') < 0) && (ua.indexOf('mobile') < 0) && ua.indexOf('windows phone') < 0) {
+			// IE判定
+			var isIE = false;
+			if( ua.match(/(msie|MSIE)/) || ua.match(/(T|t)rident/) ) {
+				var ieVer = ua.match(/((msie|MSIE)\s|rv:)([\d\.]+)/)[3];
+				isIE = true;
+				ieVer = parseInt(ieVer);
+			}
+			if((isIE && ieVer > 8) || !isIE){
+				$("table.calendar.toggle").on("mousedown", function(event){mouseDown(this, event);return false;});
+				$("table.calendar.toggle").on("mouseup", function(event){mouseUp(this, event);return false;});
+				$("table.calendar.toggle").on("mousemove", function(event){ mouseMove(this, event);return false;});
+			}
+		}
+        $("table.calendar.toggle td input").on("click", function(){ checkCell(this);});
+        
+        FixedMidashi.create();
+        // アンロード時のダイアログ対象外、二重送信
+		beforeSubmit("ul.pagination li a","#btnHyoji,#btnConfirm");
+		// トグルボタンフォーカス時のアウトライン調整
+		$(".toggle li > input").on("focus", function(){
+			if(this.parentNode.tagName == "LI"){
+				var childElem = this.parentNode.childNodes;
+				if(childElem[0].tagName=="INPUT" && childElem[1].tagName=="LABEL"){
+					$(childElem[0]).css("width", childElem[1].offsetWidth-1);
+					$(childElem[0]).css("height", childElem[1].offsetHeight-2);
+				}
+			}
+		});
+    });
+    $(document).on('confirm', '.stay', function () {
+        checkStayDays('stay', $("#staydate").val(), $(':text[name="spinnerStayDays"]').val());
+        removeWaitOnClose('[data-remodal-id=stay]','#btnConfirm');
+    });
+    $(document).on('cancel', '.stay', function () {
+        checkStayDays('staycancel','','');
+    });
+    function setStaydate(value) { $("#staydate").val(value); };
+    function setHyoujiOpenCloseFlg(value) { $("#hyoujiOpenCloseFlg").val(value); };
+    function showMessageOverMaxCnt() {
+        showMessageDialog('info','メッセージ','選択できる件数は最大10件です。',"msgconfirm",null);
+    }
+    function checkStayDays(command, staydate, staydays) {
+        $.ajax({
+            type: "GET",
+            url: "WgR_ShisetsubetsuAkiJoukyou_Ajax",
+            cache: false,
+            datatype: "json",
+            data: {
+                "command": command,
+                "checkdate": $('input:checkbox[name="checkdate"]:checked').map(function(){return $(this).val();}).get().join(','),
+                "staydate": staydate,
+                "staydays": staydays
+            },
+            success: function (j_data) {
+                if(j_data.StatusCode == void 0) {
+                    $('.item_body').html(j_data);
+
+                    setStaydate('');
+                    $(':text[name="spinnerStayDays"]').val('0');
+
+                    $(':text[name="spinnerStayDays"]').removeClass('error');
+                    $('#stay').removeClass('error');
+                    $("#stay-notice").remove();
+
+                    $.remodal.lookup[$('[data-remodal-id=stay]').data('remodal')].close();
+                } else {
+                    $(':text[name="spinnerStayDays"]').removeClass('error').addClass('error');
+                    $('#stay').removeClass('error').addClass('error');
+                    $("#stay-notice").remove();
+                
+                    $('#stay-remodal-foot').before(j_data.ResponseView);
+
+		            $('#btnConfirm').removeClass('wait');
+		            $('#btnConfirm').attr('disabled', false);
+                    commonUnlockScreen();
+                }
+            }
+        });
+    }
+    // placeholder挿入
+    $(document).ready(function () {
+        $('#dpStartDate').attr('placeholder','2015/2/13');
+    });
+    // 文字サイズ変更時のみ
+    
+</script>
+
+    <style type="text/css">
+        
+        
+        /**** 文字サイズ変更時のみスケール調整 ****/
+        
+    </style>
+    
+
+
+<form action="/Ichinomiya/Web/Yoyaku/WgR_ShisetsubetsuAkiJoukyou" id="form1" method="post" autocomplete="off"><input name="__RequestVerificationToken" type="hidden" value="EOZoiiJ645haP3GjcSR7epMVh0E3++ZI3dncxnVG8UgqJR2zVf8T0hY/lFL+XqRmpONMelzrs5rTH0/QTNhxE+p9ctDMCHPaUAEN2AcUG3FEf0mc9Wnq2xa63VCuAe4AdVUNmg==" style="">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" style="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" style="">
+<div id="wrap" class="remodal-bg">
+	<div id="wrap_head">
+        
+        <div id="head">
+        
+        <h1><span class="city">一宮市</span><span class="title">一宮市スポーツ・公園施設予約システム</span></h1>
+        
+       <div class="login">
+        <p><span>利用者IDをお持ちの方</span><a href="javascript:__doPostBack('login','')" class="btnBlue">ログイン</a></p>
+       </div>
+             
+			  <ul>
+                  <li class="message"><a href="javascript:__doPostBack('message','')">メッセージ</a></li><li class="tebiki"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/_res/projects/default_project/_page_/001/005/266/manual.pdf','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=900,height=800'); return false;">ご利用の手引き</a></li><li class="faq"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/katsuryokusouzou/sports/1000193/1061111/1000089/1005599.html','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes'); return false;">FAQ / よくあるご質問</a></li><li class="style"><a href="javascript:__doPostBack('color','')">色・文字サイズ変更</a></li>
+			  </ul>
+			  <div class="dock_nav">
+				  <a href="#nav">メニュー</a>
+			  </div>
+		  </div>
+	</div>
+  <div id="body">
+    
+<ul class="breadcrumbs clearfix">
+    
+	<li><a href="javascript:__doPostBack('menu','')" class="tooltipstered">メニュー</a></li>
+    <li><a href="javascript:__doPostBack('history','WgR_ShisetsuKensaku')" class="tooltipstered">施設の検索</a></li>
+	<li class="current"><span>施設別空き状況</span></li>
+	<li>時間帯別空き状況</li>
+    
+	<li>詳細申請</li>
+	<li>申込確認</li>
+	<li>申込完了</li>
+</ul>
+
+<div class="content_head">
+	<h2>施設別空き状況</h2>
+    <p class="desc">申込をしたいところを選んで「次へ進む」ボタンを押してください。<span class="default">「○」、「△」と表示されている日は申込ができます。複数の日にちの申込ができます。</span><span class="mobile"><a href="#" class="explain tooltipstered">補足説明</a></span></p>
+</div>
+<div class="content_body">
+	<div class="joken clearfix">
+		<div class="default">
+			<dl class="startdate clearfix">
+				<dt><label for="dpStartDate">表示開始日</label></dt>
+				<dd><input type="text" name="textDate" value="2027/1/11" id="dpStartDate" class="hasDatepicker" placeholder="2015/2/13" style=""> から</dd>
+				<dd>
+					<ul class="toggle united">
+						<li><input type="radio" name="radioPeriod" value="1週間" id="radioPeriod1week" style=""><label for="radioPeriod1week" class="switch-off">1週間</label></li>
+						<li><input type="radio" name="radioPeriod" value="2週間" id="radioPeriod2weeks" style=""><label for="radioPeriod2weeks" class="switch-off">2週間</label></li>
+						<li><input type="radio" name="radioPeriod" value="1ヶ月" id="radioPeriod1month" checked="" style=""><label id="lblPeriod1month" for="radioPeriod1month" class="switch-off">1ヶ月</label></li>
+					</ul>
+				</dd>
+			</dl>
+        </div>
+		<div class="option" style="display: none;">
+			<dl class="type clearfix">
+				<dt>表示形式</dt>
+				<dd>
+					<ul class="toggle united">
+						<li><input type="radio" name="radioDisplay" value="false" id="radioDisplayHorizontal" checked="" style=""><label for="radioDisplayHorizontal" class="switch-off">横表示</label></li>
+						<li><input type="radio" name="radioDisplay" value="true" id="radioDisplayCalendar" style=""><label for="radioDisplayCalendar" class="switch-off">カレンダー表示</label></li>
+					</ul>
+				</dd>
+			</dl>
+			<dl class="slot clearfix">
+				<dt>表示時間帯</dt>
+				<dd>
+					<ul class="toggle united">
+						<li><input type="radio" name="radioJikan" value="am" id="radioJikan1" style=""><label for="radioJikan1" class="switch-off">午前</label></li>
+						<li><input type="radio" name="radioJikan" value="pm" id="radioJikan2" style=""><label for="radioJikan2" class="switch-off">午後</label></li>
+						<li><input type="radio" name="radioJikan" value="nt" id="radioJikan3" style=""><label for="radioJikan3" class="switch-off">夜間</label></li>
+						<li><input type="radio" name="radioJikan" value="all" id="radioJikan4" checked="" style=""><label for="radioJikan4" class="switch-off">全日</label></li>
+					</ul>
+				</dd>
+			</dl>
+			<dl class="dayoftheweek clearfix">
+				<dt>表示曜日</dt>
+				<dd>
+					<ul class="toggle united">
+						<li><input type="checkbox" name="checkYobi" value="mon" id="checkYobi1" style=""><label for="checkYobi1" class="switch-off">月</label></li>
+						<li><input type="checkbox" name="checkYobi" value="tue" id="checkYobi2" style=""><label for="checkYobi2" class="switch-off">火</label></li>
+						<li><input type="checkbox" name="checkYobi" value="wed" id="checkYobi3" style=""><label for="checkYobi3" class="switch-off">水</label></li>
+						<li><input type="checkbox" name="checkYobi" value="thu" id="checkYobi4" style=""><label for="checkYobi4" class="switch-off">木</label></li>
+						<li><input type="checkbox" name="checkYobi" value="fri" id="checkYobi5" style=""><label for="checkYobi5" class="switch-off">金</label></li>
+						<li><input type="checkbox" name="checkYobi" value="sat" id="checkYobi6" style=""><label for="checkYobi6" class="switch-off">土</label></li>
+						<li><input type="checkbox" name="checkYobi" value="sun" id="checkYobi7" style=""><label for="checkYobi7" class="switch-off">日</label></li>
+						<li><input type="checkbox" name="checkYobi" value="hol" id="checkYobi8" style=""><label for="checkYobi8" class="switch-off">祝</label></li>
+					</ul>
+				</dd>
+			</dl>
+            <p class="explain">曜日の指定をする場合のみ選んでください。</p>
+		</div>
+        <ul>
+		    <li><input type="button" id="btnShowDetail" class="btnGray" value=" その他の条件で絞り込む" style=""></li>
+		    <li><input id="btnHyoji" type="button" onclick="__doPostBack('hyouji','');" class="btnSky large" value=" 表示" style=""></li>
+        </ul>
+	</div>
+
+	<div class="example clearfix">
+    	<h3>記号の見方</h3>
+		<ul>
+        
+            <li class="lot"><span>○</span>空き</li>
+       
+            <li><span>△</span>一部空き</li>
+            <li><span>×</span>空きなし</li>
+            <li><span>－</span>申込期間外</li>
+            <li><span>＊</span>公開対象外</li>
+		</ul>
+	</div>
+	<div class="item_body">
+    
+<div class="item clearfix">
+    <h3>
+            <a href="javascript:void(window.open('https://www.city.ichinomiya.aichi.jp/shisetsu/1008918/1044560/1009367.html'))">平島公園野球場</a><span class="info"></span>
+        
+    </h3>
+	<ul>
+        <li><a href="#shisetsu001_info" class="news btnSky"> お知らせ</a></li>
+        
+	</ul>
+    
+	<div class="notice">
+		<h4>注意事項</h4>
+		<p>・使用可能種目：硬式野球、軟式野球<br>・ナイター点灯：４月１日から１０月３１日<br><br><b>公共施設は多くの人々が利用する場であり、子ども連れの方々も利用されます。<br>他の利用者がいる場合には、お互いに迷惑にならないよう配慮することが重要です。<br>「お互いさま」の気持ちをもって、みんなが気持ちよく利用できるようにしてください。</b><br><br><font color="red"><strong>【ナイター点灯の申込み】<br>当日の申込みはできません。</strong></font><br>インターネットによる申込みは、使用日の１０日前までです。<br>それ以降は、使用日の前日までに窓口へ申込みと支払いを同時にお手続きしてください。<br><br>当球場では、太鼓類の使用はご遠慮いただいております。<br>お車でお越しの場合は、できるだけ乗り合わせでお願いします。</p>
+	</div>
+    <div class="scroll-info"><p>続きがある場合は、スライドして選択できます。</p></div>
+	<div class="scroll-div clearfix">
+		<table class="calendar horizon toggle" _fixedhead="cols:2;rows:0;">
+			<thead>
+            
+				<tr>
+					<th class="shisetsu">
+						<ul class="pagination">
+							<li class="prev"><a href="javascript:__doPostBack('period','prev')" class="btn tooltipstered"><i class="fa fa-chevron-left"></i></a></li>
+							<li class="month">2027年1月</li>
+							<li class="next"><a href="javascript:__doPostBack('period','next')" class="btn tooltipstered"><i class="fa fa-chevron-right"></i></a></li>
+						</ul>
+					</th>
+					<th class="teiin">定員</th>
+                    
+					<th class="day sun">
+						<span>11</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day ">
+						<span>12</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>13</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>14</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>15</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>16</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>17</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>18</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day ">
+						<span>19</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>20</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>21</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>22</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>23</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>24</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>25</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day ">
+						<span>26</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>27</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>28</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>29</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>30</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>31</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>1</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day ">
+						<span>2</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>3</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>4</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>5</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>6</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>7</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>8</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day ">
+						<span>9</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>10</span><span class="week">水</span>
+					</th>
+                    
+				</tr>
+        
+			</thead>
+			<tbody>
+        
+                <tr class="even">
+					<td class="shisetsu">
+                    野球場
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate0" value="2027011100101   0" style=""><label for="checkdate0" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate1" value="2027011200101   0" style=""><label for="checkdate1" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate2" value="2027011300101   0" style=""><label for="checkdate2" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate3" value="2027011400101   0" style=""><label for="checkdate3" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate4" value="2027011500101   0" style=""><label for="checkdate4" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate5" value="2027011600101   0" style=""><label for="checkdate5" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate6" value="2027011700101   0" style=""><label for="checkdate6" class="switch-off">×</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate7" value="2027011800101   0" style=""><label for="checkdate7" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate8" value="2027011900101   0" style=""><label for="checkdate8" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate9" value="2027012000101   0" style=""><label for="checkdate9" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate10" value="2027012100101   0" style=""><label for="checkdate10" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate11" value="2027012200101   0" style=""><label for="checkdate11" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate12" value="2027012300101   0" style=""><label for="checkdate12" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate13" value="2027012400101   0" style=""><label for="checkdate13" class="switch-off">×</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate14" value="2027012500101   0" style=""><label for="checkdate14" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate15" value="2027012600101   0" style=""><label for="checkdate15" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate16" value="2027012700101   0" style=""><label for="checkdate16" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate17" value="2027012800101   0" style=""><label for="checkdate17" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate18" value="2027012900101   0" style=""><label for="checkdate18" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate19" value="2027013000101   0" style=""><label for="checkdate19" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate20" value="2027013100101   0" style=""><label for="checkdate20" class="switch-off">×</label></td>
+                    <td class="closed"><label>－</label></td>
+                    <td class="closed"><label>－</label></td>
+                    <td class="closed"><label>－</label></td>
+                    <td class="closed"><label>－</label></td>
+                    <td class="closed"><label>－</label></td>
+                    <td class="closed"><label>－</label></td>
+                    <td class="closed"><label>－</label></td>
+                    <td class="closed"><label>－</label></td>
+                    <td class="closed"><label>－</label></td>
+                    <td class="closed"><label>－</label></td>
+                    
+					</tr>
+                
+			</tbody>
+		</table>
+	</div>
+    
+<div class="scroll-div clearfix fixed_header_display_none_at_print" style="overflow: hidden; margin-right: 0px; border-right-width: 0px; padding-right: 0px; border-bottom-width: 0px; width: 302px; height: 104px; min-width: 1px; min-height: 1px; position: absolute; top: 437.547px; left: 13.3281px; background-color: rgb(255, 255, 255); visibility: hidden;"><table class="calendar horizon toggle" _fixedhead="cols:2;rows:0;" style="margin-right: 0px; border-right-width: 0px; padding-right: 0px; min-width: 1px; min-height: 1px; height: 103.906px;"><thead><tr style="height: 56.4062px; border-right-width: 0px;"><th class="shisetsu" style="width: 0px;">
+						<ul class="pagination">
+							<li class="prev"><a href="javascript:__doPostBack('period','prev')" class="btn tooltipstered"><i class="fa fa-chevron-left"></i></a></li>
+							<li class="month">2027年1月</li>
+							<li class="next"><a href="javascript:__doPostBack('period','next')" class="btn tooltipstered"><i class="fa fa-chevron-right"></i></a></li>
+						</ul>
+					</th><th class="teiin" style="width: 0px;">定員</th></tr></thead><tbody><tr class="even" style="height: 45.5px; border-right-width: 0px;"><td class="shisetsu">
+                    野球場
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr></tbody></table></div></div>
+
+	</div>
+
+</div>
+<input type="hidden" name="staydate" id="staydate" value="" style="">
+<input type="hidden" name="hyoujiOpenCloseFlg" id="hyoujiOpenCloseFlg" value="close" style="">
+
+  </div>
+  
+    <div class="navbar">
+	    <ul>
+		    <li class="next"><a href="javascript:__doPostBack('next','')" class="btnBlue">次へ進む</a></li>
+            <li class="prev"><a href="javascript:__doPostBack('back','')" class="btnBlue">前に戻る</a></li>
+		    <li class="menu"><a href="javascript:__doPostBack('menu','')" class="btnBlue">メニュー</a></li>
+	    </ul>
+    </div>
+
+</div>
+
+
+
+<!-- 宿泊日数の指定 -->
+
+<!-- 施設からのお知らせ -->
+
+    
+    
+
+<!-- メッセージダイアログ -->
+
+
+<script type="text/javascript">
+    
+    function showMessageDialog(style,title,message) {
+        showMessageDialog(style,title,message,"msgconfirm",null);
+    }
+    function showMessageDialog(style,title,message,confirmCmd,confirmArg) {
+        $("#messageDlg").removeClass().addClass('remodal ' + style);
+        $("#messageDlg h2").text(title);
+        $("#messageDlg div p").html(message);
+        $("#messageDlg ul").remove();
+        if (style=="notice") {
+            $("#messageDlg div").after(
+                "<ul class=\"clearfix\">" +
+                    "<li><input type=\"button\" class=\"btnSky remodal-confirm\" value=\"はい\" onclick=\"__doPostBack('"+confirmCmd+"','"+confirmArg+"');\"></li>" +
+                    "<li><input type=\"button\" class=\"btnSky remodal-cancel\" value=\"いいえ\" onclick=\"location.href='#';\"></li>" +
+                "</ul>");
+            beforeSubmit('', '#messageDlg .remodal-confirm');
+        }
+        location.href='#messageDlg';
+    };
+</script>
+
+
+</form>
+
+
+<a class="blank tooltipstered"></a><div class="remodal-overlay"><div class="remodal info" data-remodal-id="SesseionTimeoutWarn" style="visibility: visible;">
+	<h2>メッセージ</h2>
+	<div><p>セッションタイムアウトまであと1分です。</p></div>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal nav" data-remodal-id="nav" style="visibility: visible;">
+	<h2>メニュー</h2>
+    
+	<ul>
+        <li class="message"><a href="javascript:__doPostBack('message','')">メッセージ</a></li><li class="tebiki"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/_res/projects/default_project/_page_/001/005/266/manual.pdf','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=900,height=800'); return false;">ご利用の手引き</a></li><li class="faq"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/katsuryokusouzou/sports/1000193/1061111/1000089/1005599.html','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes'); return false;">FAQ / よくあるご質問</a></li>
+	</ul>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal stay" id="stay" data-remodal-id="stay" data-remodal-options="closeOnConfirm:false, closeOnCancel:false, closeOnAnyClick:false" style="visibility: visible;">
+    <h2>宿泊日数の指定</h2>
+    <p>宿泊日数を入力してください。</p>
+    <div><span class="ui-spinner ui-widget ui-widget-content ui-corner-all"><input type="text" class="spinner ui-spinner-input" id="spinnerStayDays" name="spinnerStayDays" maxlength="2" value="0" aria-valuemin="1" aria-valuemax="99" aria-valuenow="0" autocomplete="off" role="spinbutton" style=""><a class="ui-spinner-button ui-spinner-up ui-corner-tr ui-button ui-widget ui-state-default ui-button-text-only" tabindex="-1" role="button"><span class="ui-button-text"><span class="ui-icon ui-icon-triangle-1-n">▲</span></span></a><a class="ui-spinner-button ui-spinner-down ui-corner-br ui-button ui-widget ui-state-default ui-button-text-only" tabindex="-1" role="button"><span class="ui-button-text"><span class="ui-icon ui-icon-triangle-1-s">▼</span></span></a></span><span class="unit">泊</span></div>
+    <ul id="stay-remodal-foot" class="remodal-foot">
+	    <li class="confirm"><a href="#" id="btnConfirm" class="remodal-confirm">確定</a></li>
+	    <li class="cancel"><a href="#" class="remodal-cancel">キャンセル</a></li>
+    </ul>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal info" data-remodal-id="shisetsu001_info" style="visibility: visible;">
+       <h2>平島公園野球場<span>からのお知らせ</span></h2>
+       <div class="item_wrap">
+       
+          <div class="item">
+            <dl><dt>内容</dt><dd>平島公園野球場の料金改定について<br><br>2026年10月利用分から、利用料金が改定されました。<br>詳しくは<a href="https://www.city.ichinomiya.aichi.jp/shisetsu/1008918/1044560/1009367.html" target="_blank">こちら</a>をご確認ください。</dd></dl>
+            <dl><dt>日付</dt><dd>2026年10月1日</dd></dl>
+          </div>
+       
+       </div>
+    <a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal" id="messageDlg" data-remodal-id="messageDlg" style="visibility: visible;">
+    <h2></h2>
+    <div class="clearfix"><p></p>
+         このダイアログは右上の×で閉じることができます。<br>
+        （ブラウザの戻るボタンは使用しないでください。）
+    </div>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div><div class="tooltipster-base blank tooltipster-fade tooltipster-fade-show" style="transition-duration: 350ms; animation-duration: 350ms; top: 1071px; left: 0px;"><div class="tooltipster-content"></div><div class="tooltipster-arrow-top tooltipster-arrow" style="left:-10px;"><span style="border-color:rgba(0, 0, 0, 0);"></span></div></div></body><style type="text/css" media="print">.fixed_header_display_none_at_print { display: none; visibility: hidden; }</style></html>

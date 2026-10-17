@@ -1,0 +1,8 @@
+01	https://www.e-shisetsu.e-aichi.jp/web_info.html	https://www.e-shisetsu.e-aichi.jp/web_info.html
+02	多機能版	https://www.e-shisetsu.e-aichi.jp/user/
+03	施設名から	https://www.e-shisetsu.e-aichi.jp/user/rsvUCommunityPortalAction.do
+04	半田市	https://www.e-shisetsu.e-aichi.jp/user/rsvUTransNameSearchAction.do
+05	fill	https://www.e-shisetsu.e-aichi.jp/user/rsvUTransNameSearchAction.do
+06	上記の内容で検索する	https://www.e-shisetsu.e-aichi.jp/user/rsvUNameSearchAction.do
+07	球場	https://www.e-shisetsu.e-aichi.jp/user/rsvUInstSrchVacantAction.do
+08	2026-10-18	https://www.e-shisetsu.e-aichi.jp/user/rsvUInstSrchVacantAction.do

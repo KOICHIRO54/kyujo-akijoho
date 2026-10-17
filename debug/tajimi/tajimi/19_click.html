@@ -1,0 +1,1208 @@
+<!DOCTYPE html><html lang="ja" style=""><!--<![endif]--><head id="ctl00_Head1"><meta charset="utf-8"><title>
+	公共施設予約システム
+</title><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Expires" content="-1"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="/tajimi/WebR/Content/css/font-awesome.min.css?LastUpdDate=20180817" rel="stylesheet" type="text/css">
+    <link href="/tajimi/WebR/Content/css/jquery-ui-1.11.2.min.css?LastUpdDate=20180817" rel="stylesheet" type="text/css">
+    <link href="/tajimi/WebR/Content/css/default.css?LastUpdDate=20180817" rel="stylesheet" type="text/css">
+    <link href="/tajimi/WebR/Content/css/default_print.css?LastUpdDate=20180817" media="print" rel="stylesheet" type="text/css">
+    <link href="/tajimi/WebR/Content/css/tooltipster.css?LastUpdDate=20180817" rel="stylesheet" type="text/css">
+    <link href="/tajimi/WebR/Content/css/jquery.remodal.css?LastUpdDate=20180817" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/tajimi/WebR/Scripts/jquery-1.11.1.min.js?LastUpdDate=20180817"></script>
+    <script type="text/javascript" src="/tajimi/WebR/Scripts/jquery-ui-1.11.2.min.js?LastUpdDate=20180817"></script>
+    <script type="text/javascript" src="/tajimi/WebR/Scripts/common.js?LastUpdDate=20180817"></script>
+    <script type="text/javascript" src="/tajimi/WebR/Scripts/jquery.tooltipster.min.js?LastUpdDate=20180817"></script>
+    <script type="text/javascript" src="/tajimi/WebR/Scripts/jquery.remodal.js?LastUpdDate=20180817"></script>
+    <script type="text/javascript" src="/tajimi/WebR/Scripts/jquery.inputfocus.js?LastUpdDate=20180817"></script>
+	<!--[if lt IE 9]> 
+	<script src="/tajimi/WebR/Scripts/html5.js?LastUpdDate=20180817"></script>
+	<script src="/tajimi/WebR/Scripts/IE9.js?LastUpdDate=20180817"></script>
+	<script src="/tajimi/WebR/Scripts/css3-mediaqueries.js?LastUpdDate=20180817"></script> 
+	<![endif]-->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            unload_flg = 0;
+            
+            // 文字サイズ変更時のみスケール調整
+            
+        });
+	    $(document).on('close', '[data-remodal-id=logoutInfo]', function () {
+		    dialog_flg = 0;
+	    });
+	    $(document).on('close', '[data-remodal-id=loginInfo]', function () {
+		    dialog_flg = 0;
+	    });
+        $.ajaxSetup({
+            error: function (xhr, status, error) {
+                    var errorpage = 'https://www2.pf489.com/tajimi/WebR/Error/html/GenericError.html';
+                    if (errorpage) {
+                        dialog_flg = 1; // アンロードのメッセージを表示させない
+                        window.location.href = errorpage;
+                    }
+                }
+        });
+    </script>
+
+</head><body style="overflow-x: hidden;">
+  
+<link href="/tajimi/WebR/Content/css/WgR_ShisetsubetsuAkiJoukyou.css?LastUpdDate=20180817" rel="stylesheet" type="text/css">
+<link href="/tajimi/WebR/Content/css/datepicker.css?LastUpdDate=20180817" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/tajimi/WebR/Scripts/jquery.ui.datepicker-ja.js?LastUpdDate=20180817"></script>
+<script type="text/javascript" src="/tajimi/WebR/Scripts/fixed_midashi.js?LastUpdDate=20180817"></script>
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script type="text/javascript" src="/tajimi/WebR/Scripts/dragCell.js?LastUpdDate=20180817"></script>
+<!--<![endif]-->
+<!--[if lt IE 9]><!-->
+<script type="text/javascript" src="/tajimi/WebR/Scripts/checkCell.js?LastUpdDate=20180817"></script>
+<!--<![endif]-->
+
+<script type="text/javascript">
+    var maxCnt = 20;
+    var checkCnt = 0;
+    $(document).ready(function () {
+        checkCnt = $(':checkbox[name="checkdate"]:checked').length;
+        $('.desc a').tooltipster({theme:'tooltip-light',position:'bottom',trigger:'click',hideOnClick:true});
+        $('.breadcrumbs a').tooltipster({ position: 'bottom' });
+        $('#dpStartDate').datepicker().trigger('datepicker');
+        $('#radioDisplayCalendar').change(function () {
+            if(this.checked){
+                $('#radioPeriod1month').prop({'checked':'checked'});
+                $('#lblPeriod1month').removeClass('switch-off').addClass('switch-on');
+                $("input:radio[name='radioPeriod']").prop({'disabled':'disabled'});
+                $("input:radio[name='radioPeriod']").addClass('disabled')
+
+                $("input:checkbox[name='checkYobi']").prop({'checked':false});
+                $("input:checkbox[name='checkYobi']").prop({'disabled':'disabled'});
+                $("input:checkbox[name='checkYobi']").addClass('disabled')
+            }
+        });
+        $('#radioDisplayHorizontal').change(function () {
+            if(this.checked){
+                $("input:radio[name='radioPeriod']").prop({'disabled':false});
+                $("input:radio[name='radioPeriod']").removeClass('disabled')
+
+                $("input:checkbox[name='checkYobi']").prop({'disabled':false});
+                $("input:checkbox[name='checkYobi']").removeClass('disabled')
+            }
+        });
+        
+        $('#radioDisplayHorizontal').trigger('change');
+        $('th.shisetsu a').tooltipster();
+        
+        var hyoujiOpenCloseFlg = "close";
+        if (hyoujiOpenCloseFlg == "close") {
+            $(".joken .option").hide();
+            $("#btnShowDetail").prop('value',String.fromCharCode("0xf067") + ' その他の条件で絞り込む');
+        }else{
+            $("#btnShowDetail").prop('value',String.fromCharCode("0xf068") + ' その他の条件で絞り込む');
+        }
+        $("#btnShowDetail").click(function () {
+            $(".joken .option").slideToggle();
+            if (hyoujiOpenCloseFlg == "close") {
+                hyoujiOpenCloseFlg = "open";
+                $("#btnShowDetail").prop('value',String.fromCharCode("0xf068") + ' その他の条件で絞り込む');
+            } else {
+                hyoujiOpenCloseFlg = "close";
+                $("#btnShowDetail").prop('value',String.fromCharCode("0xf067") + ' その他の条件で絞り込む');
+            }
+            setHyoujiOpenCloseFlg(hyoujiOpenCloseFlg);
+        });
+        $("#spinnerStayDays").spinner({
+            min: 1,
+            max: 99
+        });
+        // テーブルのドラッグ選択を設定（モバイル、IE8以下は対象外）
+		var ua = window.navigator.userAgent.toLowerCase();
+		var av = window.navigator.appVersion.toLowerCase();
+		if (ua.indexOf('iphone') < 0 && (ua.indexOf('android') < 0) && (ua.indexOf('mobile') < 0) && ua.indexOf('windows phone') < 0) {
+			// IE判定
+			var isIE = false;
+			if( ua.match(/(msie|MSIE)/) || ua.match(/(T|t)rident/) ) {
+				var ieVer = ua.match(/((msie|MSIE)\s|rv:)([\d\.]+)/)[3];
+				isIE = true;
+				ieVer = parseInt(ieVer);
+			}
+			if((isIE && ieVer > 8) || !isIE){
+				$("table.calendar.toggle").on("mousedown", function(event){mouseDown(this, event);return false;});
+				$("table.calendar.toggle").on("mouseup", function(event){mouseUp(this, event);return false;});
+				$("table.calendar.toggle").on("mousemove", function(event){ mouseMove(this, event);return false;});
+			}
+		}
+        $("table.calendar.toggle td input").on("click", function(){ checkCell(this);});
+        
+        FixedMidashi.create();
+        // アンロード時のダイアログ対象外、二重送信
+		beforeSubmit("ul.pagination li a","#btnHyoji,#btnConfirm");
+		// トグルボタンフォーカス時のアウトライン調整
+		$(".toggle li > input").on("focus", function(){
+			if(this.parentNode.tagName == "LI"){
+				var childElem = this.parentNode.childNodes;
+				if(childElem[0].tagName=="INPUT" && childElem[1].tagName=="LABEL"){
+					$(childElem[0]).css("width", childElem[1].offsetWidth-1);
+					$(childElem[0]).css("height", childElem[1].offsetHeight-2);
+				}
+			}
+		});
+    });
+    $(document).on('confirm', '.stay', function () {
+        checkStayDays('stay', $("#staydate").val(), $(':text[name="spinnerStayDays"]').val());
+        removeWaitOnClose('[data-remodal-id=stay]','#btnConfirm');
+    });
+    $(document).on('cancel', '.stay', function () {
+        checkStayDays('staycancel','','');
+    });
+    function setStaydate(value) { $("#staydate").val(value); };
+    function setHyoujiOpenCloseFlg(value) { $("#hyoujiOpenCloseFlg").val(value); };
+    function showMessageOverMaxCnt() {
+        showMessageDialog('info','メッセージ','選択できる件数は最大20件です。',"msgconfirm",null);
+    }
+    function checkStayDays(command, staydate, staydays) {
+        $.ajax({
+            type: "GET",
+            url: "WgR_ShisetsubetsuAkiJoukyou_Ajax",
+            cache: false,
+            datatype: "json",
+            data: {
+                "command": command,
+                "checkdate": $('input:checkbox[name="checkdate"]:checked').map(function(){return $(this).val();}).get().join(','),
+                "staydate": staydate,
+                "staydays": staydays
+            },
+            success: function (j_data) {
+                if(j_data.StatusCode == void 0) {
+                    $('.item_body').html(j_data);
+
+                    setStaydate('');
+                    $(':text[name="spinnerStayDays"]').val('0');
+
+                    $(':text[name="spinnerStayDays"]').removeClass('error');
+                    $('#stay').removeClass('error');
+                    $("#stay-notice").remove();
+
+                    $.remodal.lookup[$('[data-remodal-id=stay]').data('remodal')].close();
+                } else {
+                    $(':text[name="spinnerStayDays"]').removeClass('error').addClass('error');
+                    $('#stay').removeClass('error').addClass('error');
+                    $("#stay-notice").remove();
+                
+                    $('#stay-remodal-foot').before(j_data.ResponseView);
+
+		            $('#btnConfirm').removeClass('wait');
+		            $('#btnConfirm').attr('disabled', false);
+                    commonUnlockScreen();
+                }
+            }
+        });
+    }
+    // placeholder挿入
+    $(document).ready(function () {
+        $('#dpStartDate').attr('placeholder','2015/2/13');
+    });
+    
+</script>
+
+    <style type="text/css">
+        
+        
+        /**** 文字サイズ変更時のみスケール調整 ****/
+        
+    </style>
+    
+
+
+<form action="/tajimi/WebR/Yoyaku/WgR_ShisetsubetsuAkiJoukyou" id="form1" method="post" autocomplete="off"><input name="__RequestVerificationToken" type="hidden" value="+SrK74qnMPQcB36wIRnMXDr/CKB/4VgoCt/gM359jsjo8K3g1K8k6wkxJ8q17AIMzlBmBBDSq2s1Ixx6EjQPdWa40WVYVW4CE4kDRD2O1v9izwh6MSyGJJJFUyGRTBHMk5ywRA==">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<div id="wrap" class="remodal-bg">
+	<div id="wrap_head">
+        
+        <div id="head">
+        
+        <h1><span class="city">多治見市</span><span class="title">公共施設予約システム</span></h1>
+        
+       <div class="login">
+        <p><span>利用者IDをお持ちの方</span><a href="javascript:__doPostBack('login','')" class="btnBlue">ログイン</a></p>
+       </div>
+             
+			  <ul>
+                  <li class="message"><a href="javascript:__doPostBack('message','')">メッセージ</a></li><li class="tebiki"><a href="javascript:void(0)" onclick="window.open('https://www2.pf489.com/Tajimi/help/webr/index.asp','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=800,height=700'); return false;">ご利用の手引き</a></li><li class="style"><a href="javascript:__doPostBack('color','')">色・文字サイズ変更</a></li>
+			  </ul>
+			  <div class="dock_nav">
+				  <a href="#nav">メニュー</a>
+			  </div>
+		  </div>
+	</div>
+  <div id="body">
+    
+<ul class="breadcrumbs clearfix">
+    
+	<li><a href="javascript:__doPostBack('menu','')" class="tooltipstered">メニュー</a></li>
+    <li><a href="javascript:__doPostBack('history','WgR_ShisetsuKensaku')" class="tooltipstered">施設の検索</a></li>
+	<li class="current"><span>施設別空き状況</span></li>
+	<li>時間帯別空き状況</li>
+    
+	<li>詳細申請</li>
+	<li>申込確認</li>
+	<li>申込完了</li>
+</ul>
+
+<div class="content_head">
+	<h2>施設別空き状況</h2>
+    <p class="desc">申込をしたいところを選んで「次へ進む」ボタンを押してください。<span class="default">「○」、「△」と表示されている日は申込ができます。複数の日にちの申込ができます。</span><span class="mobile"><a href="#" class="explain tooltipstered">補足説明</a></span></p>
+</div>
+<div class="content_body">
+	<div class="joken clearfix">
+		<div class="default">
+			<dl class="startdate clearfix">
+				<dt><label for="dpStartDate">表示開始日</label></dt>
+				<dd><input type="text" name="textDate" value="2026/10/24" id="dpStartDate" class="hasDatepicker" placeholder="2015/2/13"> から</dd>
+				<dd>
+					<ul class="toggle united">
+						<li><input type="radio" name="radioPeriod" value="1週間" id="radioPeriod1week"><label for="radioPeriod1week" class="switch-off">1週間</label></li>
+						<li><input type="radio" name="radioPeriod" value="2週間" id="radioPeriod2weeks"><label for="radioPeriod2weeks" class="switch-off">2週間</label></li>
+						<li><input type="radio" name="radioPeriod" value="1か月" id="radioPeriod1month" checked=""><label id="lblPeriod1month" for="radioPeriod1month" class="switch-off">1か月</label></li>
+					</ul>
+				</dd>
+			</dl>
+        </div>
+		<div class="option" style="display: none;">
+			<dl class="type clearfix">
+				<dt>表示形式</dt>
+				<dd>
+					<ul class="toggle united">
+						<li><input type="radio" name="radioDisplay" value="false" id="radioDisplayHorizontal" checked=""><label for="radioDisplayHorizontal" class="switch-off">横表示</label></li>
+						<li><input type="radio" name="radioDisplay" value="true" id="radioDisplayCalendar"><label for="radioDisplayCalendar" class="switch-off">カレンダー表示</label></li>
+					</ul>
+				</dd>
+			</dl>
+			<dl class="slot clearfix">
+				<dt>表示時間帯</dt>
+				<dd>
+					<ul class="toggle united">
+						<li><input type="radio" name="radioJikan" value="am" id="radioJikan1"><label for="radioJikan1" class="switch-off">午前</label></li>
+						<li><input type="radio" name="radioJikan" value="pm" id="radioJikan2"><label for="radioJikan2" class="switch-off">午後</label></li>
+						<li><input type="radio" name="radioJikan" value="nt" id="radioJikan3"><label for="radioJikan3" class="switch-off">夜間</label></li>
+						<li><input type="radio" name="radioJikan" value="all" id="radioJikan4" checked=""><label for="radioJikan4" class="switch-off">全日</label></li>
+					</ul>
+				</dd>
+			</dl>
+			<dl class="dayoftheweek clearfix">
+				<dt>表示曜日</dt>
+				<dd>
+					<ul class="toggle united">
+						<li><input type="checkbox" name="checkYobi" value="mon" id="checkYobi1"><label for="checkYobi1" class="switch-off">月</label></li>
+						<li><input type="checkbox" name="checkYobi" value="tue" id="checkYobi2"><label for="checkYobi2" class="switch-off">火</label></li>
+						<li><input type="checkbox" name="checkYobi" value="wed" id="checkYobi3"><label for="checkYobi3" class="switch-off">水</label></li>
+						<li><input type="checkbox" name="checkYobi" value="thu" id="checkYobi4"><label for="checkYobi4" class="switch-off">木</label></li>
+						<li><input type="checkbox" name="checkYobi" value="fri" id="checkYobi5"><label for="checkYobi5" class="switch-off">金</label></li>
+						<li><input type="checkbox" name="checkYobi" value="sat" id="checkYobi6"><label for="checkYobi6" class="switch-off">土</label></li>
+						<li><input type="checkbox" name="checkYobi" value="sun" id="checkYobi7"><label for="checkYobi7" class="switch-off">日</label></li>
+						<li><input type="checkbox" name="checkYobi" value="hol" id="checkYobi8"><label for="checkYobi8" class="switch-off">祝</label></li>
+					</ul>
+				</dd>
+			</dl>
+            <p class="explain">曜日の指定をする場合のみ選んでください。</p>
+		</div>
+        <ul>
+		    <li><input type="button" id="btnShowDetail" class="btnGray" value=" その他の条件で絞り込む"></li>
+		    <li><input id="btnHyoji" type="button" onclick="__doPostBack('hyouji','');" class="btnSky large" value=" 表示"></li>
+        </ul>
+	</div>
+
+	<div class="example clearfix">
+    	<h3>記号の見方</h3>
+		<ul>
+        
+            <li class="lot"><span>○</span>空き</li>
+       
+            <li><span>△</span>一部空き</li>
+            <li><span>×</span>空きなし</li>
+            <li><span>－</span>申込期間外</li>
+            <li><span>＊</span>公開対象外</li>
+		</ul>
+	</div>
+	<div class="item_body">
+    
+<div class="item clearfix">
+    <h3>
+            <a href="javascript:void(window.open('https://information.konamisportsclub.jp/trust/tajimi/'))">野球場・運動広場</a><span class="info"></span>
+        
+    </h3>
+	<ul>
+        <li><a href="#shisetsu015_info" class="news btnSky"> お知らせ</a></li>
+        
+	</ul>
+    <div class="scroll-info"><p>続きがある場合は、スライドして選択できます。</p></div>
+	<div class="scroll-div clearfix">
+		<table class="calendar horizon toggle" _fixedhead="cols:2;rows:0;">
+			<thead>
+            
+				<tr>
+					<th class="shisetsu">
+						<ul class="pagination">
+							<li class="prev"><a href="javascript:__doPostBack('period','prev')" class="btn tooltipstered"><i class="fa fa-chevron-left"></i></a></li>
+							<li class="month">2026年10月</li>
+							<li class="next"><a href="javascript:__doPostBack('period','next')" class="btn tooltipstered"><i class="fa fa-chevron-right"></i></a></li>
+						</ul>
+					</th>
+					<th class="teiin">定員</th>
+                    
+					<th class="day sat">
+						<span>24</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>25</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>26</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day ">
+						<span>27</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>28</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>29</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>30</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>31</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>1</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>2</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>3</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>4</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>5</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>6</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>7</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>8</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>9</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day ">
+						<span>10</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>11</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>12</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>13</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>14</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>15</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>16</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day ">
+						<span>17</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>18</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>19</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>20</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>21</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>22</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>23</span><span class="week">月</span>
+					</th>
+                    
+				</tr>
+        
+			</thead>
+			<tbody>
+        
+                <tr class="even">
+					<td class="shisetsu">
+                    ＴＹＫ球場（市営球場）
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate0" value="2026102401501   0"><label for="checkdate0" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate1" value="2026102501501   0"><label for="checkdate1" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate2" value="2026102601501   0"><label for="checkdate2" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate3" value="2026102701501   0"><label for="checkdate3" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate4" value="2026102801501   0"><label for="checkdate4" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate5" value="2026102901501   0"><label for="checkdate5" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate6" value="2026103001501   0"><label for="checkdate6" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate7" value="2026103101501   0"><label for="checkdate7" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate8" value="2026110101501   0"><label for="checkdate8" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate9" value="2026110201501   0"><label for="checkdate9" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate10" value="2026110301501   0"><label for="checkdate10" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate11" value="2026110401501   0"><label for="checkdate11" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate12" value="2026110501501   0"><label for="checkdate12" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate13" value="2026110601501   0"><label for="checkdate13" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate14" value="2026110701501   0"><label for="checkdate14" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate15" value="2026110801501   0"><label for="checkdate15" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate16" value="2026110901501   0"><label for="checkdate16" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate17" value="2026111001501   0"><label for="checkdate17" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate18" value="2026111101501   0"><label for="checkdate18" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate19" value="2026111201501   0"><label for="checkdate19" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate20" value="2026111301501   0"><label for="checkdate20" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate21" value="2026111401501   0"><label for="checkdate21" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate22" value="2026111501501   0"><label for="checkdate22" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate23" value="2026111601501   0"><label for="checkdate23" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate24" value="2026111701501   0"><label for="checkdate24" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate25" value="2026111801501   0"><label for="checkdate25" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate26" value="2026111901501   0"><label for="checkdate26" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate27" value="2026112001501   0"><label for="checkdate27" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate28" value="2026112101501   0"><label for="checkdate28" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate29" value="2026112201501   0"><label for="checkdate29" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate30" value="2026112301501   0"><label for="checkdate30" class="switch-off">△</label></td>
+                    
+					</tr>
+                
+                <tr>
+					<td class="shisetsu">
+                    滝呂球場
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate31" value="2026102401502   0"><label for="checkdate31" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate32" value="2026102501502   0"><label for="checkdate32" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate33" value="2026102601502   0"><label for="checkdate33" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate34" value="2026102701502   0"><label for="checkdate34" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate35" value="2026102801502   0"><label for="checkdate35" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate36" value="2026102901502   0"><label for="checkdate36" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate37" value="2026103001502   0"><label for="checkdate37" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate38" value="2026103101502   0"><label for="checkdate38" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate39" value="2026110101502   0"><label for="checkdate39" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate40" value="2026110201502   0"><label for="checkdate40" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate41" value="2026110301502   0"><label for="checkdate41" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate42" value="2026110401502   0"><label for="checkdate42" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate43" value="2026110501502   0"><label for="checkdate43" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate44" value="2026110601502   0"><label for="checkdate44" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate45" value="2026110701502   0"><label for="checkdate45" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate46" value="2026110801502   0"><label for="checkdate46" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate47" value="2026110901502   0"><label for="checkdate47" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate48" value="2026111001502   0"><label for="checkdate48" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate49" value="2026111101502   0"><label for="checkdate49" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate50" value="2026111201502   0"><label for="checkdate50" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate51" value="2026111301502   0"><label for="checkdate51" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate52" value="2026111401502   0"><label for="checkdate52" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate53" value="2026111501502   0"><label for="checkdate53" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate54" value="2026111601502   0"><label for="checkdate54" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate55" value="2026111701502   0"><label for="checkdate55" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate56" value="2026111801502   0"><label for="checkdate56" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate57" value="2026111901502   0"><label for="checkdate57" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate58" value="2026112001502   0"><label for="checkdate58" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate59" value="2026112101502   0"><label for="checkdate59" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate60" value="2026112201502   0"><label for="checkdate60" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate61" value="2026112301502   0"><label for="checkdate61" class="switch-off">△</label></td>
+                    
+					</tr>
+                
+                <tr class="even">
+					<td class="shisetsu">
+                    ＴＹＫグラウンド（星ケ台）
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate62" value="2026102401503   0"><label for="checkdate62" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate63" value="2026102501503   0"><label for="checkdate63" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate64" value="2026102601503   0"><label for="checkdate64" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate65" value="2026102701503   0"><label for="checkdate65" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate66" value="2026102801503   0"><label for="checkdate66" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate67" value="2026102901503   0"><label for="checkdate67" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate68" value="2026103001503   0"><label for="checkdate68" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate69" value="2026103101503   0"><label for="checkdate69" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate70" value="2026110101503   0"><label for="checkdate70" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate71" value="2026110201503   0"><label for="checkdate71" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate72" value="2026110301503   0"><label for="checkdate72" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate73" value="2026110401503   0"><label for="checkdate73" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate74" value="2026110501503   0"><label for="checkdate74" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate75" value="2026110601503   0"><label for="checkdate75" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate76" value="2026110701503   0"><label for="checkdate76" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate77" value="2026110801503   0"><label for="checkdate77" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate78" value="2026110901503   0"><label for="checkdate78" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate79" value="2026111001503   0"><label for="checkdate79" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate80" value="2026111101503   0"><label for="checkdate80" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate81" value="2026111201503   0"><label for="checkdate81" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate82" value="2026111301503   0"><label for="checkdate82" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate83" value="2026111401503   0"><label for="checkdate83" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate84" value="2026111501503   0"><label for="checkdate84" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate85" value="2026111601503   0"><label for="checkdate85" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate86" value="2026111701503   0"><label for="checkdate86" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate87" value="2026111801503   0"><label for="checkdate87" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate88" value="2026111901503   0"><label for="checkdate88" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate89" value="2026112001503   0"><label for="checkdate89" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate90" value="2026112101503   0"><label for="checkdate90" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate91" value="2026112201503   0"><label for="checkdate91" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate92" value="2026112301503   0"><label for="checkdate92" class="switch-off">△</label></td>
+                    
+					</tr>
+                
+                <tr>
+					<td class="shisetsu">
+                    旭ケ丘運動広場Ａ
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate93" value="2026102401504   0"><label for="checkdate93" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate94" value="2026102501504   0"><label for="checkdate94" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate95" value="2026102601504   0"><label for="checkdate95" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate96" value="2026102701504   0"><label for="checkdate96" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate97" value="2026102801504   0"><label for="checkdate97" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate98" value="2026102901504   0"><label for="checkdate98" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate99" value="2026103001504   0"><label for="checkdate99" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate100" value="2026103101504   0"><label for="checkdate100" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate101" value="2026110101504   0"><label for="checkdate101" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate102" value="2026110201504   0"><label for="checkdate102" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate103" value="2026110301504   0"><label for="checkdate103" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate104" value="2026110401504   0"><label for="checkdate104" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate105" value="2026110501504   0"><label for="checkdate105" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate106" value="2026110601504   0"><label for="checkdate106" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate107" value="2026110701504   0"><label for="checkdate107" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate108" value="2026110801504   0"><label for="checkdate108" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate109" value="2026110901504   0"><label for="checkdate109" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate110" value="2026111001504   0"><label for="checkdate110" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate111" value="2026111101504   0"><label for="checkdate111" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate112" value="2026111201504   0"><label for="checkdate112" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate113" value="2026111301504   0"><label for="checkdate113" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate114" value="2026111401504   0"><label for="checkdate114" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate115" value="2026111501504   0"><label for="checkdate115" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate116" value="2026111601504   0"><label for="checkdate116" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate117" value="2026111701504   0"><label for="checkdate117" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate118" value="2026111801504   0"><label for="checkdate118" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate119" value="2026111901504   0"><label for="checkdate119" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate120" value="2026112001504   0"><label for="checkdate120" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate121" value="2026112101504   0"><label for="checkdate121" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate122" value="2026112201504   0"><label for="checkdate122" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate123" value="2026112301504   0"><label for="checkdate123" class="switch-off">△</label></td>
+                    
+					</tr>
+                
+                <tr class="even">
+					<td class="shisetsu">
+                    旭ケ丘運動広場Ｂ
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate124" value="2026102401505   0"><label for="checkdate124" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate125" value="2026102501505   0"><label for="checkdate125" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate126" value="2026102601505   0"><label for="checkdate126" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate127" value="2026102701505   0"><label for="checkdate127" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate128" value="2026102801505   0"><label for="checkdate128" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate129" value="2026102901505   0"><label for="checkdate129" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate130" value="2026103001505   0"><label for="checkdate130" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate131" value="2026103101505   0"><label for="checkdate131" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate132" value="2026110101505   0"><label for="checkdate132" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate133" value="2026110201505   0"><label for="checkdate133" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate134" value="2026110301505   0"><label for="checkdate134" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate135" value="2026110401505   0"><label for="checkdate135" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate136" value="2026110501505   0"><label for="checkdate136" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate137" value="2026110601505   0"><label for="checkdate137" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate138" value="2026110701505   0"><label for="checkdate138" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate139" value="2026110801505   0"><label for="checkdate139" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate140" value="2026110901505   0"><label for="checkdate140" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate141" value="2026111001505   0"><label for="checkdate141" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate142" value="2026111101505   0"><label for="checkdate142" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate143" value="2026111201505   0"><label for="checkdate143" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate144" value="2026111301505   0"><label for="checkdate144" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate145" value="2026111401505   0"><label for="checkdate145" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate146" value="2026111501505   0"><label for="checkdate146" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate147" value="2026111601505   0"><label for="checkdate147" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate148" value="2026111701505   0"><label for="checkdate148" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate149" value="2026111801505   0"><label for="checkdate149" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate150" value="2026111901505   0"><label for="checkdate150" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate151" value="2026112001505   0"><label for="checkdate151" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate152" value="2026112101505   0"><label for="checkdate152" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate153" value="2026112201505   0"><label for="checkdate153" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate154" value="2026112301505   0"><label for="checkdate154" class="switch-off">△</label></td>
+                    
+					</tr>
+                
+                <tr>
+					<td class="shisetsu">
+                    市之倉運動広場
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate155" value="2026102401506   0"><label for="checkdate155" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate156" value="2026102501506   0"><label for="checkdate156" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate157" value="2026102601506   0"><label for="checkdate157" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate158" value="2026102701506   0"><label for="checkdate158" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate159" value="2026102801506   0"><label for="checkdate159" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate160" value="2026102901506   0"><label for="checkdate160" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate161" value="2026103001506   0"><label for="checkdate161" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate162" value="2026103101506   0"><label for="checkdate162" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate163" value="2026110101506   0"><label for="checkdate163" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate164" value="2026110201506   0"><label for="checkdate164" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate165" value="2026110301506   0"><label for="checkdate165" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate166" value="2026110401506   0"><label for="checkdate166" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate167" value="2026110501506   0"><label for="checkdate167" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate168" value="2026110601506   0"><label for="checkdate168" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate169" value="2026110701506   0"><label for="checkdate169" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate170" value="2026110801506   0"><label for="checkdate170" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate171" value="2026110901506   0"><label for="checkdate171" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate172" value="2026111001506   0"><label for="checkdate172" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate173" value="2026111101506   0"><label for="checkdate173" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate174" value="2026111201506   0"><label for="checkdate174" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate175" value="2026111301506   0"><label for="checkdate175" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate176" value="2026111401506   0"><label for="checkdate176" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate177" value="2026111501506   0"><label for="checkdate177" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate178" value="2026111601506   0"><label for="checkdate178" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate179" value="2026111701506   0"><label for="checkdate179" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate180" value="2026111801506   0"><label for="checkdate180" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate181" value="2026111901506   0"><label for="checkdate181" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate182" value="2026112001506   0"><label for="checkdate182" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate183" value="2026112101506   0"><label for="checkdate183" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate184" value="2026112201506   0"><label for="checkdate184" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate185" value="2026112301506   0"><label for="checkdate185" class="switch-off">○</label></td>
+                    
+					</tr>
+                
+                <tr class="even last">
+					<td class="shisetsu">
+                    脇之島運動広場
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate186" value="2026102401507   0"><label for="checkdate186" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate187" value="2026102501507   0"><label for="checkdate187" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate188" value="2026102601507   0"><label for="checkdate188" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate189" value="2026102701507   0"><label for="checkdate189" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate190" value="2026102801507   0"><label for="checkdate190" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate191" value="2026102901507   0"><label for="checkdate191" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate192" value="2026103001507   0"><label for="checkdate192" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate193" value="2026103101507   0"><label for="checkdate193" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate194" value="2026110101507   0"><label for="checkdate194" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate195" value="2026110201507   0"><label for="checkdate195" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate196" value="2026110301507   0"><label for="checkdate196" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate197" value="2026110401507   0"><label for="checkdate197" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate198" value="2026110501507   0"><label for="checkdate198" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate199" value="2026110601507   0"><label for="checkdate199" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate200" value="2026110701507   0"><label for="checkdate200" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate201" value="2026110801507   0"><label for="checkdate201" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate202" value="2026110901507   0"><label for="checkdate202" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate203" value="2026111001507   0"><label for="checkdate203" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate204" value="2026111101507   0"><label for="checkdate204" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate205" value="2026111201507   0"><label for="checkdate205" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate206" value="2026111301507   0"><label for="checkdate206" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate207" value="2026111401507   0"><label for="checkdate207" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate208" value="2026111501507   0"><label for="checkdate208" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate209" value="2026111601507   0"><label for="checkdate209" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate210" value="2026111701507   0"><label for="checkdate210" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate211" value="2026111801507   0"><label for="checkdate211" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate212" value="2026111901507   0"><label for="checkdate212" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate213" value="2026112001507   0"><label for="checkdate213" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate214" value="2026112101507   0"><label for="checkdate214" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate215" value="2026112201507   0"><label for="checkdate215" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate216" value="2026112301507   0"><label for="checkdate216" class="switch-off">○</label></td>
+                    
+					</tr>
+                
+				<tr>
+					<th class="shisetsu">
+						<ul class="pagination">
+							<li class="prev"><a href="javascript:__doPostBack('period','prev')" class="btn tooltipstered"><i class="fa fa-chevron-left"></i></a></li>
+							<li class="month">2026年10月</li>
+							<li class="next"><a href="javascript:__doPostBack('period','next')" class="btn tooltipstered"><i class="fa fa-chevron-right"></i></a></li>
+						</ul>
+					</th>
+					<th class="teiin">定員</th>
+                    
+					<th class="day sat">
+						<span>24</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>25</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>26</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day ">
+						<span>27</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>28</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>29</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>30</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>31</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>1</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>2</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>3</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>4</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>5</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>6</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>7</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>8</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>9</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day ">
+						<span>10</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>11</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>12</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>13</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>14</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>15</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day ">
+						<span>16</span><span class="week">月</span>
+					</th>
+                    
+					<th class="day ">
+						<span>17</span><span class="week">火</span>
+					</th>
+                    
+					<th class="day ">
+						<span>18</span><span class="week">水</span>
+					</th>
+                    
+					<th class="day ">
+						<span>19</span><span class="week">木</span>
+					</th>
+                    
+					<th class="day ">
+						<span>20</span><span class="week">金</span>
+					</th>
+                    
+					<th class="day sat">
+						<span>21</span><span class="week">土</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>22</span><span class="week">日</span>
+					</th>
+                    
+					<th class="day sun">
+						<span>23</span><span class="week">月</span>
+					</th>
+                    
+				</tr>
+        
+                <tr>
+					<td class="shisetsu">
+                    北丘運動広場
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate217" value="2026102401508   0"><label for="checkdate217" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate218" value="2026102501508   0"><label for="checkdate218" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate219" value="2026102601508   0"><label for="checkdate219" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate220" value="2026102701508   0"><label for="checkdate220" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate221" value="2026102801508   0"><label for="checkdate221" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate222" value="2026102901508   0"><label for="checkdate222" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate223" value="2026103001508   0"><label for="checkdate223" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate224" value="2026103101508   0"><label for="checkdate224" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate225" value="2026110101508   0"><label for="checkdate225" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate226" value="2026110201508   0"><label for="checkdate226" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate227" value="2026110301508   0"><label for="checkdate227" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate228" value="2026110401508   0"><label for="checkdate228" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate229" value="2026110501508   0"><label for="checkdate229" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate230" value="2026110601508   0"><label for="checkdate230" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate231" value="2026110701508   0"><label for="checkdate231" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate232" value="2026110801508   0"><label for="checkdate232" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate233" value="2026110901508   0"><label for="checkdate233" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate234" value="2026111001508   0"><label for="checkdate234" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate235" value="2026111101508   0"><label for="checkdate235" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate236" value="2026111201508   0"><label for="checkdate236" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate237" value="2026111301508   0"><label for="checkdate237" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate238" value="2026111401508   0"><label for="checkdate238" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate239" value="2026111501508   0"><label for="checkdate239" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate240" value="2026111601508   0"><label for="checkdate240" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate241" value="2026111701508   0"><label for="checkdate241" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate242" value="2026111801508   0"><label for="checkdate242" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate243" value="2026111901508   0"><label for="checkdate243" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate244" value="2026112001508   0"><label for="checkdate244" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate245" value="2026112101508   0"><label for="checkdate245" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate246" value="2026112201508   0"><label for="checkdate246" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate247" value="2026112301508   0"><label for="checkdate247" class="switch-off">○</label></td>
+                    
+					</tr>
+                
+                <tr class="even">
+					<td class="shisetsu">
+                    笠原梅平運動広場Ａ
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate248" value="2026102401509   0"><label for="checkdate248" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate249" value="2026102501509   0"><label for="checkdate249" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate250" value="2026102601509   0"><label for="checkdate250" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate251" value="2026102701509   0"><label for="checkdate251" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate252" value="2026102801509   0"><label for="checkdate252" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate253" value="2026102901509   0"><label for="checkdate253" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate254" value="2026103001509   0"><label for="checkdate254" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate255" value="2026103101509   0"><label for="checkdate255" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate256" value="2026110101509   0"><label for="checkdate256" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate257" value="2026110201509   0"><label for="checkdate257" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate258" value="2026110301509   0"><label for="checkdate258" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate259" value="2026110401509   0"><label for="checkdate259" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate260" value="2026110501509   0"><label for="checkdate260" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate261" value="2026110601509   0"><label for="checkdate261" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate262" value="2026110701509   0"><label for="checkdate262" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate263" value="2026110801509   0"><label for="checkdate263" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate264" value="2026110901509   0"><label for="checkdate264" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate265" value="2026111001509   0"><label for="checkdate265" class="switch-off">×</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate266" value="2026111101509   0"><label for="checkdate266" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate267" value="2026111201509   0"><label for="checkdate267" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate268" value="2026111301509   0"><label for="checkdate268" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate269" value="2026111401509   0"><label for="checkdate269" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate270" value="2026111501509   0"><label for="checkdate270" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate271" value="2026111601509   0"><label for="checkdate271" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate272" value="2026111701509   0"><label for="checkdate272" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate273" value="2026111801509   0"><label for="checkdate273" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate274" value="2026111901509   0"><label for="checkdate274" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate275" value="2026112001509   0"><label for="checkdate275" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate276" value="2026112101509   0"><label for="checkdate276" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate277" value="2026112201509   0"><label for="checkdate277" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate278" value="2026112301509   0"><label for="checkdate278" class="switch-off">△</label></td>
+                    
+					</tr>
+                
+                <tr>
+					<td class="shisetsu">
+                    笠原梅平運動広場Ｂ
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate279" value="2026102401510   0"><label for="checkdate279" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate280" value="2026102501510   0"><label for="checkdate280" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate281" value="2026102601510   0"><label for="checkdate281" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate282" value="2026102701510   0"><label for="checkdate282" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate283" value="2026102801510   0"><label for="checkdate283" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate284" value="2026102901510   0"><label for="checkdate284" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate285" value="2026103001510   0"><label for="checkdate285" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate286" value="2026103101510   0"><label for="checkdate286" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate287" value="2026110101510   0"><label for="checkdate287" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate288" value="2026110201510   0"><label for="checkdate288" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate289" value="2026110301510   0"><label for="checkdate289" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate290" value="2026110401510   0"><label for="checkdate290" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate291" value="2026110501510   0"><label for="checkdate291" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate292" value="2026110601510   0"><label for="checkdate292" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate293" value="2026110701510   0"><label for="checkdate293" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate294" value="2026110801510   0"><label for="checkdate294" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate295" value="2026110901510   0"><label for="checkdate295" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate296" value="2026111001510   0"><label for="checkdate296" class="switch-off">×</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate297" value="2026111101510   0"><label for="checkdate297" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate298" value="2026111201510   0"><label for="checkdate298" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate299" value="2026111301510   0"><label for="checkdate299" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate300" value="2026111401510   0"><label for="checkdate300" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate301" value="2026111501510   0"><label for="checkdate301" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate302" value="2026111601510   0"><label for="checkdate302" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate303" value="2026111701510   0"><label for="checkdate303" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate304" value="2026111801510   0"><label for="checkdate304" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate305" value="2026111901510   0"><label for="checkdate305" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate306" value="2026112001510   0"><label for="checkdate306" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate307" value="2026112101510   0"><label for="checkdate307" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate308" value="2026112201510   0"><label for="checkdate308" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate309" value="2026112301510   0"><label for="checkdate309" class="switch-off">△</label></td>
+                    
+					</tr>
+                
+                <tr class="even">
+					<td class="shisetsu">
+                    笠原向島運動広場
+                    
+                    <span class="info"></span></td>
+					<td class="teiin">－</td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate310" value="2026102401511   0"><label for="checkdate310" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate311" value="2026102501511   0"><label for="checkdate311" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate312" value="2026102601511   0"><label for="checkdate312" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate313" value="2026102701511   0"><label for="checkdate313" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate314" value="2026102801511   0"><label for="checkdate314" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate315" value="2026102901511   0"><label for="checkdate315" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate316" value="2026103001511   0"><label for="checkdate316" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate317" value="2026103101511   0"><label for="checkdate317" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate318" value="2026110101511   0"><label for="checkdate318" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate319" value="2026110201511   0"><label for="checkdate319" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate320" value="2026110301511   0"><label for="checkdate320" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate321" value="2026110401511   0"><label for="checkdate321" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate322" value="2026110501511   0"><label for="checkdate322" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate323" value="2026110601511   0"><label for="checkdate323" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate324" value="2026110701511   0"><label for="checkdate324" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate325" value="2026110801511   0"><label for="checkdate325" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate326" value="2026110901511   0"><label for="checkdate326" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate327" value="2026111001511   0"><label for="checkdate327" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate328" value="2026111101511   0"><label for="checkdate328" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate329" value="2026111201511   0"><label for="checkdate329" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate330" value="2026111301511   0"><label for="checkdate330" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate331" value="2026111401511   0"><label for="checkdate331" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate332" value="2026111501511   0"><label for="checkdate332" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate333" value="2026111601511   0"><label for="checkdate333" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate334" value="2026111701511   0"><label for="checkdate334" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate335" value="2026111801511   0"><label for="checkdate335" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate336" value="2026111901511   0"><label for="checkdate336" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate337" value="2026112001511   0"><label for="checkdate337" class="switch-off">○</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate338" value="2026112101511   0"><label for="checkdate338" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate339" value="2026112201511   0"><label for="checkdate339" class="switch-off">△</label></td>
+                    <td><input type="checkbox" name="checkdate" id="checkdate340" value="2026112301511   0"><label for="checkdate340" class="switch-off">○</label></td>
+                    
+					</tr>
+                
+			</tbody>
+		</table>
+	</div>
+    
+<div class="scroll-div clearfix fixed_header_display_none_at_print" style="overflow: hidden; margin-right: 0px; border-right-width: 0px; padding-right: 0px; border-bottom-width: 0px; width: 302px; height: 610px; min-width: 1px; min-height: 1px; position: absolute; top: 89.5625px; left: 13.3281px; background-color: rgb(255, 255, 255); visibility: hidden;"><table class="calendar horizon toggle" _fixedhead="cols:2;rows:0;" style="margin-right: 0px; border-right-width: 0px; padding-right: 0px; min-width: 1px; min-height: 1px; height: 609.812px;"><thead><tr style="height: 56.4062px; border-right-width: 0px;"><th class="shisetsu" style="width: 0px;">
+						<ul class="pagination">
+							<li class="prev"><a href="javascript:__doPostBack('period','prev')" class="btn tooltipstered"><i class="fa fa-chevron-left"></i></a></li>
+							<li class="month">2026年10月</li>
+							<li class="next"><a href="javascript:__doPostBack('period','next')" class="btn tooltipstered"><i class="fa fa-chevron-right"></i></a></li>
+						</ul>
+					</th><th class="teiin" style="width: 0px;">定員</th></tr></thead><tbody><tr class="even" style="height: 45px; border-right-width: 0px;"><td class="shisetsu">
+                    ＴＹＫ球場（市営球場）
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr><tr style="height: 45px; border-right-width: 0px;"><td class="shisetsu">
+                    滝呂球場
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr><tr class="even" style="height: 45px; border-right-width: 0px;"><td class="shisetsu">
+                    ＴＹＫグラウンド（星ケ台）
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr><tr style="height: 45px; border-right-width: 0px;"><td class="shisetsu">
+                    旭ケ丘運動広場Ａ
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr><tr class="even" style="height: 45px; border-right-width: 0px;"><td class="shisetsu">
+                    旭ケ丘運動広場Ｂ
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr><tr style="height: 45px; border-right-width: 0px;"><td class="shisetsu">
+                    市之倉運動広場
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr><tr class="even last" style="height: 45px; border-right-width: 0px;"><td class="shisetsu">
+                    脇之島運動広場
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr><tr style="height: 55.9062px; border-right-width: 0px;"><th class="shisetsu">
+						<ul class="pagination">
+							<li class="prev"><a href="javascript:__doPostBack('period','prev')" class="btn tooltipstered"><i class="fa fa-chevron-left"></i></a></li>
+							<li class="month">2026年10月</li>
+							<li class="next"><a href="javascript:__doPostBack('period','next')" class="btn tooltipstered"><i class="fa fa-chevron-right"></i></a></li>
+						</ul>
+					</th><th class="teiin">定員</th></tr><tr style="height: 45px; border-right-width: 0px;"><td class="shisetsu">
+                    北丘運動広場
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr><tr class="even" style="height: 45px; border-right-width: 0px;"><td class="shisetsu">
+                    笠原梅平運動広場Ａ
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr><tr style="height: 45px; border-right-width: 0px;"><td class="shisetsu">
+                    笠原梅平運動広場Ｂ
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr><tr class="even" style="height: 45.5px; border-right-width: 0px;"><td class="shisetsu">
+                    笠原向島運動広場
+                    
+                    <span class="info"></span></td><td class="teiin">－</td></tr></tbody></table></div></div>
+
+	</div>
+
+</div>
+<input type="hidden" name="staydate" id="staydate" value="">
+<input type="hidden" name="hyoujiOpenCloseFlg" id="hyoujiOpenCloseFlg" value="close">
+
+  </div>
+  
+    <div class="navbar">
+	    <ul>
+		    <li class="next"><a href="javascript:__doPostBack('next','')" class="btnBlue">次へ進む</a></li>
+            <li class="prev"><a href="javascript:__doPostBack('back','')" class="btnBlue">前に戻る</a></li>
+		    <li class="menu"><a href="javascript:__doPostBack('menu','')" class="btnBlue">メニュー</a></li>
+	    </ul>
+    </div>
+
+</div>
+
+
+
+<!-- 宿泊日数の指定 -->
+
+<!-- 施設からのお知らせ -->
+
+    
+    
+
+<!-- メッセージダイアログ -->
+
+
+<script type="text/javascript">
+    
+    function showMessageDialog(style,title,message) {
+        showMessageDialog(style,title,message,"msgconfirm",null);
+    }
+    function showMessageDialog(style,title,message,confirmCmd,confirmArg) {
+        $("#messageDlg").removeClass().addClass('remodal ' + style);
+        $("#messageDlg h2").text(title);
+        $("#messageDlg div p").html(message);
+        $("#messageDlg ul").remove();
+        if (style=="notice") {
+            $("#messageDlg div").after(
+                "<ul class=\"clearfix\">" +
+                    "<li><input type=\"button\" class=\"btnSky remodal-confirm\" value=\"はい\" onclick=\"__doPostBack('"+confirmCmd+"','"+confirmArg+"');\"></li>" +
+                    "<li><input type=\"button\" class=\"btnSky remodal-cancel\" value=\"いいえ\" onclick=\"location.href='#';\"></li>" +
+                "</ul>");
+            beforeSubmit('', '#messageDlg .remodal-confirm');
+        }
+        location.href='#messageDlg';
+    };
+</script>
+
+
+</form>
+
+
+<a class="blank tooltipstered"></a><div class="remodal-overlay"><div class="remodal info" data-remodal-id="SesseionTimeoutWarn" style="visibility: visible;">
+	<h2>メッセージ</h2>
+	<div><p>セッションタイムアウトまであと0分です。</p></div>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal nav" data-remodal-id="nav" style="visibility: visible;">
+	<h2>メニュー</h2>
+    
+	<ul>
+        <li class="message"><a href="javascript:__doPostBack('message','')">メッセージ</a></li><li class="style"><a href="javascript:__doPostBack('color','')">色・文字サイズ変更</a></li><li class="tebiki"><a href="javascript:void(0)" onclick="window.open('https://www2.pf489.com/Tajimi/help/webr/index.asp','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=800,height=700'); return false;">ご利用の手引き</a></li>
+	</ul>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal stay" id="stay" data-remodal-id="stay" data-remodal-options="closeOnConfirm:false, closeOnCancel:false, closeOnAnyClick:false" style="visibility: visible;">
+    <h2>宿泊日数の指定</h2>
+    <p>宿泊日数を入力してください。</p>
+    <div><span class="ui-spinner ui-widget ui-widget-content ui-corner-all"><input type="text" class="spinner ui-spinner-input" id="spinnerStayDays" name="spinnerStayDays" maxlength="2" value="0" aria-valuemin="1" aria-valuemax="99" aria-valuenow="0" autocomplete="off" role="spinbutton"><a class="ui-spinner-button ui-spinner-up ui-corner-tr ui-button ui-widget ui-state-default ui-button-text-only" tabindex="-1" role="button"><span class="ui-button-text"><span class="ui-icon ui-icon-triangle-1-n">▲</span></span></a><a class="ui-spinner-button ui-spinner-down ui-corner-br ui-button ui-widget ui-state-default ui-button-text-only" tabindex="-1" role="button"><span class="ui-button-text"><span class="ui-icon ui-icon-triangle-1-s">▼</span></span></a></span><span class="unit">泊</span></div>
+    <ul id="stay-remodal-foot" class="remodal-foot">
+	    <li class="confirm"><a href="#" id="btnConfirm" class="remodal-confirm">確定</a></li>
+	    <li class="cancel"><a href="#" class="remodal-cancel">キャンセル</a></li>
+    </ul>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal info" data-remodal-id="shisetsu015_info" style="visibility: visible;">
+       <h2>野球場・運動広場<span>からのお知らせ</span></h2>
+       <div class="item_wrap">
+       
+          <div class="item">
+            
+            <dl><dt>内容</dt><dd>R8年12月～R9年3月まで滝呂球場・笠原向島運動広場について工事期間となるため、12月分の抽選・予約が出来ません。（工事期間の詳細が決定次第、順次開放してまいります。）</dd></dl>
+            <dl><dt>日付</dt><dd>2026年8月31日</dd></dl>
+          </div>
+       
+          <div class="item">
+            
+            <dl><dt>内容</dt><dd>滝呂球場周辺の住宅街では、安全のため、車を徐行してください。</dd></dl>
+            <dl><dt>日付</dt><dd>2023年9月6日</dd></dl>
+          </div>
+       
+          <div class="item">
+            
+            <dl><dt>内容</dt><dd>利用日前、５日を過ぎましたら自己都合でのキャンセルはできません。使用の有無、納入済・未納にかかわらず、料金をお支払いいただきます。お支払いされない場合は、予約システムの利用を停止することがありますのでご注意ください。</dd></dl>
+            <dl><dt>日付</dt><dd>2022年7月15日</dd></dl>
+          </div>
+       
+       </div>
+    <a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal" id="messageDlg" data-remodal-id="messageDlg" style="visibility: visible;">
+    <h2></h2>
+    <div class="clearfix"><p></p>
+         このダイアログは右上の×で閉じることができます。<br>
+        （ブラウザの戻るボタンは使用しないでください。）
+    </div>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div><div class="tooltipster-base blank tooltipster-fade tooltipster-fade-show" style="transition-duration: 350ms; animation-duration: 350ms; top: 1228px; left: 0px;"><div class="tooltipster-content"></div><div class="tooltipster-arrow-top tooltipster-arrow" style="left:-10px;"><span style="border-color:rgba(0, 0, 0, 0);"></span></div></div></body><style type="text/css" media="print">.fixed_header_display_none_at_print { display: none; visibility: hidden; }</style></html>
