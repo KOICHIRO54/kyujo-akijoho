@@ -1,0 +1,7 @@
+01	https://www4.pref.aichi.jp/yoyaku/index.jsp	https://www4.pref.aichi.jp/yoyaku/index.jsp
+02	施設名から	https://www4.pref.aichi.jp/yoyaku/rsvUTransNameSearchAction.do
+03	fill	https://www4.pref.aichi.jp/yoyaku/rsvUTransNameSearchAction.do
+04	上記の内容で検索する	https://www4.pref.aichi.jp/yoyaku/rsvUNameSearchAction.do
+05	一宮	https://www4.pref.aichi.jp/yoyaku/rsvUInstSrchVacantAction.do
+06	野球	https://www4.pref.aichi.jp/yoyaku/rsvUInstSrchVacantAction.do
+07	2026-10-25	https://www4.pref.aichi.jp/yoyaku/rsvUInstSrchVacantAction.do

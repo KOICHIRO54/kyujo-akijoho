@@ -1,0 +1,801 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=x-sjis">
+<link href="/sporec/spsheet.css" rel="stylesheet" type="text/css">
+<link href="/sporec/spgif.css" rel="stylesheet" type="text/css">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>名古屋市スポーツ・レクリエーション情報システム：施設ごとの空き照会・予約</title>
+<script type="text/javascript">
+<!--
+    /*初期設定*/
+    function Init(kbn){
+	switch(kbn){
+		/*初期画面*/
+		case 1:
+			document.user.area.focus();
+			break;
+		/*地域選択*/
+		case 2:
+			document.user.area.focus();
+			break;
+		/*カナ選択*/
+		case 3:
+			document.user.kana.focus();
+			break;
+		/*施設選択*/
+		case 4:
+			document.user.sisetu.focus();
+			break;
+		/*種目選択*/
+		case 5:
+			document.user.syumoku.focus();
+			break;
+		/*利用月選択*/
+		case 6:
+			document.user.month.focus();
+			break;
+		default:
+			alert(kbn);
+    	}
+    }	
+
+    function imgset(){
+	img0=new Image();
+	img0.src="/sporec/images/search0.gif";
+	img1=new Image();
+	img1.src="/sporec/images/search1.gif";
+	img2=new Image();
+	img2.src="/sporec/images/search2.gif";
+	img3=new Image();
+	img3.src = "/sporec/images/sp402.gif";
+	img4=new Image();
+	img4.src = "/sporec/images/sp403.gif";
+    }
+
+    /*ﾘｽﾄﾎﾞｯｸｽの値を変更*/
+    function ListChage(syorikbn){
+	document.user.syorikbn.value=syorikbn;
+	switch (syorikbn){
+		/*地域を選択した時*/
+		case "02":
+			if ((document.user.smselect.value=="3")||(document.user.smselect.value=="4")){
+				document.user.shselect.value="2";
+			}else{
+				document.user.shselect.value="1";
+				document.user.smselect.value="1";
+			}
+			document.dimg.src=img1.src;
+			search=1;
+			break;
+		/*カナを選択した時*/
+		case "03":
+			if ((document.user.smselect.value=="3")||(document.user.smselect.value=="4")){
+				document.user.shselect.value="2";
+			}else{
+				document.user.shselect.value="1";
+				document.user.smselect.value="1";
+			}
+			document.dimg.src=img1.src;
+			search=1;
+			break;
+		/*施設を選択した時*/
+		case "04":
+	                sindex = document.user.sisetu.selectedIndex
+	                str = document.user.sisetu.options[sindex].value;
+			if (str=="0000"){
+				return blnRTCD;
+			}
+			if ((document.user.smselect.value=="3")||(document.user.smselect.value=="4")){
+				return blnRTCD;
+				break;
+			}
+			if (document.user.shselect.value=="1"){
+				document.user.shselect.value="3";
+			}
+			if ((document.user.shselect.value=="2")&&((document.user.smselect.value=="1")||(document.user.smselect.value=="2"))){
+				document.user.shselect.value="4";
+			}
+			if (document.user.smselect.value=="1"){
+				document.user.smselect.value="2";
+			}
+			document.dimg.src=img2.src;
+			search=2;
+			break;
+		/*種目を選択した時*/
+		case "05":
+	                sindex = document.user.syumoku.selectedIndex
+	                str = document.user.syumoku.options[sindex].value;
+			if (str=="000"){
+				document.user.smselect.value="1";
+				return blnRTCD;
+			}
+			if ((document.user.shselect.value=="3")||(document.user.shselect.value=="4")){
+				return blnRTCD;
+				break;
+			}
+			switch (document.user.smselect.value){
+				case "1":
+					document.user.shselect.value="2";
+					document.user.smselect.value="3";
+					break;
+				case "2":
+					document.user.smselect.value="4";
+					break;
+			}
+			document.dimg.src=img1.src;
+			search=1;
+			break;
+	}
+	document.entry.sub0.value="1";
+	Set_submit();
+	Wait_search(search);
+	document.user1.submit();
+       	return blnRTCD;
+    }
+
+    var n=0;
+    var timeID=0;
+
+    function Set_submit(){
+	document.user1.syorikbn.value=document.user.syorikbn.value
+
+	for(i=0; i < document.user.area.length ;i++){
+		if(document.user.area.options[i].selected == true){
+        		document.user1.area.value = document.user.area.options[i].value
+		}
+	}
+	for(i=0; i < document.user.kana.length ;i++){
+		if(document.user.kana.options[i].selected == true){
+        		document.user1.kana.value = document.user.kana.options[i].value
+		}
+	}
+	document.user1.shselect.value=document.user.shselect.value
+	for(i=0; i < document.user.sisetu.length ;i++){
+		if(document.user.sisetu.options[i].selected == true){
+        		document.user1.sisetu.value = document.user.sisetu.options[i].value
+		}
+	}
+	document.user1.smselect.value=document.user.smselect.value
+	for(i=0; i < document.user.syumoku.length ;i++){
+		if(document.user.syumoku.options[i].selected == true){
+        		document.user1.syumoku.value = document.user.syumoku.options[i].value
+		}
+	}
+	for(i=0; i < document.user.month.length ;i++){
+		if(document.user.month.options[i].selected == true){
+        		document.user1.month.value = document.user.month.options[i].value
+		}
+	}
+	for(i=0; i < document.user.day.length ;i++){
+		if(document.user.day.options[i].selected == true){
+        		document.user1.day.value = document.user.day.options[i].value
+		}
+	}
+	for(i=0; i < document.user.time.length ;i++){
+		if(document.user.time.options[i].selected == true){
+        		document.user1.time.value = document.user.time.options[i].value
+		}
+	}
+    }
+
+    function Wait_search(search){
+	switch (search){
+		case 1:
+ 			document.user.sisetu.options.length=1;
+		        for(i=0;i < document.user.sisetu.length ;i++){
+       				if(i == 0){
+         				document.user.sisetu.options[0].text="利用可能な施設を検索中";
+         				document.user.sisetu.options[0].selected=true;
+         			}else{
+         				document.user.sisetu.options[i].text="";
+         			}
+      			}
+			Blink1();
+			break;
+		case 2:
+ 			document.user.syumoku.options.length=1;
+		        for(i=0;i < document.user.syumoku.length ;i++){
+       				if(i == 0){
+         				document.user.syumoku.options[0].text="利用可能な種目を検索中";
+         				document.user.syumoku.options[0].selected=true;
+         			}else{
+         				document.user.syumoku.options[i].text="";
+         			}
+      			}
+			Blink2();
+			break;
+	}
+    }
+
+    function Blink1(){
+	clearTimeout(timeID);
+	timeID=setTimeout("Blink1()",500);
+	if (n==0){
+		document.dimg.src=img0.src;
+	}else{
+		document.dimg.src=img1.src;
+	}
+	n++;
+	if(n==2){
+		n=0;
+	}
+    }
+
+    function Blink2(){
+	clearTimeout(timeID);
+	timeID=setTimeout("Blink2()",500);
+	if (n==0){
+		document.dimg.src=img0.src;
+	}else{
+		document.dimg.src=img2.src;
+	}
+	n++;
+	if(n==2){
+		n=0;
+	}
+    }
+
+    function Blink3(){
+	clearTimeout(timeID);
+	timeID=setTimeout("Blink3()",500);
+	if (n==0){
+		document.dimg.src=img0.src;
+	}else{
+		document.dimg.src=img3.src;
+	}
+	n++;
+	if(n==2){
+		n=0;
+	}
+    }
+    function Blink4(){
+	clearTimeout(timeID);
+	timeID=setTimeout("Blink4()",500);
+	if (n==0){
+		document.dimg.src=img0.src;
+	}else{
+		document.dimg.src=img4.src;
+	}
+	n++;
+	if(n==2){
+		n=0;
+	}
+    }
+
+    /*カレンダーを見るボタンを押した時*/
+    function calender1(){
+	if(document.entry.sub0.value==0){
+			sindex = document.user.area.selectedIndex
+			document.calender1.area.value=document.user.area.options[sindex].value;
+			sindex = document.user.kana.selectedIndex
+			document.calender1.kana.value=document.user.kana.options[sindex].value;
+			sindex = document.user.sisetu.selectedIndex
+			document.calender1.sisetu.value=document.user.sisetu.options[sindex].value;
+			sindex = document.user.syumoku.selectedIndex
+			document.calender1.syumoku.value=document.user.syumoku.options[sindex].value;
+			sindex = document.user.time.selectedIndex
+			document.calender1.time.value=document.user.time.options[sindex].value;
+
+			document.calender1.syorikbn.value="06";
+			document.calender1.shselect.value=document.user.shselect.value;
+			document.calender1.smselect.value=document.user.smselect.value;
+
+			document.calender1.submit();
+	}
+    }
+
+    var blnRTCD
+    function Check() {
+       	blnRTCD = true;
+                sindex = document.user.sisetu.selectedIndex;
+                str = document.user.sisetu.options[sindex].value;
+		if(str == "0000"){
+			blnRTCD = false;
+			alert("利用施設を選択してください")
+			document.user.sisetu.focus();
+                        return false;
+		}
+                sindex = document.user.syumoku.selectedIndex;
+                str = document.user.syumoku.options[sindex].value;
+		if(str == "000"){
+			blnRTCD = false;
+			alert("種目を選択してください");
+			document.user.syumoku.focus();
+                        return false;
+		}
+                sindex = document.user.month.selectedIndex;
+                str = document.user.month.options[sindex].value;
+		if(str == "00"){
+			blnRTCD = false;
+			alert("表示指定月を選択してください");
+			document.user.month.focus();
+                        return false;
+		}
+                sindex = document.user.day.selectedIndex
+                str = document.user.day.options[sindex].value;
+		if(str == "00"){
+			blnRTCD = false;
+			alert("表示指定日を選択してください");
+			document.user.day.focus();
+                        return false;
+		}
+
+	sindex = document.user.sisetu.selectedIndex
+	document.entry.sisetu.value=document.user.sisetu.options[sindex].value;
+	document.entry.sisetunm.value=document.user.sisetu.options[sindex].text;
+
+	sindex = document.user.syumoku.selectedIndex
+	document.entry.syumoku.value=document.user.syumoku.options[sindex].value;
+	document.entry.syumokunm.value=document.user.syumoku.options[sindex].text;
+
+	document.entry.page.value=" ";
+
+	sindex = document.user.month.selectedIndex
+	document.entry.month.value=document.user.month.options[sindex].value;
+	document.entry.rimon.value=document.user.month.options[sindex].value;
+
+	sindex = document.user.day.selectedIndex
+	document.entry.day.value=document.user.day.options[sindex].value;
+	document.entry.riday.value=document.user.day.options[sindex].value;
+
+	sindex = document.user.time.selectedIndex
+	document.entry.time.value=document.user.time.options[sindex].value;
+	document.entry.timenm.value=document.user.time.options[sindex].text.substring(3,9);
+
+	if(document.entry.sub0.value == "0") {
+		Blink4();
+	} else {
+		Blink3();
+	}
+
+	if (document.entry.sub0.value=="0"){
+		//document.entry.sub0.value = "1";
+		document.entry.submit();
+	}
+       	return blnRTCD;
+    }
+
+    function Clear(){
+	if (document.entry.sub0.value == "0"){
+        return true;
+    }else{
+		return false;
+	}
+    }
+//-->
+</script>
+</head>
+
+<body onload="Init(05)">
+<div id="notificationBar" class="notification-bar">
+    <div id="notificationText" class="notification-content">
+        <div class="notification-R8" style="display: none;">
+            <div class="notification-large">【重要】R8.2.28までに利用者登録を更新しない場合、当システムの利用ができなくなります。</div>
+            <div class="notification-small">※R5.3.31までに利用者登録した方が対象です。なお、パスワード変更画面から利用者登録の更新はできません。更新は<a href="https://ttzk.graffer.jp/city-nagoya/smart-apply/apply-procedure-alias/nagoyasporec" target="_blank">こちら</a>。</div>
+        </div>
+        <div class="notification-R9" style="display: none;">
+            <div class="notification-large">【重要】R9.2.28までに利用者登録を更新しない場合、当システムの利用ができなくなります。</div>
+            <div class="notification-small">※R5.4.1～R6.3.31までに利用者登録した方が対象です。なお、パスワード変更画面から利用者登録の更新はできません。更新は<a href="https://ttzk.graffer.jp/city-nagoya/smart-apply/apply-procedure-alias/nagoyasporec" target="_blank">こちら</a>。</div>
+        </div>
+        <div class="notification-R10" style="display: none;">
+            <div class="notification-large">【重要】R10.2.29までに利用者登録を更新しない場合、当システムの利用ができなくなります。</div>
+            <div class="notification-small">※R6.4.1～R7.3.31までに利用者登録した方が対象です。なお、パスワード変更画面から利用者登録の更新はできません。更新は<a href="https://ttzk.graffer.jp/city-nagoya/smart-apply/apply-procedure-alias/nagoyasporec" target="_blank">こちら</a>。</div>
+        </div>
+        <div class="notification-link" style="display: block;">
+            <br>
+            <div class="notification-middle">★<a href="https://logoform.jp/form/mX9C/1179348" target="_blank"> スポーツ施設の利用に関するアンケートにご協力お願いします</a>。</div>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const today = new Date();
+
+    today.setHours(0, 0, 0, 0);
+
+    const deadlineR8 = new Date(2026, 1, 28); // 2026/2/28
+    const startR9 = new Date(2026, 10, 1);     // 2026/11/1
+    const deadlineR9 = new Date(2027, 1, 28); // 2027/2/28
+
+    const startR10 = new Date(2027, 10, 1);    // 2027/11/1
+    const deadlineR10 = new Date(2027, 11, 28); // 2027/12/28
+    
+    const deadlineLink = new Date(2026, 9, 31); // 2026/10/31
+
+    const el_R8 = document.querySelector('.notification-R8');
+    const el_R9 = document.querySelector('.notification-R9');
+    const el_R10 = document.querySelector('.notification-R10');
+    const el_Link = document.querySelector('.notification-link');
+    const el_Bar = document.querySelector('.notification-bar');
+
+    if (!notificationBar || !el_R8 || !el_R9 || !el_R10 || !el_Link || !el_Bar) {
+        return;
+    }
+
+    el_R8.style.display = 'none';
+    el_R9.style.display = 'none';
+    el_R10.style.display = 'none';
+    el_Link.style.display = 'none';
+    
+    if (today <= deadlineR8) {
+        el_R8.style.display = 'block'; 
+    } else if (today >= startR9 && today <= deadlineR9) {
+        el_R9.style.display = 'block';
+    } else if (today >= startR10 && today <= deadlineR10) {
+        el_R10.style.display = 'block'; 
+    } 
+    if (today <= deadlineLink) {
+      el_Link.style.display = 'block';
+    }
+    if (today > deadlineR10) {
+      el_Bar.style.display = 'none';
+    }
+});
+</script>
+<script type="text/javascript">
+imgset();
+</script>
+<p>
+<a href="http://www.net.city.nagoya.jp/sporec/index.html">メニュー</a>
+＞ 空き照会条件入力
+</p>
+<div id="main">
+<table border="0" cellspacing="2" cellpadding="0">
+<tbody><tr><td colspan="2">
+<img class="sp001a" src="/sporec/images/sp001.gif" alt=""></td></tr>
+<tr><td>
+<img class="sp033a" src="/sporec/images/sp033.gif" alt=""></td>
+<td align="right">
+<a href="http://www.net.city.nagoya.jp/sporec/index.html">
+<img class="sp003a" src="/sporec/images/sp003.gif" alt=""></a></td></tr></tbody></table>
+<!--施設ごとの空き照会・予約画面　sp05001をCALL-->
+<form name="user">
+<table border="0" cellpadding="2" cellspacing="1">
+<tbody><tr>
+<!--sp05001に必要なデータ-->
+<input type="hidden" name="syorikbn" value="04" style="">
+<!--地域ﾘｽﾄﾎﾞｯｸｽ-->
+<td class="SELLABEL1">地域</td>
+<td class="SELINPUT3"><select name="area" onchange="ListChage('02')">
+<option value="20" selected="">全地域　</option>
+<option value="01">千種　　</option>
+<option value="02">東　　</option>
+<option value="03">北　　</option>
+<option value="04">西　　</option>
+<option value="05">中村　　</option>
+<option value="06">中　　</option>
+<option value="07">昭和　　</option>
+<option value="08">瑞穂　　</option>
+<option value="09">熱田　　</option>
+<option value="10">中川　　</option>
+<option value="11">港　　</option>
+<option value="12">南　　</option>
+<option value="13">守山　　</option>
+<option value="14">緑　　</option>
+<option value="15">名東　　</option>
+<option value="16">天白　　</option>
+<option value="17">名古屋市外</option>
+</select> 任意選択</td>
+<!--施設カナ名ﾘｽﾄﾎﾞｯｸｽ-->
+<td class="SELLABEL1">施設カナ名</td>
+<td class="SELINPUT3"><select name="kana" onchange="ListChage('03')">
+<option value="00" selected="">--</option>
+<option value="01">ア</option>
+<option value="02">イ</option>
+<option value="03">ウ</option>
+<option value="04">エ</option>
+<option value="05">オ</option>
+<option value="06">カ</option>
+<option value="07">キ</option>
+<option value="08">ク</option>
+<option value="09">ケ</option>
+<option value="10">コ</option>
+<option value="11">サ</option>
+<option value="12">シ</option>
+<option value="13">ス</option>
+<option value="14">セ</option>
+<option value="15">ソ</option>
+<option value="16">タ</option>
+<option value="17">チ</option>
+<option value="18">ツ</option>
+<option value="19">テ</option>
+<option value="20">ト</option>
+<option value="21">ナ</option>
+<option value="22">ニ</option>
+<option value="23">ヌ</option>
+<option value="24">ネ</option>
+<option value="25">ノ</option>
+<option value="26">ハ</option>
+<option value="27">ヒ</option>
+<option value="28">フ</option>
+<option value="29">へ</option>
+<option value="30">ホ</option>
+<option value="31">マ</option>
+<option value="32">ミ</option>
+<option value="33">ム</option>
+<option value="34">メ</option>
+<option value="35">モ</option>
+<option value="36">ヤ</option>
+<option value="37">ユ</option>
+<option value="38">ヨ</option>
+<option value="39">ラ</option>
+<option value="40">リ</option>
+<option value="41">ル</option>
+<option value="42">レ</option>
+<option value="43">ロ</option>
+<option value="44">ワ</option>
+</select> 任意選択<img class="sp005a" src="/sporec/images/sp005.gif" alt="" title="選択した地域と施設カナ名の頭文字で利用施設を絞り込むことができます。"></td>
+</tr>
+
+<tr>
+<!--利用施設ﾘｽﾄﾎﾞｯｸｽ-->
+<td class="SELLABEL1">利用施設</td>
+<!--施設選択済みフラグ-->
+<input type="hidden" name="shselect" value="2" style="">
+<td class="SELINPUT1"><select name="sisetu" onchange="ListChage('04')">
+<option value="0000">－利用施設を選択して下さい</option>
+<option value="0205">パロマ瑞穂野球場　　　　</option>
+<option value="0241">パロマ瑞穂野球場（昼間）</option>
+</select></td>
+<!--種目ﾘｽﾄﾎﾞｯｸｽ-->
+<td class="SELLABEL1">種目</td>
+<!--種目選択済みフラグ-->
+<input type="hidden" name="smselect" value="3" style="">
+<td class="SELINPUT1"><select name="syumoku" onchange="ListChage('05')">
+<option value="000">－種目を先に選択することもできます</option>
+<option value="001">テニス　　　　　　　　　　　　</option>
+<option value="002">ソフトテニス　　　　　　　　　</option>
+<option value="003">野球（軟式）　　　　　　　　　</option>
+<option value="004" selected="">野球（硬式）　　　　　　　　　</option>
+<option value="005">ソフトボール　　　　　　　　　</option>
+<option value="038">少年野球（軟式）　　　　　　　</option>
+<option value="039">少年野球（軟式（守備練習のみ）</option>
+<option value="006">アーチェリー　　　　　　　　　</option>
+<option value="007">合気道　　　　　　　　　　　　</option>
+<option value="008">アメフト　　　　　　　　　　　</option>
+<option value="009">インディアカ　　　　　　　　　</option>
+<option value="010">エアロビクス　　　　　　　　　</option>
+<option value="011">空手道　　　　　　　　　　　　</option>
+<option value="012">弓道　　　　　　　　　　　　　</option>
+<option value="013">ゲートボール　　　　　　　　　</option>
+<option value="014">剣道　　　　　　　　　　　　　</option>
+<option value="015">サッカー　　　　　　　　　　　</option>
+<option value="016">３Ｂ体操　　　　　　　　　　　</option>
+<option value="017">社交ダンス　　　　　　　　　　</option>
+<option value="018">柔道　　　　　　　　　　　　　</option>
+<option value="020">太極拳　　　　　　　　　　　　</option>
+<option value="021">卓球　　　　　　　　　　　　　</option>
+<option value="022">バウンドテニス　　　　　　　　</option>
+<option value="023">バスケットボール　　　　　　　</option>
+<option value="024">バドミントン　　　　　　　　　</option>
+<option value="025">バレーボール６人制男　　　　　</option>
+<option value="026">バレーボール６人制女　　　　　</option>
+<option value="027">バレーボール９人制男　　　　　</option>
+<option value="028">バレーボール９人制女　　　　　</option>
+<option value="042">ソフトバレー　　　　　　　　　</option>
+<option value="030">ラグビー　　　　　　　　　　　</option>
+<option value="031">陸上競技　　　　　　　　　　　</option>
+<option value="032">レク・インディアカ　　　　　　</option>
+<option value="033">レク・バレーボール　　　　　　</option>
+<option value="040">ラクロス　　　　　　　　　　　</option>
+<option value="041">ホッケー　　　　　　　　　　　</option>
+<option value="034">その他スポーツ　　　　　　　　</option>
+<option value="035">スポーツ全面　　　　　　　　　</option>
+<option value="036">庄内緑地ダンス軽運動　　　　　</option>
+<option value="037">ミニバスケ　　　　　　　　　　</option>
+<option value="203">エアロビクス全面　　　　　　　</option>
+<option value="207">サッカー（練習）　　　　　　　</option>
+<option value="209">社交ダンス全面　　　　　　　　</option>
+<option value="216">太極拳全面　　　　　　　　　　</option>
+<option value="218">卓球全面　　　　　　　　　　　</option>
+<option value="220">卓球（試合用）全面　　　　　　</option>
+<option value="231">体操等１／２　　　　　　　　　</option>
+<option value="233">体操等全面　　　　　　　　　　</option>
+<option value="240">バレー６人制男全面　　　　　　</option>
+<option value="241">バレー６人制女全面　　　　　　</option>
+<option value="242">バレー９人制男全面　　　　　　</option>
+<option value="243">バレー９人制女全面　　　　　　</option>
+<option value="244">ハンドボール　　　　　　　　　</option>
+<option value="246">野球（少年硬式）　　　　　　　</option>
+<option value="247">野球（少年軟式）　　　　　　　</option>
+<option value="272">フットサル全面　　　　　　　　</option>
+</select></td>
+</tr>
+<tr>
+<td class="SELLABEL1">利用月日</td>
+<!--利用月ﾘｽﾄﾎﾞｯｸｽ-->
+<td class="SELINPUT1"><select name="month">
+<option value="00" selected="">--</option>
+<option value="01">01</option>
+<option value="02">02</option>
+<option value="03">03</option>
+<option value="04">04</option>
+<option value="05">05</option>
+<option value="06">06</option>
+<option value="07">07</option>
+<option value="08">08</option>
+<option value="09">09</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+</select>　月
+<!--利用日ﾘｽﾄﾎﾞｯｸｽ-->
+<select name="day">
+<option value="00" selected="">--</option>
+<option value="01">01</option>
+<option value="02">02</option>
+<option value="03">03</option>
+<option value="04">04</option>
+<option value="05">05</option>
+<option value="06">06</option>
+<option value="07">07</option>
+<option value="08">08</option>
+<option value="09">09</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+</select>　日
+</td>
+<!--表示方法ﾘｽﾄﾎﾞｯｸｽ-->
+<td class="SELLABEL1">表示方法</td>
+<td class="SELINPUT1"><select name="time">
+<option value="1" selected="">指定日から2週間  </option>
+<option value="2">指定日以降の土日祝 </option>
+<option value="3">指定日以降の日月 </option>
+<option value="4">指定日以降の月火 </option>
+<option value="5">指定日以降の火水 </option>
+<option value="6">指定日以降の水木 </option>
+<option value="7">指定日以降の木金 </option>
+<option value="8">指定日以降の金土 </option>
+</select></td>
+</tr>
+
+<form name="user1" method="POST" action="sp05001"></form>
+<input type="hidden" name="syorikbn" style="">
+<input type="hidden" name="area" style="">
+<input type="hidden" name="kana" style="">
+<input type="hidden" name="shselect" style="">
+<input type="hidden" name="sisetu" style="">
+<input type="hidden" name="smselect" style="">
+<input type="hidden" name="syumoku" style="">
+<input type="hidden" name="month" style="">
+<input type="hidden" name="day" style="">
+<input type="hidden" name="time" style="">
+<input type="hidden" name="virtline" value="53984" style="">
+<input type="hidden" name="tran_div" value="  " style="">
+<input type="hidden" name="system1" value="-136775596" style="">
+<input type="hidden" name="system2" value="-136761671" style="">
+
+<tr>
+<!--施設ごとの空き照会・予約照会結果　sp05002をCALL-->
+<form name="entry" method="POST" action="sp05002"></form>
+<td class="SELINPUT1">
+<!--sp05002に必要なデータ-->
+<input type="hidden" name="sisetu" value="" style="">
+<input type="hidden" name="syumoku" value="" style="">
+<input type="hidden" name="page" value="" style="">
+<input type="hidden" name="month" value="" style="">
+<input type="hidden" name="day" value="" style="">
+<input type="hidden" name="time" value="" style="">
+<input type="hidden" name="virtline" value="53984" style="">
+<input type="hidden" name="tran_div" value="  " style="">
+<input type="hidden" name="system1" value="-136775596" style="">
+<input type="hidden" name="system2" value="-136761671" style="">
+<input type="hidden" name="sisetunm" value="" style="">
+<input type="hidden" name="syumokunm" value="" style="">
+<input type="hidden" name="timenm" value="" style="">
+<input type="hidden" name="rimon" value="" style="">
+<input type="hidden" name="riday" value="" style="">
+<input type="button" name="B1" value="照会" onclick="if(Check()==false) {return false;}" style="">
+<input type="hidden" name="sub0" value="0" style="">
+
+</td>
+<td class="SELINPUT1">
+<!--入力項目クリアのため、sp05001をCALLする-->
+<form name="clear" method="POST" action="sp05001" onclick="if(Clear()==false) {return false;}">
+<input type="hidden" name="syorikbn" value="01" style="">
+<input type="submit" name="clear" value="入力項目クリア" style="">
+</form>
+</td>
+<form name="calender1" method="POST" action="sp05006"></form>
+<input type="hidden" name="syorikbn" style="">
+<input type="hidden" name="area" style="">
+<input type="hidden" name="kana" style="">
+<input type="hidden" name="shselect" style="">
+<input type="hidden" name="sisetu" style="">
+<input type="hidden" name="smselect" style="">
+<input type="hidden" name="syumoku" style="">
+<input type="hidden" name="month" style="">
+<input type="hidden" name="day" style="">
+<input type="hidden" name="time" style="">
+<input type="hidden" name="virtline" value="53984" style="">
+<input type="hidden" name="tran_div" value="  " style="">
+<input type="hidden" name="system1" value="-136775596" style="">
+<input type="hidden" name="system2" value="-136761671" style="">
+<td colspan="2" valign="buttom" align="center">
+<a href="JavaScript:calender1();"><img class="sp006a" src="/sporec/images/sp006.gif" alt=""></a>
+<img class="search0a" src="/sporec/images/search0.gif" name="dimg" valign="buttom" alt="">
+</td>
+
+</tr>
+</tbody></table>
+<br>
+<table border="0" cellspacing="2" cellpadding="2" width="600">
+<tbody><tr>
+<td><img class="sp007a" src="/sporec/images/sp007.gif" alt="利用方法説明"></td>
+</tr>
+<tr><td>
+<table class="GUIDANCE" border="0" cellspacing="2" cellpadding="2">
+<tbody><tr>
+<td class="GUINUM" valign="top">１．</td>
+<td class="GUIINFO">空き照会をしたい利用施設、種目を選択してください。</td>
+</tr>
+<tr>
+<td valign="top"></td>
+<td class="GUIINFO">・種目を先に選択すると、その種目が利用できる利用施設の一覧から選択できます。</td>
+</tr>
+<tr>
+<td valign="top"></td>
+<td class="GUIINFO">・地域・施設カナ名を選択すると、利用施設を絞り込むことができます。</td>
+</tr>
+<tr>
+<td class="GUINUM" valign="top">２．</td>
+<td class="GUIINFO">空き照会の表示開始月日を指定してください。</td>
+</tr>
+<tr>
+<td valign="top"></td>
+<td class="GUIINFO">・空き照会可能期間は、現在の日付から抽選の終了した利用月日までです。</td>
+</tr>
+<tr>
+<td valign="top"></td>
+<td class="GUIINFO">・体育館競技場の全面の種目の場合は、7月21日～7月31日に10月から翌年の3月利用分、1月21日～1月31日に4月から9月利用分が対象となります。</td>
+</tr>
+<tr>
+<td class="GUINUM" valign="top">３．</td>
+<td class="GUIINFO">照会ボタンを押してください。</td>
+</tr>
+<tr>
+<td valign="top"></td>
+<td class="GUIINFO2">利用者登録をされていない方も空き照会は可能です。</td>
+</tr>
+<tr>
+<td valign="top"></td>
+<td class="GUIINFO2"><a href="http://www.net.city.nagoya.jp/sporec/touroku/touroku.html">
+<img class="sp013r" src="/sporec/images/sp013.gif" alt="利用者登録方法案内"></a>但し、予約を行なうには利用者登録が必要です。</td>
+</tr>
+<tr>
+<td class="GUINUM" valign="top">４．</td>
+<td class="GUIINFO">施設には、その施設特有の利用条件がある場合があります。</td>
+</tr>
+<tr>
+<td valign="top"></td>
+<td class="GUIINFO">・「スポーツ施設案内」にて、利用される施設の内容を必ず確認してください。<br>
+<a href="http://www.net.city.nagoya.jp/info/index.html"><img class="sp043r" src="/sporec/images/sp043.gif" alt="スポーツ施設案内"></a></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</form></div>
+
+
+</body></html>

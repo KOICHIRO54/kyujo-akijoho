@@ -1,0 +1,950 @@
+<!DOCTYPE html><html lang="ja"><!--<![endif]--><head><meta charset="utf-8"><title>
+	一宮市スポーツ・公園施設予約システム
+</title><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Expires" content="-1"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="/Ichinomiya/Web/Content/css/font-awesome.min.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/jquery-ui-1.11.2.min.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/default.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/default_print.css?LastUpdDate=20190901" media="print" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/tooltipster.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/jquery.remodal.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery-1.11.1.min.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery-ui-1.11.2.min.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/common.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery.tooltipster.min.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery.remodal.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery.inputfocus.js?LastUpdDate=20190901"></script>
+	<!--[if lt IE 9]> 
+	<script src="/Ichinomiya/Web/Scripts/html5.js?LastUpdDate=20190901"></script>
+	<script src="/Ichinomiya/Web/Scripts/IE9.js?LastUpdDate=20190901"></script>
+	<script src="/Ichinomiya/Web/Scripts/css3-mediaqueries.js?LastUpdDate=20190901"></script> 
+	<![endif]-->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            
+
+            unload_flg = 1;
+            
+            // 文字サイズ変更時のみスケール調整
+            
+        });
+	    $(document).on('close', '[data-remodal-id=logoutInfo]', function () {
+		    dialog_flg = 0;
+	    });
+	    $(document).on('close', '[data-remodal-id=loginInfo]', function () {
+		    dialog_flg = 0;
+	    });
+        $.ajaxSetup({
+            error: function (xhr, status, error) {
+                    var errorpage = '';
+                    if (errorpage) {
+                        dialog_flg = 1; // アンロードのメッセージを表示させない
+                        window.location.href = errorpage;
+                    }
+                }
+        });
+
+        
+
+    </script>
+
+  <script type="text/javascript">
+$(window).load(function() {
+    var timerID;
+    clearInterval(timerID);
+    timerID = setTimeout('setMessage()', 1140000);
+});
+    function setMessage() 
+    {
+        if (isPostBack == 1) return;
+        
+
+        $.remodal.lookup[$('[data-remodal-id=SesseionTimeoutWarn]').data('remodal')].open();
+    }
+  </script>
+
+</head><body style="overflow-x: hidden;">
+  
+  <link href="/Ichinomiya/Web/Content/css/WgR_ModeSelect.css?LastUpdDate=20190901" media="screen" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery.tabs.js?LastUpdDate=20190901"></script>
+
+  <script type="text/javascript">
+  var desFlg = false;
+  $(document).ready(function() {
+    tabify('#tabs').select(3);
+
+    $("#news ul li p").hide();
+    $("#news ul li.news01 > a").click(function(){
+      $("#news ul li.news01 p").slideToggle();
+    });
+    $("#news ul li.news02 > a").click(function(){
+        $("#news ul li.news02 p").slideToggle();
+    });
+    $("#news ul li.news03 > a").click(function(){
+        $("#news ul li.news03 p").slideToggle();
+    });
+    $("#news ul li.news04 > a").click(function(){
+        $("#news ul li.news04 p").slideToggle();
+    });
+    $("#news ul li.news05 > a").click(function(){
+        $("#news ul li.news05 p").slideToggle();
+    });
+  });
+
+  function newsHide() {
+      // お知らせをすべて閉じる   
+      $(".remodal.news_all ul li p").hide();
+  }
+  $(document).ready(function() {
+     // お知らせをすべて表示
+
+      $(".remodal.news_all ul li.news01 a").click(function(){
+          $(".remodal.news_all ul li.news01 p").slideToggle();
+      });
+
+      $(".remodal.news_all ul li.news02 a").click(function(){
+          $(".remodal.news_all ul li.news02 p").slideToggle();
+      });
+
+      $(".remodal.news_all ul li.news03 a").click(function(){
+          $(".remodal.news_all ul li.news03 p").slideToggle();
+      });
+
+      $(".remodal.news_all ul li.news04 a").click(function(){
+          $(".remodal.news_all ul li.news04 p").slideToggle();
+      });
+
+      $(".remodal.news_all ul li.news05 a").click(function(){
+          $(".remodal.news_all ul li.news05 p").slideToggle();
+      });
+
+      $(".remodal.news_all ul li.news06 a").click(function(){
+          $(".remodal.news_all ul li.news06 p").slideToggle();
+      });
+
+      $(".remodal.news_all ul li.news07 a").click(function(){
+          $(".remodal.news_all ul li.news07 p").slideToggle();
+      });
+
+      $(".remodal.news_all ul li.news08 a").click(function(){
+          $(".remodal.news_all ul li.news08 p").slideToggle();
+      });
+
+      $(".remodal.news_all ul li.news09 a").click(function(){
+          $(".remodal.news_all ul li.news09 p").slideToggle();
+      });
+
+      $(".remodal.news_all ul li.news10 a").click(function(){
+          $(".remodal.news_all ul li.news10 p").slideToggle();
+      });
+
+      $(".remodal.news_all ul li.news11 a").click(function(){
+          $(".remodal.news_all ul li.news11 p").slideToggle();
+      });
+
+      $(".remodal.news_all ul li.news12 a").click(function(){
+          $(".remodal.news_all ul li.news12 p").slideToggle();
+      });
+ 
+  });
+  
+  // 使用目的、施設種類フラグ
+  var shisetsu_flg = "";
+  var purpose_flg = "";
+
+  $(document).ready(function () {
+    $('a[href^=#]').click(function() {
+	    var href= $(this).attr("href");
+	    var target = $(href == "#" || href == "" ? 'html' : href);
+	    if (target.offset()) {
+		    var position = target.offset().top;
+		    $('body,html').animate({scrollTop:position}, 400, 'swing');
+		    return false;
+	    }
+    });
+
+    tabify('#tabs');
+
+
+    purpose_flg = "close";
+
+    $(".purpose .option").hide();
+    $("#btnSearchViaPurpose").fadeIn();
+
+    $("#btnShowPurposeOption").click(function () {
+      $(".purpose .option").slideToggle();
+      if (purpose_flg == "close") {
+        purpose_flg = "open";
+        $("#btnShowPurposeOption").prop('value',String.fromCharCode("0xf068") + ' ' + '地区・付帯設備で絞り込む');
+        $("#btnSearchViaPurpose").fadeOut();
+      } else {
+        purpose_flg = "close";
+        $("#btnShowPurposeOption").prop('value',String.fromCharCode("0xf067") + ' ' + '地区・付帯設備で絞り込む');
+        $("#btnSearchViaPurpose").fadeIn();
+      }
+    });
+
+
+    shisetsu_flg = "close";
+
+    $(".shisetsu .option").hide();
+    $("#btnSearchViaShisetsu").fadeIn();
+
+    $("#btnShowShisetsuOption").click(function () {
+      $(".shisetsu .option").slideToggle();
+      if (shisetsu_flg == "open") {
+        shisetsu_flg = "close";
+        $("#btnShowShisetsuOption").prop('value',String.fromCharCode("0xf067") + ' ' + '地区・付帯設備で絞り込む');
+        $("#btnSearchViaShisetsu").fadeIn();
+      } else {
+        shisetsu_flg = "open";
+        $("#btnShowShisetsuOption").prop('value',String.fromCharCode("0xf068") + ' ' + '地区・付帯設備で絞り込む');
+        $("#btnSearchViaShisetsu").fadeOut();
+      }
+    });
+
+    // アンロード時のダイアログ対象外、二重送信
+	beforeSubmit(".guide p a,.mymenu > ul li a",".category ul li input,#btnSearchViaPurpose,#btnSearchViaPurposeOption,#btnSearchViaShisetsu,#btnSearchViaShisetsuOption,.kana div input.btnSky,.kana ul li input,.user ul li input,.list ul li input,.remodal.policy ul li input.btnBlue,.external_link ul li a");
+});
+
+
+  // ボタン活性化
+  function changeButton(value) {
+      document.forms.form1,doui.disabled = value;
+      document.forms.form1,douiCancel.disabled = value;
+      
+      if(value){
+	      $("#doui").addClass('disabled');
+	      $("#douiCancel").addClass('disabled');
+      } else {
+	      $("#doui").removeClass('disabled');
+	      $("#douiCancel").removeClass('disabled');
+      }
+  }
+
+  // ボタン活性化
+  function changeButtonAgree(value) {
+      document.forms.form1,agree.disabled = value;
+      document.forms.form1,agreeCancel.disabled = value;
+      
+      if(value){
+	      $("#agree").addClass('disabled');
+	      $("#agreeCancel").addClass('disabled');
+      } else {
+	      $("#agree").removeClass('disabled');
+	      $("#agreeCancel").removeClass('disabled');
+      }
+  }
+
+  // 目的分類のajax処理
+  function radioMokutekiSubmit(code){
+
+     $.ajax({
+         url: 'GetMokutekiBunruiAjax',
+         type: "GET",
+         datatype: "json",
+         cache: false,
+         data: { values: [code] },
+         traditional: true,
+         success: function (data) {
+             $("#purposetag").html((data));
+             $("#purposetag").ready(adjustmentToggleOutline());
+     
+             if(purpose_flg == "open")
+             {
+                 // ボタン非表示
+                 $("#btnSearchViaPurpose").css('display','none');
+             }
+
+             // アンロード時のダイアログ対象外、二重送信
+	         beforeSubmit(".guide p a,.mymenu > ul li a",".category ul li input,#btnSearchViaPurpose,#btnSearchViaPurposeOption,#btnSearchViaShisetsu,#btnSearchViaShisetsuOption,.kana div input.btnSky,.kana ul li input,.user ul li input,.list ul li input,.remodal.policy ul li input.btnBlue,.external_link ul li a");
+
+         }
+     });
+  }
+
+  // 施設の分類のajax処理
+  function radioShisetsuSubmit(code){
+
+     $.ajax({
+         url: 'GetShisetsuAjax',
+         type: "GET",
+         datatype: "json",
+         cache: false,
+         data: { values: [code] },
+         traditional: true,
+         success: function (data) {
+             $("#shisetsutag").html((data));
+             $("#shisetsutag").ready(adjustmentToggleOutline());
+             if(shisetsu_flg == "open")
+             {
+                 // ボタン非表示
+                 $("#btnSearchViaShisetsu").css('display','none');
+             }
+
+             // アンロード時のダイアログ対象外、二重送信
+	         beforeSubmit(".guide p a,.mymenu > ul li a",".category ul li input,#btnSearchViaPurpose,#btnSearchViaPurposeOption,#btnSearchViaShisetsu,#btnSearchViaShisetsuOption,.kana div input.btnSky,.kana ul li input,.user ul li input,.list ul li input,.remodal.policy ul li input.btnBlue,.external_link ul li a");
+
+         }
+     });
+  }
+
+  // 使用目的検索のajax処理
+  function searchMokuteki(){
+     var daibunruiList = document.getElementsByName("radioPurposeLarge");
+     var middleList = document.getElementsByName("checkPurposeMiddle");
+     var areaList = document.getElementsByName("checkPurposeArea");
+     var bfList = document.getElementsByName("checkPurposeEquip");
+
+     var daibunruiVal;
+     for(i = 0; i < daibunruiList.length; i++)
+     {
+         if (daibunruiList[i].checked){
+             daibunruiVal = daibunruiList[i].value;
+             break;
+         }
+     }
+
+     var middleListVal = new Array();
+     for(i = 0; i < middleList.length; i++)
+     {
+         if (middleList[i].checked){
+             middleListVal.push(middleList[i].value);
+         }
+     }
+     
+     var areaListVal = new Array();
+     for(i = 0; i < areaList.length; i++)
+     {
+         if (areaList[i].checked){
+             areaListVal.push(areaList[i].value);
+         }
+     }
+
+     var bfListVal = new Array();
+     for(i = 0; i < bfList.length; i++)
+     {
+         if (bfList[i].checked){
+             bfListVal.push(bfList[i].value);
+         }
+     }
+
+     $.ajax({
+         url: 'SearchMokutekiAjax',
+         type: "GET",
+         datatype: "json",
+         cache: false,
+         data: { daibunruiVal: [daibunruiVal], middleListVal: [middleListVal], areaListVal: [areaListVal], bfListVal: [bfListVal] },
+         traditional: true,
+         success: function (data) {
+             // エラー
+             if(data == "MG-010-6"){
+                 showMessageDialog('failure','エラー', '使用目的を選んでください。');
+                 removeWaitOnClose('#messageDlg', '#btnSearchViaPurpose');
+                 removeWaitOnClose('#messageDlg', '#btnSearchViaPurposeOption');
+                 commonUnlockScreen();
+             } else{
+                 __doPostBack('btnSearchViaPurpose','');
+             }
+         }
+     });
+  }
+
+  // 使用目的検索のajax処理
+  function searchShisetsu(){
+     var shisetsuList = document.getElementsByName("radioShisetsuLarge");
+     var middleList = document.getElementsByName("radioShisetsuMiddle");
+     var areaList = document.getElementsByName("checkShisetsuArea");
+     var bfList = document.getElementsByName("checkShisetsuEquip");
+
+     var shisetsuVal;
+     for(i = 0; i < shisetsuList.length; i++)
+     {
+         if (shisetsuList[i].checked){
+             shisetsuVal = shisetsuList[i].value;
+             break;
+         }
+     }
+
+     var middleListVal = new Array();
+     for(i = 0; i < middleList.length; i++)
+     {
+         if (middleList[i].checked){
+             middleListVal.push(middleList[i].value);
+         }
+     }
+     
+     var areaListVal = new Array();
+     for(i = 0; i < areaList.length; i++)
+     {
+         if (areaList[i].checked){
+             areaListVal.push(areaList[i].value);
+         }
+     }
+
+     var bfListVal = new Array();
+     for(i = 0; i < bfList.length; i++)
+     {
+         if (bfList[i].checked){
+             bfListVal.push(bfList[i].value);
+         }
+     }
+
+     $.ajax({
+         url: 'SearchShisetsuAjax',
+         type: "GET",
+         datatype: "json",
+         cache: false,
+         data: { shisetsuVal: [shisetsuVal], middleListVal: [middleListVal], areaListVal: [areaListVal], bfListVal: [bfListVal] },
+         traditional: true,
+         success: function (data) {
+             // エラー
+             if(data == "MG-010-5"){
+                 showMessageDialog('failure', 'エラー', '施設の種類を１つ選んでください。');
+                 removeWaitOnClose('#messageDlg', '#btnSearchViaShisetsu');
+                 removeWaitOnClose('#messageDlg', '#btnSearchViaShisetsuOption');
+                 commonUnlockScreen();
+             } else{
+                 __doPostBack('btnSearchViaShisetsu','');
+             }
+         }
+     });
+  }
+
+  // placeholder挿入
+  $(document).ready(function () {
+      $('#shisetsuNameTxt').attr('placeholder','施設名');
+  });
+
+  // トグルボタンフォーカス時のアウトライン調整
+  function adjustmentToggleOutline() {
+    $("ul.toggle li > input").on("focus", function(){
+	    if(this.parentNode.tagName == "LI"){
+		    var childElem = this.parentNode.childNodes;
+		    if(childElem[0].tagName=="INPUT" && childElem[1].tagName=="LABEL"){
+			    $(childElem[0]).css("width", childElem[1].offsetWidth-2);
+			    $(childElem[0]).css("height", childElem[1].offsetHeight-2);
+		    }
+	    }
+    });
+  }
+  $(document).ready(adjustmentToggleOutline);
+    
+  // 施設名検索テキスボックスEnter押下時
+  $(document).ready(function () {
+	$(".kana input").on("keydown",function(e){
+		var kc;
+		if(window.event) {
+			kc = window.event.keyCode;
+		} else {
+			kc = e.which;
+		}
+		if(kc == 13){
+            // Enterキーの場合検索処理
+			dialog_flg = 1;
+            __doPostBack("searchShisetsuName","");
+		}
+	});
+  });
+  
+</script>
+
+    <style type="text/css">
+        
+        
+        /**** 文字サイズ変更時のみスケール調整 ****/
+        
+    </style>
+    
+
+
+<form action="/Ichinomiya/Web/Home/WgR_ModeSelect" id="form1" method="post" autocomplete="off"><input name="__RequestVerificationToken" type="hidden" value="iy6pKZAeUpg5vl2pmjujEGKxnNiMdd9ID5GjSyhmQaXawE613UKBVAZhX6fM0OFraTxSGRJNPp2Islgkk3ItWA/q/nAQxKa7+brR9HYIKsWfRw44/WMM2QfrLB043Tg0h7ncqw==" style="">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" style="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" style="">
+<div id="wrap_wide" class="remodal-bg">
+	<div id="wrap_head">
+        
+        <div id="head">
+        
+        <h1><span class="city">一宮市</span><span class="title">一宮市スポーツ・公園施設予約システム</span></h1>
+        
+       <div class="login">
+        <p><span>利用者IDをお持ちの方</span><a href="javascript:__doPostBack('login','')" class="btnBlue">ログイン</a></p>
+       </div>
+             
+			  <ul>
+                  <li class="read"><a href="javascript:__doPostBack('read','true')">読み上げ</a></li><li class="message"><a href="javascript:__doPostBack('message','')">メッセージ</a></li><li class="tebiki"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/_res/projects/default_project/_page_/001/005/266/manual.pdf','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=900,height=800'); return false;">ご利用の手引き</a></li><li class="faq"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/katsuryokusouzou/sports/1000193/1061111/1000089/1005599.html','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes'); return false;">FAQ / よくあるご質問</a></li><li class="style"><a href="javascript:__doPostBack('color','')">色・文字サイズ変更</a></li>
+			  </ul>
+			  <div class="dock_nav">
+				  <a href="#nav">メニュー</a>
+			  </div>
+		  </div>
+	</div>
+  <div id="body">
+    
+
+    <div class="content clearfix">
+	<p class="welcome">一宮市スポーツ・公園施設予約システムへようこそ</p>
+			<ul class="shortcut clearfix">
+<li class="to_search"><a href="#divSearch">空き照会・抽選／予約の申込</a></li><li class="to_mymenu"><a href="#divMyMenu">マイメニュー</a></li>
+			</ul>
+			<div id="news">
+				<h2><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-newspaper-o fa-stack-1x fa-inverse"></i></span>お知らせ</h2>
+
+                   <a href="#news_all" class="btnGray" onclick="newsHide()">お知らせをすべて表示</a>
+
+                <ul>
+
+					        <li class="news01">
+<a href="javascript:void(0);" onclick="return false;"><strong>システム停止のお知らせ【10月28日深夜1：00～6：00】</strong></a><span>2026年10月20日</span><p style="display: none;">以下の日時において、メンテナンスのため、予約システムが利用できません。<br>利用者様にはご迷惑をおかけいたしますが、ご理解の程よろしくお願いいたします。<br>2026年10月28日(水）深夜1：00～6：00<br>※最大５時間を予定</p>
+</li>
+
+					        <li class="news02 even">
+<a href="javascript:void(0);" onclick="return false;">【スポーツ施設予約システム統合のお知らせ】</a><span>2026年10月6日</span><p style="display: none;">2027年4月から、「一宮市スポーツ・公園施設予約システム」が<br>『一宮市施設予約システム』（市内小中学校の施設予約システムとして稼働中）へ統合されます。<br><br>〇2026年11月30日（月）までにID登録をされた方については、現行システムで使用中の利用者ID・パスワードを引き続きお使いいただけます。<br>〇統合後のシステムの稼働日は、2026年12月18日（金）を予定しています。<br>〇2027年4月利用分の抽選予約は、2026年12月21日（月）から受付予定です。<br>詳細については、決まり次第お知らせいたします。</p>
+</li>
+
+					        <li class="news03">
+<a href="javascript:void(0);" onclick="return false;">尾西第三中学校の点灯者変更について</a><span>2026年7月1日</span><p style="display: none;">2026年7月1日より、尾西第三中学校の点灯者が変更になりました。<br>詳しくは、各窓口へお問い合わせください。<br><br>ご不便をおかけいたしますが、ご理解いただきますようお願い申し上げます。</p>
+</li>
+
+					        <li class="news04 even">
+<a href="javascript:void(0);" onclick="return false;">尾西運動場（グラウンド・テニスコート）の暴風警報発令時の運営について</a><span>2026年6月25日</span><p style="display: none;">尾西運動場（グラウンド・テニスコート）は、暴風警報発令時は利用できません。<br>また、警報が解除される時間帯により、施設のオープン時間が異なります。<br>詳しくは<a href="https://www.city.ichinomiya.aichi.jp/katsuryokusouzou/sports/1000193/1061112/1076127.html">こちら</a>をご確認ください。<br><br>なお、判断に迷う場合は、スポーツ課（0586-85-7079）へお問い合わせください。</p>
+</li>
+
+					        <li class="news05">
+<a href="javascript:void(0);" onclick="return false;">受付窓口の一時休止について【一宮市総合体育館】</a><span>2026年6月11日</span><p style="display: none;">アジア・アジアパラ競技大会の開催に伴い、2026年7月28日（火）から一宮市総合体育館の予約システム窓口を一時休止いたします。<br>再開時期は12月中旬を予定しておりますが、未定のため確定次第改めてお知らせいたします。<br><br>ご迷惑をおかけいたしますが、ご理解いただきますようお願い申し上げます。</p>
+</li>
+
+				</ul>
+			</div>
+
+      		<div id="divSearch" class="search clearfix">
+				<h2><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-hand-o-right fa-stack-1x fa-inverse"></i></span>空き照会・抽選／予約の申込</h2>
+				<div id="tabs" class="clearfix">
+					<ul class="tabs-nav">
+						<li class="category"><a href="javascript:void(0);" onclick="return false;">カテゴリーから探す</a></li>
+						<li class="purpose"><a href="javascript:void(0);" onclick="return false;">使用目的から探す</a></li>
+						<li class="shisetsu"><a href="javascript:void(0);" onclick="return false;">施設種類から探す</a></li>
+						<li class="kana selected"><a href="javascript:void(0);" onclick="return false;">施設名から探す</a></li>
+
+						<li class="list"><a href="javascript:void(0);" onclick="return false;">一覧から探す</a></li>
+					</ul>
+					<div class="category tabs-panel" style="display: none;">
+						<ul>
+
+                            <li><input type="button" name="command" id="category_01" value="スポーツ施設（野球場等）" onclick="__doPostBack('ssCategory','01');" class="btnSky" style=""></li>
+
+                            <li><input type="button" name="command" id="category_02" value="スポーツ施設（多目的広場）" onclick="__doPostBack('ssCategory','02');" class="btnSky" style=""></li>
+
+                            <li><input type="button" name="command" id="category_03" value="スポーツ施設（学校施設）" onclick="__doPostBack('ssCategory','03');" class="btnSky" style=""></li>
+
+                            <li><input type="button" name="command" id="category_04" value="スポーツ施設（テニスコート）" onclick="__doPostBack('ssCategory','04');" class="btnSky" style=""></li>
+
+                            <li><input type="button" name="command" id="category_05" value="スポーツ施設（体育館）" onclick="__doPostBack('ssCategory','05');" class="btnSky" style=""></li>
+
+                            <li><input type="button" name="command" id="category_06" value="スポーツ施設（弓道場・相撲場）" onclick="__doPostBack('ssCategory','06');" class="btnSky" style=""></li>
+
+                            <li><input type="button" name="command" id="category_07" value="公園施設" onclick="__doPostBack('ssCategory','07');" class="btnSky" style=""></li>
+
+				</ul>
+			</div>
+			<div class="purpose tabs-panel" style="display: none;">
+				<div class="large">
+					<h3>使用目的の分類</h3>
+					<ul class="toggle">
+
+                             <li><input type="radio" name="radioPurposeLarge" id="radioPurposeLarge01" value="01" onclick="radioMokutekiSubmit(value);" checked="" style=""><label for="radioPurposeLarge01" class="switch-off">スポーツ施設（屋内）</label></li>
+
+                             <li><input type="radio" name="radioPurposeLarge" id="radioPurposeLarge02" value="02" onclick="radioMokutekiSubmit(value);" style=""><label for="radioPurposeLarge02" class="switch-off">スポーツ施設（屋外）</label></li>
+
+                             <li><input type="radio" name="radioPurposeLarge" id="radioPurposeLarge03" value="03" onclick="radioMokutekiSubmit(value);" style=""><label for="radioPurposeLarge03" class="switch-off">スポーツ施設（武道）</label></li>
+
+                             <li><input type="radio" name="radioPurposeLarge" id="radioPurposeLarge04" value="04" onclick="radioMokutekiSubmit(value);" style=""><label for="radioPurposeLarge04" class="switch-off">スポーツ施設（ニュースポーツ）</label></li>
+
+                             <li><input type="radio" name="radioPurposeLarge" id="radioPurposeLarge05" value="05" onclick="radioMokutekiSubmit(value);" style=""><label for="radioPurposeLarge05" class="switch-off">公園施設</label></li>
+
+                             <li><input type="radio" name="radioPurposeLarge" id="radioPurposeLarge99" value="99" onclick="radioMokutekiSubmit(value);" style=""><label for="radioPurposeLarge99" class="switch-off">スポーツ施設（その他）</label></li>
+
+                            </ul>
+						</div>
+            <div id="purposetag">
+              
+						<div class="middle">
+							<h3>使用目的</h3>
+                            <div id="mokutekiForm">
+ 							<ul class="toggle">
+                           
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle010" value="010" style=""><label for="checkPurposeMiddle010" class="switch-off">フットサル</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle015" value="015" style=""><label for="checkPurposeMiddle015" class="switch-off">体操・新体操</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle017" value="017" style=""><label for="checkPurposeMiddle017" class="switch-off">卓球</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle020" value="020" style=""><label for="checkPurposeMiddle020" class="switch-off">バスケットボール</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle021" value="021" style=""><label for="checkPurposeMiddle021" class="switch-off">ミニバスケットボール</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle022" value="022" style=""><label for="checkPurposeMiddle022" class="switch-off">バドミントン</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle023" value="023" style=""><label for="checkPurposeMiddle023" class="switch-off">バレーボール</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle039" value="039" style=""><label for="checkPurposeMiddle039" class="switch-off">ダンス</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle040" value="040" style=""><label for="checkPurposeMiddle040" class="switch-off">ドッジボール</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle041" value="041" style=""><label for="checkPurposeMiddle041" class="switch-off">バトントワリング</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle042" value="042" style=""><label for="checkPurposeMiddle042" class="switch-off">ハンドボール</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle044" value="044" style=""><label for="checkPurposeMiddle044" class="switch-off">ヨガ</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle047" value="047" style=""><label for="checkPurposeMiddle047" class="switch-off">太極拳</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle048" value="048" style=""><label for="checkPurposeMiddle048" class="switch-off">囲碁</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle049" value="049" style=""><label for="checkPurposeMiddle049" class="switch-off">華道</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle050" value="050" style=""><label for="checkPurposeMiddle050" class="switch-off">着付け</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle051" value="051" style=""><label for="checkPurposeMiddle051" class="switch-off">語学</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle052" value="052" style=""><label for="checkPurposeMiddle052" class="switch-off">茶道</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle053" value="053" style=""><label for="checkPurposeMiddle053" class="switch-off">写真</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle054" value="054" style=""><label for="checkPurposeMiddle054" class="switch-off">書道</label></li>
+
+                            <li><input type="checkbox" name="checkPurposeMiddle" id="checkPurposeMiddle055" value="055" style=""><label for="checkPurposeMiddle055" class="switch-off">将棋</label></li>
+
+							</ul> 
+                            </div>
+                            <input type="button" id="btnSearchViaPurpose" class="btnSky large" value=" 検索" onclick="if(isPostBack == 0){location.href=('#failure');removeWaitOnClose('failure','#btnSearchViaPurpose');searchMokuteki();}" style="">
+						</div>
+  
+            </div>
+			<div class="option_head close">
+                <input type="button" id="btnShowPurposeOption" class="btnGray" value=" 地区・付帯設備で絞り込む" style=""> 
+			</div>
+			<div class="option clearfix" style="display: none;">
+            
+				<div class="area clearfix">
+					<h4>地区<span>複数選択可</span></h4>
+					<ul class="toggle">
+
+                             <li><input type="checkbox" name="checkPurposeArea" id="checkPurposeArea01" value="01" style=""><label for="checkPurposeArea01" class="switch-off">一宮市</label></li>
+
+					</ul>
+				</div>
+
+				<div class="equip clearfix">
+					<h4>付帯設備<span>複数選択可</span></h4>
+						<ul class="toggle">
+   
+                            <li class="slope"><input type="checkbox" name="checkPurposeEquip" id="checkPurposeEquip02" value="02" style=""><label for="checkPurposeEquip02" class="switch-off">スロープ</label></li>
+   
+                            <li class="parkingforwc"><input type="checkbox" name="checkPurposeEquip" id="checkPurposeEquip03" value="03" style=""><label for="checkPurposeEquip03" class="switch-off">車椅子使用者駐車場</label></li>
+   
+                            <li class="toilet"><input type="checkbox" name="checkPurposeEquip" id="checkPurposeEquip04" value="04" style=""><label for="checkPurposeEquip04" class="switch-off">車椅子対応トイレ</label></li>
+   
+                            <li class="rental"><input type="checkbox" name="checkPurposeEquip" id="checkPurposeEquip05" value="05" style=""><label for="checkPurposeEquip05" class="switch-off">車椅子貸出</label></li>
+   
+                            <li class="parking"><input type="checkbox" name="checkPurposeEquip" id="checkPurposeEquip06" value="06" style=""><label for="checkPurposeEquip06" class="switch-off">駐車場</label></li>
+   
+                            <li class="baby"><input type="checkbox" name="checkPurposeEquip" id="checkPurposeEquip07" value="07" style=""><label for="checkPurposeEquip07" class="switch-off">おむつ交換所</label></li>
+   
+                            <li class="milk"><input type="checkbox" name="checkPurposeEquip" id="checkPurposeEquip08" value="08" style=""><label for="checkPurposeEquip08" class="switch-off">授乳室</label></li>
+
+					</ul>
+				</div>
+                <input type="button" id="btnSearchViaPurposeOption" onclick="searchMokuteki();" class="btnSky large" value=" 検索" style="">
+			</div>
+			</div>
+			<div class="shisetsu tabs-panel" style="display: none;">
+				<div class="large">
+					<h3>施設の分類</h3>
+						<ul class="toggle">
+
+                            <li><input type="radio" name="radioShisetsuLarge" id="radioShisetsuLarge01" value="01" onclick="radioShisetsuSubmit(value);" checked="" style=""><label for="radioShisetsuLarge01" class="switch-off">スポーツ施設</label></li>
+
+                            <li><input type="radio" name="radioShisetsuLarge" id="radioShisetsuLarge02" value="02" onclick="radioShisetsuSubmit(value);" style=""><label for="radioShisetsuLarge02" class="switch-off">公園施設</label></li>
+
+ 						</ul>
+                    </div>
+                    <div id="shisetsutag">
+                      
+					<div class="middle">
+						<h3>施設の種類</h3>
+						<ul class="toggle">
+
+							<li><input type="radio" name="radioShisetsuMiddle" id="radioShisetsuMiddle01" value="01" style=""><label for="radioShisetsuMiddle01" class="switch-on">野球場</label></li>
+
+							<li><input type="radio" name="radioShisetsuMiddle" id="radioShisetsuMiddle02" value="02" style=""><label for="radioShisetsuMiddle02" class="switch-on">多目的広場（グラウンド）</label></li>
+
+							<li><input type="radio" name="radioShisetsuMiddle" id="radioShisetsuMiddle03" value="03" style=""><label for="radioShisetsuMiddle03" class="switch-on">テニスコート</label></li>
+
+							<li><input type="radio" name="radioShisetsuMiddle" id="radioShisetsuMiddle04" value="04" style=""><label for="radioShisetsuMiddle04" class="switch-on">体育館</label></li>
+
+							<li><input type="radio" name="radioShisetsuMiddle" id="radioShisetsuMiddle05" value="05" style=""><label for="radioShisetsuMiddle05" class="switch-on">弓道場</label></li>
+
+							<li><input type="radio" name="radioShisetsuMiddle" id="radioShisetsuMiddle06" value="06" style=""><label for="radioShisetsuMiddle06" class="switch-on">相撲場</label></li>
+
+							<li><input type="radio" name="radioShisetsuMiddle" id="radioShisetsuMiddle07" value="07" style=""><label for="radioShisetsuMiddle07" class="switch-on">会議室等</label></li>
+
+                        </ul> 
+                        <input type="button" id="btnSearchViaShisetsu" class="btnSky large" value=" 検索" onclick="searchShisetsu();" style="">
+					</div>  
+                    </div>
+					<div class="option_head close">
+                        <input type="button" id="btnShowShisetsuOption" class="btnGray" value=" 地区・付帯設備で絞り込む" style="">
+					</div>
+					<div class="option clearfix" style="display: none;">
+
+						<div class="area clearfix">
+							<h4>地区<span>複数選択可</span></h4>
+							<ul class="toggle">
+
+						    <li><input type="checkbox" name="checkShisetsuArea" id="checkShisetsuArea01" value="01" style=""><label for="checkShisetsuArea01" class="switch-off">一宮市</label></li>
+
+                            </ul>
+						</div>
+
+						<div class="equip clearfix">
+							<h4>付帯設備<span>複数選択可</span></h4>
+							<ul class="toggle">
+
+                            <li class="slope"><input type="checkbox" name="checkShisetsuEquip" id="checkShisetsuEquip02" value="02" style=""><label for="checkShisetsuEquip02" class="switch-off">スロープ</label></li>
+
+                            <li class="parkingforwc"><input type="checkbox" name="checkShisetsuEquip" id="checkShisetsuEquip03" value="03" style=""><label for="checkShisetsuEquip03" class="switch-off">車椅子使用者駐車場</label></li>
+
+                            <li class="toilet"><input type="checkbox" name="checkShisetsuEquip" id="checkShisetsuEquip04" value="04" style=""><label for="checkShisetsuEquip04" class="switch-off">車椅子対応トイレ</label></li>
+
+                            <li class="rental"><input type="checkbox" name="checkShisetsuEquip" id="checkShisetsuEquip05" value="05" style=""><label for="checkShisetsuEquip05" class="switch-off">車椅子貸出</label></li>
+
+                            <li class="parking"><input type="checkbox" name="checkShisetsuEquip" id="checkShisetsuEquip06" value="06" style=""><label for="checkShisetsuEquip06" class="switch-off">駐車場</label></li>
+
+                            <li class="baby"><input type="checkbox" name="checkShisetsuEquip" id="checkShisetsuEquip07" value="07" style=""><label for="checkShisetsuEquip07" class="switch-off">おむつ交換所</label></li>
+
+                            <li class="milk"><input type="checkbox" name="checkShisetsuEquip" id="checkShisetsuEquip08" value="08" style=""><label for="checkShisetsuEquip08" class="switch-off">授乳室</label></li>
+
+							</ul>
+						</div>
+                        <input type="button" id="btnSearchViaShisetsuOption" onclick="searchShisetsu();" class="btnSky large" value=" 検索" style="">
+					</div>
+					</div>
+					<div class="kana tabs-panel selected" style="display: block;">
+						<div>
+                        <input type="text" name="shisetsuNameTxt" id="shisetsuNameTxt" value="" class="text" placeholder="施設名" style="">  
+                        <!-- テキストボックスが1画面1つの場合に強制的にサブミットがかかるため、防止するためのダミーフィールドです。-->
+                        <input type="text" name="dummy" style="display: none;">
+                        <input type="button" name="command" id="btnSearchShisetsuName" value=" 検索" class="btnSky" onclick="__doPostBack('searchShisetsuName','');" style=""></div>
+						<p>または施設名の先頭のかな文字から検索</p>
+						<ul>
+                            <li><input type="button" name="command" id="shisetsuName_A" onclick="javascript:__doPostBack('shisetsuName','A')" class="btnSky " value="あ行" style=""></li>
+                            <li><input type="button" name="command" id="shisetsuName_KA" onclick="javascript:__doPostBack('shisetsuName','KA')" class="btnSky " value="か行" style=""></li>
+                            <li><input type="button" name="command" id="shisetsuName_SA" onclick="javascript:__doPostBack('shisetsuName','SA')" class="btnSky " value="さ行" style=""></li>
+                            <li><input type="button" name="command" id="shisetsuName_TA" onclick="javascript:__doPostBack('shisetsuName','TA')" class="btnSky disabled" value="た行" disabled="" style=""></li>
+                            <li><input type="button" name="command" id="shisetsuName_NA" onclick="javascript:__doPostBack('shisetsuName','NA')" class="btnSky " value="な行" style=""></li>
+                            <li><input type="button" name="command" id="shisetsuName_HA" onclick="javascript:__doPostBack('shisetsuName','HA')" class="btnSky " value="は行" style=""></li>
+                            <li><input type="button" name="command" id="shisetsuName_MA" onclick="javascript:__doPostBack('shisetsuName','MA')" class="btnSky " value="ま行" style=""></li>
+                            <li><input type="button" name="command" id="shisetsuName_YA" onclick="javascript:__doPostBack('shisetsuName','YA')" class="btnSky " value="や行" style=""></li>
+                            <li><input type="button" name="command" id="shisetsuName_RA" onclick="javascript:__doPostBack('shisetsuName','RA')" class="btnSky disabled" value="ら行" disabled="" style=""></li>
+                            <li><input type="button" name="command" id="shisetsuName_WA" onclick="javascript:__doPostBack('shisetsuName','WA')" class="btnSky disabled" value="わ行" disabled="" style=""></li>
+						</ul>
+					</div>
+
+
+					<div class="list tabs-panel" style="display: none;">
+						<ul>
+                            <li><input type="button" id="zenshisetsu" name="command" value="全施設" class="btnSky" onclick="javascript:__doPostBack('zenshisetsu','')" style=""></li>
+
+                        </ul>
+					</div>
+				</div>
+			</div>
+
+            <div id="divMyMenu" class="mymenu">
+				<h2><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark fa-stack-1x fa-inverse"></i></span>マイメニュー</h2>  
+
+				<div class="unregistered">
+					<h3>初めての方・これから登録される方</h3>
+					<ul>
+
+                        <li class="pre_entry"><input type="button" id="jizen" name="command" class="btnGreen" value=" 利用者登録事前入力" onclick="javascript:__doPostBack('jizen','')" style=""></li>
+                        <script type="text/javascript">beforeSubmit("", "#jizen");</script>
+                 
+					</ul>
+				</div>
+
+				<div class="guide clearfix">
+					<p class="login">現在ログインしていません。予約や抽選の確認などを行うには<a href="javascript:__doPostBack('login','')" class="btnBlue">ログイン</a>してください。</p>
+					<p class="lostpswd"><a href="javascript:__doPostBack('toiawase','')">パスワードを忘れた場合</a></p>
+				</div>
+
+				<ul class="clearfix">
+<li class="yoyaku"><a href="javascript:__doPostBack('yoyaku','')" class="btnBlue" id="btnYoyaku"><span>予約内容の確認・取消</span></a></li><li class="chusen"><a href="javascript:__doPostBack('chusen','')" class="btnBlue" id="btnChusen"><span>抽選申込の確認・取消/当選の確定</span></a></li><li class="riyosha"><a href="javascript:__doPostBack('riyosha','')" class="btnBlue" id="btnRiyosha"><span>利用者情報の変更</span></a></li><li class="message"><a href="javascript:__doPostBack('message','')" class="btnBlue" id="btnMessage"><span>メッセージの確認</span></a></li>
+				</ul>
+			</div>
+
+			<div class="external_link clearfix">
+				<ul>
+
+					<li><a href="https://www.city.ichinomiya.aichi.jp/">一宮市ホームページ</a></li>
+
+				</ul>
+			</div>
+
+		</div>
+        <input type="hidden" name="hiddenIsNyukinki" id="hiddenIsNyukinki" value="False" style="">
+
+  </div>
+  
+</div>
+
+
+
+<!-- おしらせ情報 -->
+
+<!-- おしらせ情報 -->
+<!-- メッセージダイアログ -->
+
+
+<script type="text/javascript">
+    
+    function showMessageDialog(style,title,message) {
+        showMessageDialog(style,title,message,"msgconfirm",null);
+    }
+    function showMessageDialog(style,title,message,confirmCmd,confirmArg) {
+        $("#messageDlg").removeClass().addClass('remodal ' + style);
+        $("#messageDlg h2").text(title);
+        $("#messageDlg div p").html(message);
+        $("#messageDlg ul").remove();
+        if (style=="notice") {
+            $("#messageDlg div").after(
+                "<ul class=\"clearfix\">" +
+                    "<li><input type=\"button\" class=\"btnSky remodal-confirm\" value=\"はい\" onclick=\"__doPostBack('"+confirmCmd+"','"+confirmArg+"');\"></li>" +
+                    "<li><input type=\"button\" class=\"btnSky remodal-cancel\" value=\"いいえ\" onclick=\"location.href='#';\"></li>" +
+                "</ul>");
+            beforeSubmit('', '#messageDlg .remodal-confirm');
+        }
+        location.href='#messageDlg';
+    };
+</script>
+
+<!-- 規約確認 -->
+
+    
+<!-- 規約確認 -->
+
+
+
+   <script type="text/javascript">beforeSubmit(".remodal.lang ul li a", "");</script>
+</form>
+
+
+<a class="blank tooltipstered"></a><div class="remodal-overlay"><div class="remodal info" data-remodal-id="SesseionTimeoutWarn" style="visibility: visible;">
+	<h2>メッセージ</h2>
+	<div><p>セッションタイムアウトまであと1分です。</p></div>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal nav" data-remodal-id="nav" style="visibility: visible;">
+	<h2>メニュー</h2>
+    
+	<ul>
+        <li class="message"><a href="javascript:__doPostBack('message','')">メッセージ</a></li><li class="tebiki"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/_res/projects/default_project/_page_/001/005/266/manual.pdf','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=900,height=800'); return false;">ご利用の手引き</a></li><li class="faq"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/katsuryokusouzou/sports/1000193/1061111/1000089/1005599.html','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes'); return false;">FAQ / よくあるご質問</a></li>
+	</ul>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal news_all" data-remodal-id="news_all" style="visibility: visible;">
+	<h2>一宮市からのお知らせ</h2>
+	<ul>
+
+            <li class="news01">
+<a href="javascript:void(0);" onclick="return false;"><strong>システム停止のお知らせ【10月28日深夜1：00～6：00】</strong></a><span>2026年10月20日</span><p>以下の日時において、メンテナンスのため、予約システムが利用できません。<br>利用者様にはご迷惑をおかけいたしますが、ご理解の程よろしくお願いいたします。<br>2026年10月28日(水）深夜1：00～6：00<br>※最大５時間を予定</p>
+</li>
+
+
+            <li class="news02 even">
+<a href="javascript:void(0);" onclick="return false;">【スポーツ施設予約システム統合のお知らせ】</a><span>2026年10月6日</span><p>2027年4月から、「一宮市スポーツ・公園施設予約システム」が<br>『一宮市施設予約システム』（市内小中学校の施設予約システムとして稼働中）へ統合されます。<br><br>〇2026年11月30日（月）までにID登録をされた方については、現行システムで使用中の利用者ID・パスワードを引き続きお使いいただけます。<br>〇統合後のシステムの稼働日は、2026年12月18日（金）を予定しています。<br>〇2027年4月利用分の抽選予約は、2026年12月21日（月）から受付予定です。<br>詳細については、決まり次第お知らせいたします。</p>
+</li>
+
+
+            <li class="news03">
+<a href="javascript:void(0);" onclick="return false;">尾西第三中学校の点灯者変更について</a><span>2026年7月1日</span><p>2026年7月1日より、尾西第三中学校の点灯者が変更になりました。<br>詳しくは、各窓口へお問い合わせください。<br><br>ご不便をおかけいたしますが、ご理解いただきますようお願い申し上げます。</p>
+</li>
+
+
+            <li class="news04 even">
+<a href="javascript:void(0);" onclick="return false;">尾西運動場（グラウンド・テニスコート）の暴風警報発令時の運営について</a><span>2026年6月25日</span><p>尾西運動場（グラウンド・テニスコート）は、暴風警報発令時は利用できません。<br>また、警報が解除される時間帯により、施設のオープン時間が異なります。<br>詳しくは<a href="https://www.city.ichinomiya.aichi.jp/katsuryokusouzou/sports/1000193/1061112/1076127.html">こちら</a>をご確認ください。<br><br>なお、判断に迷う場合は、スポーツ課（0586-85-7079）へお問い合わせください。</p>
+</li>
+
+
+            <li class="news05">
+<a href="javascript:void(0);" onclick="return false;">受付窓口の一時休止について【一宮市総合体育館】</a><span>2026年6月11日</span><p>アジア・アジアパラ競技大会の開催に伴い、2026年7月28日（火）から一宮市総合体育館の予約システム窓口を一時休止いたします。<br>再開時期は12月中旬を予定しておりますが、未定のため確定次第改めてお知らせいたします。<br><br>ご迷惑をおかけいたしますが、ご理解いただきますようお願い申し上げます。</p>
+</li>
+
+
+            <li class="news06 even">
+<a href="javascript:void(0);" onclick="return false;">木曽川運動場グラウンド及びテニスコートの点灯者一時変更のお知らせ</a><span>2026年4月20日</span><p>木曽川運動場グラウンド及びテニスコートの点灯者について、現在一時的に担当する者が変更となっております。<br>詳しくは、各窓口へお問い合わせください。<br><br>ご不便をおかけいたしますが、ご理解いただきますようお願い申し上げます。</p>
+</li>
+
+
+            <li class="news07">
+<a href="javascript:void(0);" onclick="return false;">受付窓口の休止について【一宮市温水プール】</a><span>2026年2月15日</span><p>施設の解体・整備に伴い、2026年4月1日から一宮市温水プールの予約システム窓口を休止いたします。ご迷惑をおかけいたしますが、ご理解いただきますようお願い申し上げます。</p>
+</li>
+
+
+            <li class="news08 even">
+<a href="javascript:void(0);" onclick="return false;">利用者登録及び登録情報の変更について</a><span>2025年6月27日</span><p>以下のリンクをご参照ください。<br><a href="https://www.city.ichinomiya.aichi.jp/katsuryokusouzou/sports/1000193/1061111/1000089/1005267.html">一宮市スポーツ施設　利用者登録について</a></p>
+</li>
+
+
+            <li class="news09">
+<a href="javascript:void(0);" onclick="return false;">公共施設のご利用について【施設全般】</a><span>2024年10月8日</span><p>いつも適切な公共施設のご利用ありがとうございます。<br>公共施設は多くの人々が利用する場であり、年齢に関係なく、子ども連れの方々も利用されます。<br>「お互いさま」の気持ちをもって、みんなが気持ちよく利用できるようにしてください。</p>
+</li>
+
+
+            <li class="news10 even">
+<a href="javascript:void(0);" onclick="return false;">公園内での目印等について【公園施設全般】</a><span>2024年5月2日</span><p>公園等の自由広場における目印等の設置について、常設目印の設置を希望する場合は公園緑地課（0586-28-8634）へご相談ください。<br>許可なく設置することはできません。</p>
+</li>
+
+
+            <li class="news11">
+<a href="javascript:void(0);" onclick="return false;"><strong>【まずはじめに】</strong></a><span>2023年12月1日</span><p><strong>・利用者登録要件</strong><br>　〇スポーツ施設<br>　　一宮市内・市外を問わず、15歳以上の個人の方（中学生を除きます）<br>　〇公園施設<br>　　一宮市内・市外を問わず、団体の代表者（大野極楽寺公園有料施設は個人でも可）<br>　　　※団体登録の場合、複数の代表者による重複登録（二重登録）はできません。<br>　　　※団体登録については、1団体に付き1申請とします。<br><strong>・予約受付・取消時間は8時30分～23時59分です。（空き照会は24時間利用可。但し、システムメンテナンス等の場合を除く。）<br>・より多くの方にご利用いただくために、無断キャンセル及び直前キャンセルはやめてください。<br>・抽選申込み、随時申込み等の手続きは必ず本人が行ってください。他人への譲渡や代行入力は禁止しております。<br>・有料施設の使用料の支払期限に注意してください。<br>・ID・パスワードの紛失にご注意ください。<br>・施設の使用可能種目にご注意ください。</strong><br><br>＜お問い合わせ先＞<br>スポーツ課　電話:（0586）85-7079<br>公園緑地課　電話:（0586）28-8634</p>
+</li>
+
+
+            <li class="news12 even">
+<a href="javascript:void(0);" onclick="return false;">休場のご案内【尾西河川敷グラウンド】</a><span>2023年11月1日</span><p>名神高速道路の補修工事のため、令和11年度までA面を休場いたします。<br>ご迷惑をおかけいたしますが、ご理解いただきますようお願い申し上げます。</p>
+</li>
+
+
+	</ul>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal" id="messageDlg" data-remodal-id="messageDlg" style="visibility: visible;">
+    <h2></h2>
+    <div class="clearfix"><p></p>
+         このダイアログは右上の×で閉じることができます。<br>
+        （ブラウザの戻るボタンは使用しないでください。）
+    </div>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal policy" data-remodal-id="policy" style="visibility: visible;">
+	<h2>利用規約の確認</h2>
+	<p>ゲスト登録を行うには利用規約の内容をご確認の上、同意いただく必要があります。</p>
+	<div>
+        <a href="" target="_blank" class="btnGreen large" onclick="changeButton(false)"> 利用規約を確認</a>
+	</div>
+		<ul class="clearfix">
+			<li><input type="button" class="btnBlue remodal-confirm " name="doui" id="doui" value="利用規約に同意する" onclick="javascript:__doPostBack('guest','')" disabled="" style=""></li>
+            <li><input type="button" class="btnGray remodal-cancel " name="douiCancel" id="douiCancel" value="利用規約に同意しない" onclick="changeButton(true)" disabled="" style=""></li>
+		</ul>
+	<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal policy" data-remodal-id="policy_card" style="visibility: visible;">
+        <h2>利用規約の確認</h2>
+        <p>設定を行うには利用規約の内容をご確認の上、同意いただく必要があります。</p>
+    <div>
+	    <a href="" target="_blank" class="btnGreen large" onclick="changeButtonAgree(false)"> 利用規約を確認</a>
+    </div>
+    <ul class="clearfix">
+	    <li><input type="button" class="btnBlue remodal-confirm " name="agree" id="agree" value="利用規約に同意する" onclick="javascript:__doPostBack('pass','')" disabled="" style=""></li>
+	    <li><input type="button" class="btnGray remodal-cancel " name="agreeCancel" id="agreeCancel" value="利用規約に同意しない" onclick="changeButtonAgree(true)" disabled="" style=""></li>
+    </ul>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal lang" data-remodal-id="lang" style="visibility: visible;">
+	<h2>Language</h2>
+	<ul>
+        
+	</ul>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="tooltipster-base blank tooltipster-fade tooltipster-fade-show" style="transition-duration: 350ms; animation-duration: 350ms; top: 1410px; left: 0px;"><div class="tooltipster-content"></div><div class="tooltipster-arrow-top tooltipster-arrow" style="left:-10px;"><span style="border-color:rgba(0, 0, 0, 0);"></span></div></div></body></html>

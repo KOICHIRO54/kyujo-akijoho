@@ -1,0 +1,517 @@
+<!DOCTYPE html><html lang="ja"><head><!-- Global site tag (gtag.js) - Google Analytics -->
+<script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-D8E2HNV49J&amp;cx=c&amp;gtm=4e6al1"></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-171242105-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171242105-1');
+</script>
+<meta charset="utf-8"><title>
+	可児市施設予約システム
+</title><meta name="keywords" content="施設予約,施設管理,公共施設,スポーツ施設,文化施設,インターネット予約"><meta name="description" content="インターネットを利用して、施設の検索、空き状況の閲覧、予約申込、抽選申込、予約状況の確認などが行えます。"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="../Css/Common.css?260219"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="../Common/javascript.js"></script>
+	<script src="../Common/jquery.js"></script>
+	<script src="../Common/jquery.Cookie.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var L_SIZE = '95%'; //大きいサイズ
+            var M_SIZE = '85%';  //デフォルトのサイズ
+            var S_SIZE = '75%';  //小さいサイズ
+            var L_BUTTON = '34px'; //大きいサイズ
+            var M_BUTTON = '27px';  //デフォルトのサイズ
+            var S_BUTTON = '24px';  //小さいサイズ
+
+            // サイズの取得
+            var fontsize = $.cookie("fontsize");
+            var buttonsize = $.cookie('buttonsize')
+            if (fontsize == null) { fontsize = M_SIZE }
+            if (buttonsize == null) { buttonsize = M_BUTTON }
+
+            $("body").css("font-size", fontsize);
+            $(".button").css("height", buttonsize);
+            $(".button2").css("height", buttonsize);
+            $(".buttonWide").css("height", buttonsize);
+            $(".searchButton").css("height", buttonsize);
+
+
+            $('#lnkFontSizeLarge').click(function () {
+                $("body").css("font-size", L_SIZE);
+                $(".button").css("height", L_BUTTON);
+                $(".button2").css("height", L_BUTTON);
+                $(".buttonWide").css("height", L_BUTTON);
+                $(".searchButton").css("height", L_BUTTON);
+                $.cookie("fontsize", L_SIZE, { path: '/', expires: 3 });
+                $.cookie("buttonsize", L_BUTTON, { path: '/', expires: 3 });
+                return false;
+            });
+
+            $('#lnkFontSizeMiddle').click(function () {
+                $("body").css("font-size", M_SIZE);
+                $(".button").css("height", M_BUTTON);
+                $(".button2").css("height", M_BUTTON);
+                $(".buttonWide").css("height", M_BUTTON);
+                $(".searchButton").css("height", M_BUTTON);
+                $.cookie("fontsize", M_SIZE, { path: '/', expires: 3 });
+                $.cookie("buttonsize", M_BUTTON, { path: '/', expires: 3 });
+                return false;
+            });
+
+            $('#lnkFontSizeSmall').click(function () {
+                $("body").css("font-size", S_SIZE);
+                $(".button").css("height", S_BUTTON);
+                $(".button2").css("height", S_BUTTON);
+                $(".buttonWide").css("height", S_BUTTON);
+                $(".searchButton").css("height", S_BUTTON);
+                $.cookie("fontsize", S_SIZE, { path: '/', expires: 3 });
+                $.cookie("buttonsize", S_BUTTON, { path: '/', expires: 3 });
+                return false;
+            });
+        });    
+    </script>
+    
+    <link rel="stylesheet" href="../Css/Main.css">
+    <script src="../Common/decrypt.js"></script>
+    <script src="../Common/modal-multi.js"></script>
+	<script>
+	    // QRコードの読み取り開始フラグ
+	    // 読み取りを開始した際に true、読み取り終了後に false
+	    var qrcode_start = false;
+
+	    // QRコードから読み取った文字を格納する配列
+	    var qrcode_charcode = new Array();
+
+	    // QRコードから読み取った文字列
+	    var qrcode_str = "";
+
+	    // KeyPress の処理フラグ
+	    // 0:通常処理(何もしない)、1:イベントを無効にする、2:イベントを無効にしてフラグを初期化
+	    // ※QRコード読み取り中は1、読み取り後の最初の KeyPress イベントで2がくるようになっている（なってなければNG）
+	    // 　QRコード読み取り中の文字がテキストボックスに入力されるのを防ぐ為。
+	    var keypress_transflag = 0;
+
+	    // キー押下監視
+	    document.onkeydown = function(ev) {
+	        var e;
+	        try {
+	            e = event;
+	        } catch (ex) {
+	            e = ev;
+	        }
+    	   
+
+	        //if (!!use_qrcode_input && use_qrcode_input) {
+	        //    // QRコード入力フラグが true の場合のみ処理
+
+	        //    var canceled = false;
+
+	        //    if (e.altKey) {
+	        //        if (e.keyCode == 96) {
+	        //            if (!qrcode_start) {
+	        //                // Alt + NumPad0(テンキー0) でQRコード読み取り開始 
+	        //                qrcode_start = true;
+	        //                qrcode_charcode = new Array();
+	        //                qrcode_str = "";
+	        //                keypress_transflag = 1;
+	        //            }
+	        //        }
+	        //        if (qrcode_start) {
+	        //            canceled = true;
+
+	        //            if (e.keyCode >= 96 && e.keyCode <= 105) {
+	        //                // NumPad0 ～ NumPad9
+	        //                qrcode_charcode[qrcode_charcode.length++] = e.keyCode;
+	        //                if (qrcode_charcode.length >= 3) {
+	        //                    var charCode = Number(String(qrcode_charcode[0] - 96) + String(qrcode_charcode[1] - 96) + String(qrcode_charcode[2] - 96));
+	        //                    if ((charCode >= 48 && charCode <= 57) || (charCode >= 65 && charCode <= 122) || charCode == 9) {
+	        //                        // 英数字およびTABならOK
+	        //                        qrcode_str += String.fromCharCode(charCode);
+	        //                        qrcode_charcode = new Array();
+	        //                    } else if (charCode == 255) {
+	        //                        // QRコード読み取り終了
+	        //                        qrcode_start = false;
+	        //                        // QRコード入力処理
+	        //                        inputQRCode(qrcode_str);
+	        //                    } else if (charCode == 2 && qrcode_str.length == 0) {
+	        //                        // 先頭の 0x02 無視
+
+	        //                    } else {
+	        //                        // 想定外の入力なら読み取り終了
+	        //                        canceled = false;
+	        //                        qrcode_start = false;
+	        //                    }
+	        //                }
+	        //            } else if (e.keyCode == 18) {
+	        //                // Altのみ
+	        //                qrcode_charcode = new Array();
+	        //            } else {
+	        //                // 何かひとつでも想定外の入力があればQRコード読み取り終了
+	        //                canceled = false;
+	        //                qrcode_start = false;
+	        //            }
+	        //        }
+	        //    } else {
+	        //        qrcode_start = false;
+	        //    }
+
+	        //    if (!qrcode_start) {
+	        //        if (keypress_transflag == 1) {
+	        //            // 読み取り後の初回 KeyPress が 2 になるように
+	        //            keypress_transflag = 2;
+	        //        } else {
+	        //            keypress_transflag = 0;
+	        //        }
+	        //    }
+
+	        //    return controlkey_cancelEvent(canceled, e);
+	        //}
+
+	    };
+
+	    // 文字入力監視
+	    document.onkeypress = function(ev) {
+	        var e;
+	        try {
+	            e = event;
+	        } catch (ex) {
+	            e = ev;
+	        }
+	        
+            switch (keypress_transflag) {
+	            case 0:
+	                break;
+	            case 1:
+	                return controlkey_cancelEvent(true, e);
+	                break;
+	            case 2:
+	                keypress_transflag = 0;
+	                return controlkey_cancelEvent(true, e);
+	                break;
+	        }
+	    }
+
+	    // キー押下キャンセル
+	    // @param canceled
+	    // @return
+	    var controlkey_cancelEvent = function(canceled, ev) {
+	        if (!canceled) return true;
+	        try {
+	            var e;
+	            try {
+	                e = event;
+	            } catch (ex) {
+	                e = ev;
+	            }
+
+	            e.keyCode = 0;
+	            e.altKey = false;
+	            e.returnValue = false;
+	            e.cancelBubble = true;
+	        } catch (ex) { }
+	        return false;
+	    };
+
+	    // QRコードによる入力処理
+	    // @param data QRコード文字列
+	    // @return
+	    function inputQRCode(data) {
+	        // 入力データ検査
+	        if (!data.match(/^[0-9a-zA-Z]+\t[0-9a-zA-Z]+\t[0-9a-zA-Z]+$/)) {
+	            alert('入力された内容が不正です。');
+	            return;
+	        }
+	        // TABを区切り文字としてキー、ID、パスに分割
+	        var fields = data.split('\t');
+	        var key =  fields[0];
+	        // 復号化オブジェクト生成
+	        var decryptor = Decryptor.create(key);
+	        // フィールドの値をセット
+	        // ログイン名
+	   
+	        return;
+	    }
+	    
+        // アコーディオンメニュー展開と閉じる時
+        function toggleDetail(id) {
+            const contents = document.querySelectorAll('.detail-content');
+            // お知らせリスト全般のクラス名
+            const cl = document.getElementsByClassName('informationList');
+            // 管理者・利用者向けのクラス名
+            const cl1 = document.querySelector('.generalInformation');
+            // 施設お知らせ向けのクラス名
+            const cl2 = document.querySelector('.facilityInformation');
+            var setMaxHeight = "";
+            contents.forEach(content => {
+                if (content.id === id) {
+                    // お知らせ欄の高さ調整（アコーディオン表示時は高さ400px、表示なし時は高さ200px）
+                    // 対象のアコーディオンメニューをトグル
+                    if (content.style.display === 'block') {
+                        content.style.display = 'none';
+                        setMaxHeight = "200px";
+                    } else {
+                        content.style.display = 'block';
+                        setMaxHeight = "400px";
+                    }
+                } else {
+                    // 他のアコーディオンメニューは閉じる
+                    content.style.display = 'none';
+                }
+            });
+            // お知らせ欄の最大高さを設定
+            for (let i = 0; i < cl.length; i++) {
+                cl[i].style.maxHeight = "200px";
+            }
+            if (id.includes("generalInformation")) {
+                cl1.style.maxHeight = setMaxHeight;
+            }
+            if (id.includes("facilityInformation")) {
+                cl2.style.maxHeight = setMaxHeight;
+            }
+        }
+        // アコーディオンメニュー「×」をクリック時
+        function accordionCloseBtn(id) {
+            var el = document.getElementById(id);
+            const cl = document.getElementsByClassName('informationList');
+            el.style.display = 'none';
+            // お知らせ欄の最大高さを設定
+            for (let i = 0; i < cl.length; i++) {
+                cl[i].style.maxHeight = "200px";
+            }
+        }
+	</script>
+</head>
+<body style="font-size: 85%;">
+	<noscript><div class="errorMessage">お使いのブラウザではJavaScriptが無効になっています。このページをご利用される場合、JavaScriptを有効にする必要があります。</div></noscript> 
+	<form name="aspnetForm" method="post" action="./UserMain.aspx" id="aspnetForm">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE4OTU5MDkyMjcPZBYCZg9kFgQCAQ9kFgJmDxYCHgRUZXh0BbwCPCEtLSBHbG9iYWwgc2l0ZSB0YWcgKGd0YWcuanMpIC0gR29vZ2xlIEFuYWx5dGljcyAtLT4KPHNjcmlwdCBhc3luYyBzcmM9Imh0dHBzOi8vd3d3Lmdvb2dsZXRhZ21hbmFnZXIuY29tL2d0YWcvanM/aWQ9VUEtMTcxMjQyMTA1LTEiPjwvc2NyaXB0Pgo8c2NyaXB0PgogIHdpbmRvdy5kYXRhTGF5ZXIgPSB3aW5kb3cuZGF0YUxheWVyIHx8IFtdOwogIGZ1bmN0aW9uIGd0YWcoKXtkYXRhTGF5ZXIucHVzaChhcmd1bWVudHMpO30KICBndGFnKCdqcycsIG5ldyBEYXRlKCkpOwoKICBndGFnKCdjb25maWcnLCAnVUEtMTcxMjQyMTA1LTEnKTsKPC9zY3JpcHQ+CmQCAw9kFggCAQ9kFgQCAQ8PFgIfAAUh5Y+v5YWQ5biC5pa96Kit5LqI57SEV2Vi44K144Kk44OIZGQCBQ8PFgIfAGRkZAIDD2QWCgIDDw8WAh4HVmlzaWJsZWhkFgICAQ8QZA8WAWYWARBlZWcWAWZkAgUPDxYCHwFoZBYCAgEPEGQPFgVmAgECAgIDAgQWBRBlZWcQBQzkvZPogrLmlr3oqK0FATFnEAUS77ys44Od44O844OI5Y+v5YWQBQEyZxAFEuemj+elieOCu+ODs+OCv+ODvAUBM2cQBQzlrabmoKHmlr3oqK0FATRnFgFmZAITDxYCHwFoFgICAQ8PFgIfAWhkZAIVDxQrAAIPFgQeC18hRGF0YUJvdW5kZx4LXyFJdGVtQ291bnQCCGRkFgJmD2QWEAIBD2QWEgIBDw8WBB4ISW1hZ2VVcmwFIH4vaW1hZ2Uva2FuaS/jgrDjg6njgqbjg7Pjg4kuanBnHg9Db21tYW5kQXJndW1lbnQFATVkZAICDxUBD+OCsOODqeOCpuODs+ODiWQCAw8PFgIfBQUBNWQWAmYPFQEP44Kw44Op44Km44Oz44OJZAIFDw8WAh8ABQ/jgrDjg6njgqbjg7Pjg4lkZAIHDw8WAh8FBQE1ZGQCCQ8PFgIfBQUBNWRkAgoPFQIe5Y+v5YWQ5biCQiZH5rW35rSL44K744Oz44K/44O8DDA1NzQtNjItODYwM2QCCw8PFgIfBQUBNWRkAg0PDxYCHwUFATVkZAICD2QWEgIBDw8WBB8EBSh+L2ltYWdlL2thbmkvQu+8hkfmtbfmtIvjgrvjg7Pjgr/jg7wuanBnHwUFATFkZAICDxUBJOWPr+WFkOW4gu+8ou+8hu+8p+a1t+a0i+OCu+ODs+OCv+ODvGQCAw8PFgIfBQUBMWQWAmYPFQEk5Y+v5YWQ5biC77yi77yG77yn5rW35rSL44K744Oz44K/44O8ZAIFDw8WAh8ABSTlj6/lhZDluILvvKLvvIbvvKfmtbfmtIvjgrvjg7Pjgr/jg7xkZAIHDw8WAh8FBQExZGQCCQ8PFgIfBQUBMWRkAgoPFQIe5Y+v5YWQ5biCQiZH5rW35rSL44K744Oz44K/44O8DDA1NzQtNjItODYwM2QCCw8PFgIfBQUBMWRkAg0PDxYCHwUFATFkZAIDD2QWEgIBDw8WBB8EBSZ+L2ltYWdlL2thbmkvS1lC44OG44OL44K544Kz44O844OILmpwZx8FBQEzZGQCAg8VARLjg4bjg4vjgrnjgrPjg7zjg4hkAgMPDxYCHwUFATNkFgJmDxUBEuODhuODi+OCueOCs+ODvOODiGQCBQ8PFgIfAAUS44OG44OL44K544Kz44O844OIZGQCBw8PFgIfBQUBM2RkAgkPDxYCHwUFATNkZAIKDxUCG+OCq+ODpOODkOODhuODi+OCueOCs+ODvOODiAwwNTc0LTYzLTUxNDRkAgsPDxYCHwUFATNkZAINDw8WAh8FBQEzZGQCBA9kFhICAQ8PFgQfBAUjfi9pbWFnZS9rYW5pL0tZQuOCueOCv+OCuOOCouODoC5qcGcfBQUBMmRkAgIPFQEP44K544K/44K444Ki44OgZAIDDw8WAh8FBQEyZBYCZg8VAQ/jgrnjgr/jgrjjgqLjg6BkAgUPDxYCHwAFD+OCueOCv+OCuOOCouODoGRkAgcPDxYCHwUFATJkZAIJDw8WAh8FBQEyZGQCCg8VAhjjgqvjg6Tjg5Djgrnjgr/jgrjjgqLjg6AMMDU3NC02MC0xMTIwZAILDw8WAh8FBQEyZGQCDQ8PFgIfBQUBMmRkAgUPZBYSAgEPDxYEHwQFIX4vaW1hZ2Uva2FuaS9M44Od44O844OI5Y+v5YWQLmpwZx8FBQE3ZGQCAg8VARLvvKzjg53jg7zjg4jlj6/lhZBkAgMPDxYCHwUFATdkFgJmDxUBEu+8rOODneODvOODiOWPr+WFkGQCBQ8PFgIfAAUS77ys44Od44O844OI5Y+v5YWQZGQCBw8PFgIfBQUBN2RkAgkPDxYCHwUFATdkZAIKDxUCEu+8rOODneODvOODiOWPr+WFkAwwNTc0LTYxLTAxMTFkAgsPDxYCHwUFATdkZAINDw8WAh8FBQE3ZGQCBg9kFhICAQ8PFgQfBAUjfi9pbWFnZS9rYW5pL+emj+elieOCu+ODs+OCv+ODvC5qcGcfBQUBOGRkAgIPFQES56aP56WJ44K744Oz44K/44O8ZAIDDw8WAh8FBQE4ZBYCZg8VARLnpo/npYnjgrvjg7Pjgr/jg7xkAgUPDxYCHwAFEuemj+elieOCu+ODs+OCv+ODvGRkAgcPDxYCHwUFAThkZAIJDw8WAh8FBQE4ZGQCCg8VAhLnpo/npYnjgrvjg7Pjgr/jg7wMMDU3NC02Mi01MzI5ZAILDw8WAh8FBQE4ZGQCDQ8PFgIfBQUBOGRkAgcPZBYSAgEPDxYEHwQFGH4vaW1hZ2Uva2FuaS9ub2ltYWdlLmpwZx8FBQE5ZGQCAg8VAQnlsI/lrabmoKFkAgMPDxYCHwUFATlkFgJmDxUBCeWwj+WtpuagoWQCBQ8PFgIfAAUJ5bCP5a2m5qChZGQCBw8PFgIfBQUBOWRkAgkPDxYCHwUFATlkZAIKDxUCHuWPr+WFkOW4gkImR+a1t+a0i+OCu+ODs+OCv+ODvAwwNTc0LTYyLTg2MDNkAgsPDxYCHwUFATlkZAINDw8WAh8FBQE5ZGQCCA9kFhICAQ8PFgQfBAUYfi9pbWFnZS9rYW5pL25vaW1hZ2UuanBnHwUFAjEwZGQCAg8VAQnkuK3lrabmoKFkAgMPDxYCHwUFAjEwZBYCZg8VAQnkuK3lrabmoKFkAgUPDxYCHwAFCeS4reWtpuagoWRkAgcPDxYCHwUFAjEwZGQCCQ8PFgIfBQUCMTBkZAIKDxUCHuWPr+WFkOW4gkImR+a1t+a0i+OCu+ODs+OCv+ODvAwwNTc0LTYyLTg2MDNkAgsPDxYCHwUFAjEwZGQCDQ8PFgIfBQUCMTBkZAIZDw8WAh8ABXXjgrfjgrnjg4bjg6DjgavplqLjgZnjgovjgYrllY/jgYTlkIjjgo/jgZvjga/igKblj6/lhZDluILlvbnmiYDmlofljJbjgrnjg53jg7zjg4ToqrLjgIBFLW1haWw6IHNwb3J0c0BjaXR5LmthbmkubGcuanBkZAIFDw8WBB8ABRLlj6/lhZDluILjg5vjg7zjg6AeC05hdmlnYXRlVXJsBRtodHRwczovL3d3dy5jaXR5LmthbmkubGcuanBkZAILDw8WAh8ABShDb3B5cmlnaHQgQ2l0eS1LYW5pIEFsbCByaWdodHMgcmVzZXJ2ZWQuZGQYAgUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFggFQmN0bDAwJE1hc3RlckNvbnRlbnRQbGFjZUhvbGRlciRmYWNpbGl0eUxpc3QkY3RybDAkYnRuRmFjaWxpdHlJbWFnZQVCY3RsMDAkTWFzdGVyQ29udGVudFBsYWNlSG9sZGVyJGZhY2lsaXR5TGlzdCRjdHJsMSRidG5GYWNpbGl0eUltYWdlBUJjdGwwMCRNYXN0ZXJDb250ZW50UGxhY2VIb2xkZXIkZmFjaWxpdHlMaXN0JGN0cmwyJGJ0bkZhY2lsaXR5SW1hZ2UFQmN0bDAwJE1hc3RlckNvbnRlbnRQbGFjZUhvbGRlciRmYWNpbGl0eUxpc3QkY3RybDMkYnRuRmFjaWxpdHlJbWFnZQVCY3RsMDAkTWFzdGVyQ29udGVudFBsYWNlSG9sZGVyJGZhY2lsaXR5TGlzdCRjdHJsNCRidG5GYWNpbGl0eUltYWdlBUJjdGwwMCRNYXN0ZXJDb250ZW50UGxhY2VIb2xkZXIkZmFjaWxpdHlMaXN0JGN0cmw1JGJ0bkZhY2lsaXR5SW1hZ2UFQmN0bDAwJE1hc3RlckNvbnRlbnRQbGFjZUhvbGRlciRmYWNpbGl0eUxpc3QkY3RybDYkYnRuRmFjaWxpdHlJbWFnZQVCY3RsMDAkTWFzdGVyQ29udGVudFBsYWNlSG9sZGVyJGZhY2lsaXR5TGlzdCRjdHJsNyRidG5GYWNpbGl0eUltYWdlBStjdGwwMCRNYXN0ZXJDb250ZW50UGxhY2VIb2xkZXIkZmFjaWxpdHlMaXN0DxQrAA5kZGRkZGRkPCsACAACCGRkZGYC/////w9kx5NRcYWKkzI9qrYVyR3NEXYMmyX9d5DfhoprB78daGo=">
+
+
+<script type="text/javascript">
+//<![CDATA[
+use_qrcode_input = false;
+//]]>
+</script>
+
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="7C5C7FCB">
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdACw5Qdx1EmgUNFMnq9dV/tuYdeleWtIVaEStlpDJtpMTbozn/1B1Fv7E69RrP4TRCVnQ47whhDzPM/zeiHeYwWIEffmf65SDSJq7AdQUsZIJg9EhhLxqhU9QgRKwx6Cc9pDBB4dH1PZSVtj7e5/TLXTdC0LRi2KjznuVweClXWPIx0QosxUunpUBkOfTa6t8oNUW3YHOFT1G4C2mCm72rILOvojRDH0JAp4SD4vCXDklA5/41H3R31yJPpKKvn16MeiMw6qwGFeQbXAHR9bmwr6EWIAxzoAH3L3NOGec7d2j63q4FYukW/MGJ66M2+IHeD4IBYQHVnD3Ue/6+2JQhP6zeNA/fyrgOttSXNkYO48qPsVuVWgViFcZ/RDCpjN5xZncW3XBt54+MoSQ+fJEoxpQcAetebmmvNdjnVgv8jr2SWCnYf4oa5C1kn2n2Fq6xGB/tcOxHaqqM8XVAXzRSOrGQk+ydh64G4CO56OIRgK0mySj26BQOXHgq9iqc/WqrmRwjEfEkSoE+3rMxFBR6bbYobo9qwDjqjXsJJzgDB7VuhQCYtd6dpEFrMM9XMmKBBpXOyhIL4oMTVpKiNU8+1K7vBJZi/y/bRFZZChEkGA72Z0CexrdUhKBRhK3Zumg1Or5S0e+4KcyKiXi/syozcPQ8Isa84oLETb5BZPnd5Yw7F5E6AJ+cT+yfUPBeHC1bNV0s+El0thaOq47uMrzsOf4jLt9YFBB0laLN7C8FK8tP2euhdw1f8670ausau4O8iT1xsE+2swM7sPV64IPwyrE1CEGfC7LkzbXfj5ukRPQmaMmo/HwXIpmtZfbpR917Q3QOgWvvx+DSOU/ae4RW2r5Ix6BJk1SOOpH8OyLUxW4XegLL4c0S/tZ7GblDnXaX+aBqF6hyvwgZZLCC1+bPqxmezyoLxYXf1Aq4ej71e6ggL9RYcFOmeQnatm4v6Jh/9VldVxEQbZhfjyJ7epan0p5">
+        <div class="mainTable">
+            <div id="ctl00_MasterHeaderPanel">
+	
+            <div class="masterHeader">
+                <header>
+			        <a id="ctl00_lnkSystemTitle" class="masterTitle" href="javascript:__doPostBack('ctl00$lnkSystemTitle','')">可児市施設予約Webサイト</a>
+                    <p class="masterHeaderMenuArea">
+                        
+                    </p>
+                    <span id="ctl00_lblUserName" class="masterLoginArea"></span>
+                </header>
+            </div>
+            <nav id="ctl00_Navigation" class="Navigation">
+                <input class="menu-btn" type="checkbox" id="menu-btn">
+                <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+                <ul id="ctl00_NavigationList" class="NavigationList"><li><h2><input type="submit" name="ctl00$navigationButtonUserMain" value="HOME" id="ctl00_navigationButtonUserMain"></h2></li><li><h2><input type="submit" name="ctl00$navigationButtonScheduleSearch" value="空き状況検索" id="ctl00_navigationButtonScheduleSearch"></h2></li><li><h2><input type="submit" name="ctl00$navigationButtonFacilityList" value="施設検索" id="ctl00_navigationButtonFacilityList"></h2></li><li><h2><input type="submit" name="ctl00$navigationButtonUserRegist" value="利用者登録" id="ctl00_navigationButtonUserRegist"></h2></li></ul>
+            </nav>
+            
+</div>
+		    
+	<div class="table2">
+        <div style="float:left; display:inherit; margin:2px;">初めてご利用の方は<a id="ctl00_MasterContentPlaceHolder_lnkRules" href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$lnkRules','')">こちら</a>をお読みください。</div>
+		
+        
+        <div class="informationArea">
+            <div class="clearText"><h2>お知らせ</h2></div>
+            <div id="ctl00_MasterContentPlaceHolder_InformationPanel" class="informationList generalInformation">
+	<span>2026/03/10 【注意】オンライン利用者登録について</span><a onclick="toggleDetail(&quot;accordion_109, generalInformation&quot;)" data-target="informationView109" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_109, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_109, generalInformation&quot;)">×</a></div><p>オンラインによる利用者登録は、小中学校の体育施設を利用したい団体のみとなっております。スポーツ施設（体育館、テニスコート等）を利用したい方は、可児市Ｂ＆Ｇ海洋センター窓口で利用者登録をしてください。</p><br></div></div><span>2023/11/06 広見市民グラウンド照明LED化･照明柱交換工事終了による利用制限の解除について（11月11日～）</span><a onclick="toggleDetail(&quot;accordion_89, generalInformation&quot;)" data-target="informationView89" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_89, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_89, generalInformation&quot;)">×</a></div><p>広見市民グラウンドの照明ＬＥＤ化、照明柱交換工事が終了しましたので、下記の期間から利用制限を解除します。<br>工事期間中、利用者様には、ご理解・ご協力をいただき誠にありがとうございました。<br><br>〇利用制限解除期間　令和５年11月11日（土）～<br></p><br></div></div><span>2023/09/13 可児市運動公園整備工事による運動公園グラウンドの閉鎖について（令和５年11月～）</span><a onclick="toggleDetail(&quot;accordion_88, generalInformation&quot;)" data-target="informationView88" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_88, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_88, generalInformation&quot;)">×</a></div><p>運動公園グラウンドは整備工事を行いますので、下記の期間は施設を閉鎖します。<br>工事が長期間になるため、利用者様には大変ご迷惑をおかけいたしますが、ご理解のほどよろしくお願いいたします。<br>〇工事期間　　令和５年11月１日～令和８年３月31日（予定）<br>※夜間照明の代替施設として、以下の施設が夜間使用できるようになります。<br>（19：00～21：00）<br>・広見市民グラウンド　令和５年11月15日～<br>・塩河公園グラウンド　令和５年11月１日～</p><br></div></div><span>2022/07/20 日特スパークテックＷＫＳ（ワークス）パークグラウンドの利用について</span><a onclick="toggleDetail(&quot;accordion_77, generalInformation&quot;)" data-target="informationView77" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_77, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_77, generalInformation&quot;)">×</a></div><p> 日特スパークテックＷＫＳ（ワークス）パークグラウンドを利用される際には、以下のことにご注意ください。<br><br>（１）グラウンドを使用する際は、公園東側駐車場に駐車してください。<br>（２）駐車台数が限られるため、極力乗り合わせでご利用ください。<br>（３）グラウンド利用者以外に、公園利用者などの多数の車両出入りもあることから、<br>　　　場内での車両や子供の乗車管理などに、十分気を付けてください。<br>（４）グラウンドに設置している倉庫の利用については、可児市B&amp;G海洋センター<br>　　（0574-62-8603）にお問い合わせください。</p><br></div></div><span>2021/09/29 翌日の利用申し込みについて</span><a onclick="toggleDetail(&quot;accordion_27, generalInformation&quot;)" data-target="informationView27" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_27, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_27, generalInformation&quot;)">×</a></div><p>システム利用者登録がお済みの方で、本システムにて利用申込（予約）をする際、翌日の予約はできません。<br>（翌々日以降の予約申込ができます。）</p><br></div></div><span>2020/11/01 予約の取り消し、変更について</span><a onclick="toggleDetail(&quot;accordion_56, generalInformation&quot;)" data-target="informationView56" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_56, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_56, generalInformation&quot;)">×</a></div><p>体育施設の予約の取り消し、または変更する場合、使用日の４日前までであれば料金はかかりません。使用日の３日前以降に取り消し、変更する場合は料金がかかります。<br>使用日の３日前以降については取り消し、変更の操作は行うことができませんので、予約の取り消し、変更を希望する方はB＆G海洋センターにご連絡ください。万が一誤って予約を申し込んでしまった場合は、当日中にＢ＆Ｇ海洋センターにご連絡ください。</p><br></div></div><span>2020/11/01 可児市体育施設使用心得</span><a onclick="toggleDetail(&quot;accordion_7, generalInformation&quot;)" data-target="informationView7" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_7, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_7, generalInformation&quot;)">×</a></div><p><br>体育施設を使用するときは、次の事項を遵守すること。<br>１．使用する前に必ず使用許可を受けること<br>２．グラウンドコンディション（雨天後で軟弱等）が悪い時など、使用後の整備が困難な時は、使用しないこと<br>３．利用時間を守ること<br>４．施設内での火気の使用及び喫煙は禁止すること<br>５．施設等を破損した時は、速やかに管理者へ報告すること<br>６．使用後は必ず施設の整備、清掃を行い、ゴミ等は持ち帰ること<br>ルール・マナーを守って、 皆が気持ちよく使えるよう心がけましょう。<br></p><br></div></div><span>2020/11/01 グラウンド使用者の皆様へ</span><a onclick="toggleDetail(&quot;accordion_6, generalInformation&quot;)" data-target="informationView6" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_6, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_6, generalInformation&quot;)">×</a></div><p><br>グラウンドナイターを使用する場合は、鍵が必要になります。<br>詳細は、Ｂ＆Ｇ海洋センターにお問い合せください。<br></p><br></div></div><span>2020/11/01 テニスコート使用者の皆様へ</span><a onclick="toggleDetail(&quot;accordion_5, generalInformation&quot;)" data-target="informationView5" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_5, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_5, generalInformation&quot;)">×</a></div><p><br>施設予約システムでの翌日のテニスコートご予約は、管理上の都合によりできません<br>ただし、利用者登録がお済みの方は可児市Ｂ＆Ｇ海洋センター（電話：0574-62-8603）にお電話いただくか窓口にてお申し込みできますのでお問い合わせください。また、早朝時間帯（午前６時～午前９時）に使用する場合は、事前に職員又は管理人からコートへの入場方法、ハンドルの貸出方法の説明を受けてください。<br>当日の空き状況に関しては、テニスコートまでお問い合わせください。<br>●ＫＹＢテニスコート　 0574-63-5144<br>●鳴子テニスコート　　0574-63-6969<br>※当日の電話予約はできませんので、テニスコートにて申請してください。<br></p><br></div></div><span>2020/11/01 施設を使用される皆様へ （新型コロナウィルス感染防止対策） </span><a onclick="toggleDetail(&quot;accordion_4, generalInformation&quot;)" data-target="informationView4" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_4, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_4, generalInformation&quot;)">×</a></div><p>現在、新型コロナウイルス感染防止対策のため、利用時において、「体育施設利用チェックリストと利用者名簿」の提出や事前消毒、定期的な室内換気などをしていただいています。ご利用にあたり、利用者の安全を確保するためご協力をお願いします。<br></p><br></div></div><span>2020/11/01 （注意）抽選当選後の２次申請（毎月２日から１０日までの間）の方法（申請・取消）について</span><a onclick="toggleDetail(&quot;accordion_23, generalInformation&quot;)" data-target="informationView23" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_23, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_23, generalInformation&quot;)">×</a></div><p>　毎月の抽選申込において、当選された場合、２日から１０日の間に２次申請をする必要があります。同手続きを１０日までに実施しないと、予約が取り消されますので、当選された際は、必ず別添ファイルを参考に、確定操作をお願いします。また、抽選後、当選された予約（当選（未確定））の取消を希望される場合は、当選（放棄）の作業をお願いします。</p><br><p><a href="https://kani.shisetsu-info.jp/Upload/221125174138（抽選当選後　２次申請の方法）ver3.pdf">抽選当選後　２次申請の方法（申請・取消）</a></p><br></div></div><span>2020/11/01 システムのご利用について</span><a onclick="toggleDetail(&quot;accordion_1, generalInformation&quot;)" data-target="informationView1" class="button-link">&gt;詳細</a><div class="item"><div id="accordion_1, generalInformation" class="detail-content"><div class="button-container"><a class="accordion-close-button" onclick="accordionCloseBtn(&quot;accordion_1, generalInformation&quot;)">×</a></div><p><br>市内のスポーツ施設、Lポート可児、福祉センターの予約状況を閲覧できるシステムです。<br>スポーツ施設のみ、事前に利用者登録した上で、インターネットに接続されたパソコンやスマートフォンから行うことができます。<br>初めて利用する人は、可児市B&amp;G海洋センター(0574-62-8603)にお尋ねください。<br><br>こちらから利用者用のマニュアルをダウンロードすることができます。<br></p><br><p><a href="https://kani.shisetsu-info.jp/Upload/211021111354基本操作マニュアル（利用者向け）ver3.pdf">基本操作マニュアル（利用者向け）</a></p><br></div></div>
+</div>
+            
+        </div>
+        <div id="ctl00_MasterContentPlaceHolder_InformationViewPanel">
+
+</div>
+    </div>
+    <div class="table1">
+        <div id="ctl00_MasterContentPlaceHolder_showbtnLogin" class="topPageButtonArea">
+            <h2><input type="submit" name="ctl00$MasterContentPlaceHolder$btnLogin" value="ログイン" id="ctl00_MasterContentPlaceHolder_btnLogin" class="topPageButton1"></h2>
+        </div>
+        <div class="topPageButtonArea">
+            <h2><input type="submit" name="ctl00$MasterContentPlaceHolder$btnScheduleSearch" value="空き状況を検索" id="ctl00_MasterContentPlaceHolder_btnScheduleSearch" class="topPageButton2"></h2>
+        </div>
+         <div class="topPageButtonArea">
+            <h2><input type="submit" name="ctl00$MasterContentPlaceHolder$btnFacilityList" value="施設を検索" id="ctl00_MasterContentPlaceHolder_btnFacilityList" class="topPageButton2"></h2>
+        </div>
+        
+    </div>
+    <div class="table3">
+        
+                
+                <section class="facilityPanelColumn">
+                <div class="facilityPanel">
+                    <div class="facilityPanelLine"></div>
+			        <input type="image" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl0$btnFacilityImage" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl0_btnFacilityImage" class="facilityPanelImage" src="../image/kani/%E3%82%B0%E3%83%A9%E3%82%A6%E3%83%B3%E3%83%89.jpg" alt="施設画像" border="0">
+                    <div class="facilityNameBack textDownLine"><p class="hiddenText">グラウンド</p></div>
+			        <h3 class="textDownLine"><a id="ctl00_MasterContentPlaceHolder_facilityList_ctrl0_btnFacilityName" class="facilityName textDownLine" href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$facilityList$ctrl0$btnFacilityName','')">グラウンド</a></h3>
+			        
+                    
+                    
+                    <span class="facilityPanelMessage">
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:bottom">account_circle</i><span style="font-size:85%">可児市B&amp;G海洋センター</span></p>
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:top">phone</i>0574-62-8603<br></p>
+                    </span>
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl0$btnDetail" value="施設情報" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl0_btnDetail" class="facilityPanelGuideButton">
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl0$btnSchedule" value="空き状況" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl0_btnSchedule" class="facilityPanelScheduleButton">
+                </div>
+		        </section>
+            
+                <section class="facilityPanelColumn">
+                <div class="facilityPanel">
+                    <div class="facilityPanelLine"></div>
+			        <input type="image" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl1$btnFacilityImage" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl1_btnFacilityImage" class="facilityPanelImage" src="../image/kani/B%EF%BC%86G%E6%B5%B7%E6%B4%8B%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC.jpg" alt="施設画像" border="0">
+                    <div class="facilityNameBack textDownLine"><p class="hiddenText">可児市Ｂ＆Ｇ海洋センター</p></div>
+			        <h3 class="textDownLine"><a id="ctl00_MasterContentPlaceHolder_facilityList_ctrl1_btnFacilityName" class="facilityName textDownLine" href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$facilityList$ctrl1$btnFacilityName','')">可児市Ｂ＆Ｇ海洋センター</a></h3>
+			        
+                    
+                    
+                    <span class="facilityPanelMessage">
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:bottom">account_circle</i><span style="font-size:85%">可児市B&amp;G海洋センター</span></p>
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:top">phone</i>0574-62-8603<br></p>
+                    </span>
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl1$btnDetail" value="施設情報" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl1_btnDetail" class="facilityPanelGuideButton">
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl1$btnSchedule" value="空き状況" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl1_btnSchedule" class="facilityPanelScheduleButton">
+                </div>
+		        </section>
+            
+                <section class="facilityPanelColumn">
+                <div class="facilityPanel">
+                    <div class="facilityPanelLine"></div>
+			        <input type="image" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl2$btnFacilityImage" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl2_btnFacilityImage" class="facilityPanelImage" src="../image/kani/KYB%E3%83%86%E3%83%8B%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%88.jpg" alt="施設画像" border="0">
+                    <div class="facilityNameBack textDownLine"><p class="hiddenText">テニスコート</p></div>
+			        <h3 class="textDownLine"><a id="ctl00_MasterContentPlaceHolder_facilityList_ctrl2_btnFacilityName" class="facilityName textDownLine" href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$facilityList$ctrl2$btnFacilityName','')">テニスコート</a></h3>
+			        
+                    
+                    
+                    <span class="facilityPanelMessage">
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:bottom">account_circle</i><span style="font-size:85%">カヤバテニスコート</span></p>
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:top">phone</i>0574-63-5144<br></p>
+                    </span>
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl2$btnDetail" value="施設情報" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl2_btnDetail" class="facilityPanelGuideButton">
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl2$btnSchedule" value="空き状況" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl2_btnSchedule" class="facilityPanelScheduleButton">
+                </div>
+		        </section>
+            
+                <section class="facilityPanelColumn">
+                <div class="facilityPanel">
+                    <div class="facilityPanelLine"></div>
+			        <input type="image" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl3$btnFacilityImage" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl3_btnFacilityImage" class="facilityPanelImage" src="../image/kani/KYB%E3%82%B9%E3%82%BF%E3%82%B8%E3%82%A2%E3%83%A0.jpg" alt="施設画像" border="0">
+                    <div class="facilityNameBack textDownLine"><p class="hiddenText">スタジアム</p></div>
+			        <h3 class="textDownLine"><a id="ctl00_MasterContentPlaceHolder_facilityList_ctrl3_btnFacilityName" class="facilityName textDownLine" href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$facilityList$ctrl3$btnFacilityName','')">スタジアム</a></h3>
+			        
+                    
+                    
+                    <span class="facilityPanelMessage">
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:bottom">account_circle</i><span style="font-size:85%">カヤバスタジアム</span></p>
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:top">phone</i>0574-60-1120<br></p>
+                    </span>
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl3$btnDetail" value="施設情報" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl3_btnDetail" class="facilityPanelGuideButton">
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl3$btnSchedule" value="空き状況" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl3_btnSchedule" class="facilityPanelScheduleButton">
+                </div>
+		        </section>
+            
+                <section class="facilityPanelColumn">
+                <div class="facilityPanel">
+                    <div class="facilityPanelLine"></div>
+			        <input type="image" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl4$btnFacilityImage" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl4_btnFacilityImage" class="facilityPanelImage" src="../image/kani/L%E3%83%9D%E3%83%BC%E3%83%88%E5%8F%AF%E5%85%90.jpg" alt="施設画像" border="0">
+                    <div class="facilityNameBack textDownLine"><p class="hiddenText">Ｌポート可児</p></div>
+			        <h3 class="textDownLine"><a id="ctl00_MasterContentPlaceHolder_facilityList_ctrl4_btnFacilityName" class="facilityName textDownLine" href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$facilityList$ctrl4$btnFacilityName','')">Ｌポート可児</a></h3>
+			        
+                    
+                    
+                    <span class="facilityPanelMessage">
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:bottom">account_circle</i><span style="font-size:85%">Ｌポート可児</span></p>
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:top">phone</i>0574-61-0111<br></p>
+                    </span>
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl4$btnDetail" value="施設情報" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl4_btnDetail" class="facilityPanelGuideButton">
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl4$btnSchedule" value="空き状況" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl4_btnSchedule" class="facilityPanelScheduleButton">
+                </div>
+		        </section>
+            
+                <section class="facilityPanelColumn">
+                <div class="facilityPanel">
+                    <div class="facilityPanelLine"></div>
+			        <input type="image" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl5$btnFacilityImage" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl5_btnFacilityImage" class="facilityPanelImage" src="../image/kani/%E7%A6%8F%E7%A5%89%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC.jpg" alt="施設画像" border="0">
+                    <div class="facilityNameBack textDownLine"><p class="hiddenText">福祉センター</p></div>
+			        <h3 class="textDownLine"><a id="ctl00_MasterContentPlaceHolder_facilityList_ctrl5_btnFacilityName" class="facilityName textDownLine" href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$facilityList$ctrl5$btnFacilityName','')">福祉センター</a></h3>
+			        
+                    
+                    
+                    <span class="facilityPanelMessage">
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:bottom">account_circle</i><span style="font-size:85%">福祉センター</span></p>
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:top">phone</i>0574-62-5329<br></p>
+                    </span>
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl5$btnDetail" value="施設情報" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl5_btnDetail" class="facilityPanelGuideButton">
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl5$btnSchedule" value="空き状況" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl5_btnSchedule" class="facilityPanelScheduleButton">
+                </div>
+		        </section>
+            
+                <section class="facilityPanelColumn">
+                <div class="facilityPanel">
+                    <div class="facilityPanelLine"></div>
+			        <input type="image" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl6$btnFacilityImage" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl6_btnFacilityImage" class="facilityPanelImage" src="../image/kani/noimage.jpg" alt="施設画像" border="0">
+                    <div class="facilityNameBack textDownLine"><p class="hiddenText">小学校</p></div>
+			        <h3 class="textDownLine"><a id="ctl00_MasterContentPlaceHolder_facilityList_ctrl6_btnFacilityName" class="facilityName textDownLine" href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$facilityList$ctrl6$btnFacilityName','')">小学校</a></h3>
+			        
+                    
+                    
+                    <span class="facilityPanelMessage">
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:bottom">account_circle</i><span style="font-size:85%">可児市B&amp;G海洋センター</span></p>
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:top">phone</i>0574-62-8603<br></p>
+                    </span>
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl6$btnDetail" value="施設情報" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl6_btnDetail" class="facilityPanelGuideButton">
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl6$btnSchedule" value="空き状況" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl6_btnSchedule" class="facilityPanelScheduleButton">
+                </div>
+		        </section>
+            
+                <section class="facilityPanelColumn">
+                <div class="facilityPanel">
+                    <div class="facilityPanelLine"></div>
+			        <input type="image" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl7$btnFacilityImage" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl7_btnFacilityImage" class="facilityPanelImage" src="../image/kani/noimage.jpg" alt="施設画像" border="0">
+                    <div class="facilityNameBack textDownLine"><p class="hiddenText">中学校</p></div>
+			        <h3 class="textDownLine"><a id="ctl00_MasterContentPlaceHolder_facilityList_ctrl7_btnFacilityName" class="facilityName textDownLine" href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$facilityList$ctrl7$btnFacilityName','')">中学校</a></h3>
+			        
+                    
+                    
+                    <span class="facilityPanelMessage">
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:bottom">account_circle</i><span style="font-size:85%">可児市B&amp;G海洋センター</span></p>
+                    <p style="white-space:nowrap;"><i class="material-icons md-14" style="vertical-align:top">phone</i>0574-62-8603<br></p>
+                    </span>
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl7$btnDetail" value="施設情報" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl7_btnDetail" class="facilityPanelGuideButton">
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$facilityList$ctrl7$btnSchedule" value="空き状況" id="ctl00_MasterContentPlaceHolder_facilityList_ctrl7_btnSchedule" class="facilityPanelScheduleButton">
+                </div>
+		        </section>
+                                    
+            
+    </div>
+
+    <aside style="text-align:left; clear:both; padding-top:6px;">
+        <div id="ctl00_MasterContentPlaceHolder_BannerArea" class="bannerArea"></div>
+	    <hr>
+        <span id="ctl00_MasterContentPlaceHolder_lblContactUs" class="contactUs">システムに関するお問い合わせは…可児市役所文化スポーツ課　E-mail: sports@city.kani.lg.jp</span><br>
+        <div class="policy">
+	        <p>お客様の個人情報は、当サイト以外の目的では一切使用致しません。また、お客様の同意を無しにして、第三者への開示を行いません。</p>
+	        <p>ブラウザは、Chrome、Safari、Edge、FireFoxに対応しています。</p>
+        </div>
+    </aside>
+
+            <footer>
+	    	    <hr>
+                 <p class="masterHeaderMenuArea">
+                    <a id="ctl00_lnkMunicipalityHomePage" class="masterHeaderMenu " href="https://www.city.kani.lg.jp" target="_blank">可児市ホーム</a>
+                    <a id="ctl00_lnkAgreement" class="masterHeaderMenu " href="javascript:__doPostBack('ctl00$lnkAgreement','')">利用規約</a>
+			        <a id="ctl00_lnkFAQ" class="masterHeaderMenu " href="javascript:__doPostBack('ctl00$lnkFAQ','')">よくある質問</a>
+                </p>
+                <small><span id="ctl00_lblCopyright">Copyright City-Kani All rights reserved.</span></small>
+	        </footer>
+        </div>
+	</form>
+
+</body></html>
