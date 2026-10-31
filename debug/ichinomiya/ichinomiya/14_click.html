@@ -1,0 +1,654 @@
+<!DOCTYPE html><html lang="ja"><!--<![endif]--><head><meta charset="utf-8"><title>
+	一宮市スポーツ・公園施設予約システム
+</title><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Expires" content="-1"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="/Ichinomiya/Web/Content/css/font-awesome.min.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/jquery-ui-1.11.2.min.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/default.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/default_print.css?LastUpdDate=20190901" media="print" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/tooltipster.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <link href="/Ichinomiya/Web/Content/css/jquery.remodal.css?LastUpdDate=20190901" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery-1.11.1.min.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery-ui-1.11.2.min.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/common.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery.tooltipster.min.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery.remodal.js?LastUpdDate=20190901"></script>
+    <script type="text/javascript" src="/Ichinomiya/Web/Scripts/jquery.inputfocus.js?LastUpdDate=20190901"></script>
+	<!--[if lt IE 9]> 
+	<script src="/Ichinomiya/Web/Scripts/html5.js?LastUpdDate=20190901"></script>
+	<script src="/Ichinomiya/Web/Scripts/IE9.js?LastUpdDate=20190901"></script>
+	<script src="/Ichinomiya/Web/Scripts/css3-mediaqueries.js?LastUpdDate=20190901"></script> 
+	<![endif]-->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            
+
+            unload_flg = 1;
+            
+            // 文字サイズ変更時のみスケール調整
+            
+        });
+	    $(document).on('close', '[data-remodal-id=logoutInfo]', function () {
+		    dialog_flg = 0;
+	    });
+	    $(document).on('close', '[data-remodal-id=loginInfo]', function () {
+		    dialog_flg = 0;
+	    });
+        $.ajaxSetup({
+            error: function (xhr, status, error) {
+                    var errorpage = '';
+                    if (errorpage) {
+                        dialog_flg = 1; // アンロードのメッセージを表示させない
+                        window.location.href = errorpage;
+                    }
+                }
+        });
+
+        
+
+    </script>
+
+  <script type="text/javascript">
+$(window).load(function() {
+    var timerID;
+    clearInterval(timerID);
+    timerID = setTimeout('setMessage()', 1140000);
+});
+    function setMessage() 
+    {
+        if (isPostBack == 1) return;
+        
+
+        $.remodal.lookup[$('[data-remodal-id=SesseionTimeoutWarn]').data('remodal')].open();
+    }
+  </script>
+
+</head><body style="overflow-x: hidden;">
+  
+<link href="/Ichinomiya/Web/Content/css/WgR_ShisetsuKensaku.css?LastUpdDate=20190901" media="screen" rel="stylesheet" type="text/css">
+
+<!-- 付帯設備情報 start -->
+<style type="text/css">
+
+	.list table td.equip ul li.equip01,
+	.remodal.detail > div.equip > ul li.equip01{
+		background-image: url(/Ichinomiya/Web/Content/images/sign/bell.png);
+	}
+
+	.list table td.equip ul li.equip02,
+	.remodal.detail > div.equip > ul li.equip02{
+		background-image: url(/Ichinomiya/Web/Content/images/sign/slope.png);
+	}
+
+	.list table td.equip ul li.equip03,
+	.remodal.detail > div.equip > ul li.equip03{
+		background-image: url(/Ichinomiya/Web/Content/images/sign/slopeP.png);
+	}
+
+	.list table td.equip ul li.equip04,
+	.remodal.detail > div.equip > ul li.equip04{
+		background-image: url(/Ichinomiya/Web/Content/images/sign/toilet.png);
+	}
+
+	.list table td.equip ul li.equip05,
+	.remodal.detail > div.equip > ul li.equip05{
+		background-image: url(/Ichinomiya/Web/Content/images/sign/rental.png);
+	}
+
+	.list table td.equip ul li.equip06,
+	.remodal.detail > div.equip > ul li.equip06{
+		background-image: url(/Ichinomiya/Web/Content/images/sign/parking.png);
+	}
+
+	.list table td.equip ul li.equip07,
+	.remodal.detail > div.equip > ul li.equip07{
+		background-image: url(/Ichinomiya/Web/Content/images/sign/baby.png);
+	}
+
+	.list table td.equip ul li.equip08,
+	.remodal.detail > div.equip > ul li.equip08{
+		background-image: url(/Ichinomiya/Web/Content/images/sign/milk.png);
+	}
+
+</style>
+<!-- 付帯設備情報 end -->
+<!-- 地図情報JS start -->
+<script type="text/javascript">
+	    function OpenMapWindow() 
+        {               
+            var shisetsuList = document.getElementsByName("checkShisetsu");
+            var shisetsuListVal = new Array();
+            for(i = 0; i < shisetsuList.length; i++)
+            {
+                if (shisetsuList[i].checked){
+                    shisetsuListVal.push(shisetsuList[i].value);
+                }
+            }
+
+	        var callAdr = "";
+	        for (var i = 0; i < shisetsuListVal.length; i++) {
+	            var adr = GetMapAdr(shisetsuListVal[i]);
+                callAdr = callAdr + adr + ",";
+	        }
+            
+	        array_CallAdr = callAdr.split(","); 
+
+	        if (array_CallAdr.length == 0) showMessageDialog('failure','エラー', '地図で場所を確認したい施設を選択してください。');
+            else {
+	            var openFlg = "False"; 
+                
+                for (var no = 0; no < array_CallAdr.length - 1; no++) {
+	                if (array_CallAdr[no] != "") {
+                        window.open(array_CallAdr[no], "", "toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=750,height=600 ");
+                        openFlg = "True";
+	                }
+	            }
+
+	            if (openFlg == "False") showMessageDialog('failure','エラー', '地図で場所を確認したい施設を選択してください。');
+	        }
+        }
+
+        // 地図アドレス
+	    function GetMapAdr(jiss) {
+
+	        var hdnName = "map_" + jiss;
+	        var obj = document.forms.form1.elements[hdnName];
+
+            var url = obj.value
+
+            return url;
+	        
+	    }
+<!-- 地図情報JS end -->
+<!-- パワーチップ設定 start -->     
+	    $(document).ready(function() {
+	        $('.breadcrumbs a').tooltipster({
+	            potision: 'bottom'
+	        });
+            $(document).on('mouseover', 'div', function() {
+	            $('table td.equip ul li').tooltipster({
+					potision: 'bottom',
+					multiple: true
+	            });
+            });
+
+		    $('#btnNext').tooltipster({
+                minWidth: 250,
+			    content: '施設を選んだら、次へ進みましょう。',
+			    autoClose: false,
+			    positionTracker: true,
+				multiple: true
+		    });
+
+            setToggleOutline();
+
+			// アンロード時のダイアログ対象外、二重送信
+			beforeSubmit("",".list_head .toggle li label");
+
+<!-- スクロール設定 start --> 
+            var scroll = "";
+
+            if (scroll != "") {
+	            var target = $('#' + scroll);
+	            var position = target.offset().top - 20;
+	            $("html, body").animate({ scrollTop: position }, 800);
+            } 
+<!-- スクロール設定 end --> 
+	    });
+<!-- パワーチップ設定 end -->
+        $(document).ajaxComplete(function() {
+		    setToggleOutline();
+
+			// アンロード時のダイアログ対象外、二重送信
+			beforeSubmit("",".list_head .toggle li label");
+
+		    $('#btnNext').tooltipster({
+                minWidth: 250,
+			    content: '施設を選んだら、次へ進みましょう。',
+			    autoClose: false,
+			    positionTracker: true,
+				multiple: true
+		    });
+
+	    });
+
+	    // トグルボタンフォーカス時のアウトライン調整
+	    function setToggleOutline(){
+		    $(".toggle li > input, td.toggle > input").on("focus", function(){
+			    if(this.parentNode.tagName == "LI" || this.parentNode.tagName == "TD"){
+				    var childElem = this.parentNode.childNodes;
+				    if(childElem[0].tagName=="INPUT" && childElem[1].tagName=="LABEL"){
+					    $(childElem[0]).css("width", childElem[1].offsetWidth-2);
+					    $(childElem[0]).css("height", childElem[1].offsetHeight-1);
+				    }
+			    }
+		    });
+	    }
+
+        // 次へボタンのパワーチップ設定
+	    function showNextTip() {
+
+        // スマートフォンサイズの場合ツールチップを表示しない
+        var displayStatus = $('.tooltipster-base').css("display");
+        if(displayStatus == 'none' || displayStatus == null) return;
+
+        // フォントサイズが未設定のときのみ表示
+
+            // ボタンにパワーチップ表示
+	        $('#btnNext').tooltipster('show');
+
+	    }
+<!-- 明細差分取得start -->
+        var btnClickSuu = 0;
+        var btnKaisuu = 0;
+
+        function readMesaiData(){
+             btnClickSuu++;
+
+             $.ajax({
+                url: 'WgR_ShisetsuKensakuIchiran',
+                type: "GET",
+                datatype: "json",
+                cache: false,
+                traditional: true,
+                success: function (j_data) {
+                    $("#shisetsutbl").append(j_data);
+                }
+             });
+
+             if(btnKaisuu == btnClickSuu)
+             {
+                 $("#nextpage").empty(); //divだけを消す
+             }
+
+             setToggleOutline();
+
+			// アンロード時のダイアログ対象外、二重送信
+			beforeSubmit("",".list_head .toggle li label");
+
+             // モーダル差分
+             $.ajax({
+                url: 'WgR_ShisetsuKensakuModal',
+                type: "GET",
+                datatype: "json",
+                cache: false,
+                traditional: true,
+                success: function (k_data) {
+                    // 差分追加
+                    $("body").append((k_data));
+                    $('.remodal').remodal({hashTracking:false});
+
+
+                }
+             });
+        }
+<!-- 明細差分取得end -->
+	</script> 
+
+    <style type="text/css">
+        
+        
+        /**** 文字サイズ変更時のみスケール調整 ****/
+        
+    </style>
+    
+
+
+<form action="/Ichinomiya/Web/Yoyaku/WgR_ShisetsuKensaku" id="form1" method="post" autocomplete="off"><input name="__RequestVerificationToken" type="hidden" value="LDy5XpBD+0THzr34WUKJroAFbG9Af9bnYn8OBWyT7y5zybc84wQOsfWfNOLEzBSaJby5aqaPXOunIZFec7prMQvYEn0bzFNnehxosc038yKw6rVp39R9v2pTLRGZWJA0xEPoqw==">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<div id="wrap" class="remodal-bg">
+	<div id="wrap_head">
+        
+        <div id="head">
+        
+        <h1><span class="city">一宮市</span><span class="title">一宮市スポーツ・公園施設予約システム</span></h1>
+        
+       <div class="login">
+        <p><span>利用者IDをお持ちの方</span><a href="javascript:__doPostBack('login','')" class="btnBlue">ログイン</a></p>
+       </div>
+             
+			  <ul>
+                  <li class="message"><a href="javascript:__doPostBack('message','')">メッセージ</a></li><li class="tebiki"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/_res/projects/default_project/_page_/001/005/266/manual.pdf','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=900,height=800'); return false;">ご利用の手引き</a></li><li class="faq"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/katsuryokusouzou/sports/1000193/1061111/1000089/1005599.html','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes'); return false;">FAQ / よくあるご質問</a></li><li class="style"><a href="javascript:__doPostBack('color','')">色・文字サイズ変更</a></li>
+			  </ul>
+			  <div class="dock_nav">
+				  <a href="#nav">メニュー</a>
+			  </div>
+		  </div>
+	</div>
+  <div id="body">
+    
+   
+    <ul class="breadcrumbs clearfix">
+		<li><a href="javascript:__doPostBack('menu','')" class="tooltipstered">メニュー</a></li>
+		<li class="current"><span>施設の検索</span></li>
+		<li>施設別空き状況</li>
+		<li>時間帯別空き状況</li>
+		<li>詳細申請</li>
+		<li>申込確認</li>
+		<li>申込完了</li>
+	</ul>
+	<div class="content_head">
+	    <h2>施設検索</h2>
+        <p class="desc">
+        空き状況の照会や予約をしたい施設の名称を選んで「次へ進む」を押してください。                                               
+        複数選択可能です。
+        </p>
+	</div>
+	<div class="content_body">
+		<div class="list">
+		    <div class="list_head clearfix">
+				<dl>
+
+				</dl>
+
+			</div>
+<!-- 明細情報設定start -->
+            <div id="ichiran">
+
+<table id="shisetsu" class="shisetsu">
+			   <thead>
+				<tr>
+					<th class="comment">お知らせ</th>
+					<th class="shisetsu">施設名<span>複数選択可</span></th>
+					<th class="info">案内/リンク</th>
+<th class="map">地図</th>
+					<th class="equip">付帯設備</th>
+					<th class="detail">詳細</th>
+				</tr>
+			    </thead>
+		    <tbody id="shisetsutbl">
+
+         <tr>
+		     <td class="comment">
+<a href="#shisetsu001_info"></a>
+             </td>
+
+            <td class="shisetsu toggle"><input type="checkbox" name="checkShisetsu" id="checkShisetsu963001" value="963001" onclick="showNextTip();"><label for="checkShisetsu963001" class="switch-off">平島公園野球場</label></td>
+
+			<td class="info">
+
+            <a href="https://www.city.ichinomiya.aichi.jp/shisetsu/1008918/1044560/1009367.html" target="_blank" class="info">案内</a>
+
+            </td>
+
+			<td class="map">
+
+			<a href="http://maps.google.co.jp/maps?f=q&amp;hl=ja&amp;geocode=&amp;q=%e4%b8%80%e5%ae%ae%e5%b8%82%e7%be%bd%e8%a1%a3%ef%bc%92%e4%b8%81%e7%9b%ae%ef%bc%95%e7%95%aa%ef%bc%93%e5%8f%b7" target="blank"></a>
+
+			</td>
+
+<!-- 付帯設備情報設定 -->
+        	<td class="equip"><ul>
+
+                <li class="equip04" title="車椅子対応トイレ"></li>
+
+                <li class="equip06" title="駐車場"></li>
+
+           </ul></td>
+<!-- 付帯設備情報設定 -->
+<!-- 詳細設定 -->
+          <td class="detail">
+
+          <a href="javascript:void(0);" onclick="var inst = $.remodal.lookup[$('[data-remodal-id=shisetsu001_detail]').data('remodal')];inst.open();"></a>
+
+          </td>
+<!-- 詳細設定 -->
+		</tr>
+
+         <tr class="even">
+		     <td class="comment">
+
+             </td>
+
+            <td class="shisetsu toggle"><input type="checkbox" name="checkShisetsu" id="checkShisetsu963045" value="963045" onclick="showNextTip();"><label for="checkShisetsu963045" class="switch-off">大平島公園</label></td>
+
+			<td class="info">
+
+            <a href="https://www.city.ichinomiya.aichi.jp/shisei/kensetsu/1010061/1000086/1005119.html" target="_blank" class="info">案内</a>
+
+            </td>
+
+			<td class="map">
+
+			<a href="http://maps.google.co.jp/maps?f=q&amp;hl=ja&amp;geocode=&amp;q=%e4%b8%80%e5%ae%ae%e5%b8%82%e6%9c%9d%e6%97%a5%ef%bc%92%e4%b8%81%e7%9b%ae%ef%bc%96%e7%95%aa%ef%bc%91" target="blank"></a>
+
+			</td>
+
+<!-- 付帯設備情報設定 -->
+        	<td class="equip"><ul>
+
+                <li class="equip04" title="車椅子対応トイレ"></li>
+
+           </ul></td>
+<!-- 付帯設備情報設定 -->
+<!-- 詳細設定 -->
+          <td class="detail">
+
+          <a href="javascript:void(0);" onclick="var inst = $.remodal.lookup[$('[data-remodal-id=shisetsu045_detail]').data('remodal')];inst.open();"></a>
+
+          </td>
+<!-- 詳細設定 -->
+		</tr>
+
+			</tbody>
+</table>
+
+            </div>
+<!-- 明細情報設定end -->
+            <input type="hidden" name="HyojiMode" id="HyojiMode" value="filterAll">
+	     </div>
+	  </div>
+
+  </div>
+  
+<div class="navbar">
+		<ul>
+
+            <li class="next"><a href="javascript:__doPostBack('next','')" class="btnBlue tooltipstered" id="btnNext">次へ進む</a></li>
+            <li class="prev"><a href="javascript:__doPostBack('prev','')" class="btnBlue">前に戻る</a></li>
+            <li class="menu"><a href="javascript:__doPostBack('menu','')" class="btnBlue">メニュー</a></li>
+		</ul>
+</div>
+
+</div>
+
+
+<!-- メッセージダイアログ -->
+
+
+<script type="text/javascript">
+    
+    function showMessageDialog(style,title,message) {
+        showMessageDialog(style,title,message,"msgconfirm",null);
+    }
+    function showMessageDialog(style,title,message,confirmCmd,confirmArg) {
+        $("#messageDlg").removeClass().addClass('remodal ' + style);
+        $("#messageDlg h2").text(title);
+        $("#messageDlg div p").html(message);
+        $("#messageDlg ul").remove();
+        if (style=="notice") {
+            $("#messageDlg div").after(
+                "<ul class=\"clearfix\">" +
+                    "<li><input type=\"button\" class=\"btnSky remodal-confirm\" value=\"はい\" onclick=\"__doPostBack('"+confirmCmd+"','"+confirmArg+"');\"></li>" +
+                    "<li><input type=\"button\" class=\"btnSky remodal-cancel\" value=\"いいえ\" onclick=\"location.href='#';\"></li>" +
+                "</ul>");
+            beforeSubmit('', '#messageDlg .remodal-confirm');
+        }
+        location.href='#messageDlg';
+    };
+</script>
+
+<!--施設からのお知らせ-->
+
+    
+    
+<!-- 本日のおしらせ・詳細モーダル -->
+
+<!-- 本日の予定start -->
+
+            
+
+            
+
+<!-- 本日の予定end -->
+<!-- 詳細start -->
+
+
+
+
+
+<!-- 詳細end -->  
+<!-- 登録済施設グループ照会 -->
+
+
+
+</form>
+
+
+<a class="blank tooltipstered"></a><div class="remodal-overlay"><div class="remodal info" data-remodal-id="SesseionTimeoutWarn" style="visibility: visible;">
+	<h2>メッセージ</h2>
+	<div><p>セッションタイムアウトまであと1分です。</p></div>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal nav" data-remodal-id="nav" style="visibility: visible;">
+	<h2>メニュー</h2>
+    
+	<ul>
+        <li class="message"><a href="javascript:__doPostBack('message','')">メッセージ</a></li><li class="tebiki"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/_res/projects/default_project/_page_/001/005/266/manual.pdf','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=900,height=800'); return false;">ご利用の手引き</a></li><li class="faq"><a href="javascript:void(0)" onclick="window.open('https://www.city.ichinomiya.aichi.jp/katsuryokusouzou/sports/1000193/1061111/1000089/1005599.html','','toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes'); return false;">FAQ / よくあるご質問</a></li>
+	</ul>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal" id="messageDlg" data-remodal-id="messageDlg" style="visibility: visible;">
+    <h2></h2>
+    <div class="clearfix"><p></p>
+         このダイアログは右上の×で閉じることができます。<br>
+        （ブラウザの戻るボタンは使用しないでください。）
+    </div>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal info" data-remodal-id="shisetsu001_info" style="visibility: visible;">
+       <h2>平島公園野球場<span>からのお知らせ</span></h2>
+       <div class="item_wrap">
+       
+          <div class="item">
+            <dl><dt>内容</dt><dd>平島公園野球場の料金改定について<br><br>2026年10月利用分から、利用料金が改定されました。<br>詳しくは<a href="https://www.city.ichinomiya.aichi.jp/shisetsu/1008918/1044560/1009367.html" target="_blank">こちら</a>をご確認ください。</dd></dl>
+            <dl><dt>日付</dt><dd>2026年10月1日</dd></dl>
+          </div>
+       
+       </div>
+    <a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal today" data-remodal-id="today_001" style="visibility: visible;">
+	            <h2>平島公園野球場<span>の本日の予定</span></h2>
+                <div class="item_wrap">
+
+		<div class="item">
+			<h3>野球場</h3>
+			<dl class="clearfix"><dt>定員</dt><dd>なし</dd></dl><table>
+				<tbody><tr>
+			        <th>時間帯</th>
+			        <th>利用者</th>
+			        <th>予定</th>
+				</tr>
+
+				<tr>
+			        <td>9:00～17:00</td>
+                    
+                           <td>尾張軟式少年野球ＮＢＶリーグ※</td>
+                    
+			        <td>軟式野球（小学生）</td>
+				</tr>
+
+				<tr>
+			        <td>17:00～19:00</td>
+                    
+			                <td>個人使用</td>
+                    
+			        <td>軟式野球（中学生以上）</td>
+				</tr>
+
+				<tr>
+			        <td>19:00～21:00</td>
+                    
+			                <td>個人使用</td>
+                    
+			        <td>軟式野球（中学生以上）</td>
+				</tr>
+
+			</tbody></table>
+		</div>
+
+    </div>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal today" data-remodal-id="today_045" style="visibility: visible;">
+	            <h2>大平島公園<span>の本日の予定</span></h2>
+                <div class="item_wrap">
+
+		<div class="item">
+			<h3>公園広場</h3>
+			<dl class="clearfix"><dt>定員</dt><dd>なし</dd></dl><table>
+				<tbody><tr>
+			        <th>時間帯</th>
+			        <th>利用者</th>
+			        <th>予定</th>
+				</tr>
+
+				<tr>
+			        <td>9:00～13:00</td>
+                    
+                           <td>富士少年野球クラブＢ</td>
+                    
+			        <td>公園／軟式野球練習（児童）</td>
+				</tr>
+
+				<tr>
+			        <td>13:00～17:00</td>
+                    
+                           <td>富士少年野球クラブ</td>
+                    
+			        <td>公園／軟式野球練習（児童）</td>
+				</tr>
+
+			</tbody></table>
+		</div>
+
+    </div>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal detail" data-remodal-id="shisetsu001_detail" style="visibility: visible;">
+	<h2>平島公園野球場</h2>
+	<ul class="clearfix">
+
+        <li class="info"><a href="https://www.city.ichinomiya.aichi.jp/shisetsu/1008918/1044560/1009367.html" target="_blank" class="btnGreen">案内</a></li>
+
+        <li class="map"><a href="http://maps.google.co.jp/maps?f=q&amp;hl=ja&amp;geocode=&amp;q=%e4%b8%80%e5%ae%ae%e5%b8%82%e7%be%bd%e8%a1%a3%ef%bc%92%e4%b8%81%e7%9b%ae%ef%bc%95%e7%95%aa%ef%bc%93%e5%8f%b7" target="blank" class="btnGreen">地図</a></li>
+
+	</ul>
+
+	<div class="equip">
+		<h3>付帯設備</h3>
+		<ul>
+
+                <li class="equip04" title="車椅子対応トイレ">車椅子対応トイレ</li>
+
+                <li class="equip06" title="駐車場">駐車場</li>
+
+		</ul>
+	</div>
+
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal detail" data-remodal-id="shisetsu045_detail" style="visibility: visible;">
+	<h2>大平島公園</h2>
+	<ul class="clearfix">
+
+        <li class="info"><a href="https://www.city.ichinomiya.aichi.jp/shisei/kensetsu/1010061/1000086/1005119.html" target="_blank" class="btnGreen">案内</a></li>
+
+        <li class="map"><a href="http://maps.google.co.jp/maps?f=q&amp;hl=ja&amp;geocode=&amp;q=%e4%b8%80%e5%ae%ae%e5%b8%82%e6%9c%9d%e6%97%a5%ef%bc%92%e4%b8%81%e7%9b%ae%ef%bc%96%e7%95%aa%ef%bc%91" target="blank" class="btnGreen">地図</a></li>
+
+	</ul>
+
+	<div class="equip">
+		<h3>付帯設備</h3>
+		<ul>
+
+                <li class="equip04" title="車椅子対応トイレ">車椅子対応トイレ</li>
+
+		</ul>
+	</div>
+
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="remodal-overlay"><div class="remodal shisetsu_group none" data-remodal-id="shisetsuGroup" style="visibility: visible;">
+	<h2>登録済施設グループ</h2>
+	<div>
+<p>登録している施設グループはありません</p>
+
+	</div>
+<a href="javascript:void(0);" class="remodal-close"></a></div></div><div class="tooltipster-base blank tooltipster-fade tooltipster-fade-show" style="transition-duration: 350ms; animation-duration: 350ms; top: 473px; left: 0px;"><div class="tooltipster-content"></div><div class="tooltipster-arrow-top tooltipster-arrow" style="left:-10px;"><span style="border-color:rgba(0, 0, 0, 0);"></span></div></div></body></html>

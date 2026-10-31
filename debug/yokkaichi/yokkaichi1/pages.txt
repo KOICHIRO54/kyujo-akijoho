@@ -1,0 +1,4 @@
+01	https://yoyacool.e-harp.jp/yokkaichi/FacilityAvailability/Index/242021/0401?rc=002&ptn=1	https://yoyacool.e-harp.jp/yokkaichi/FacilityAvailability/Index/242021/0401?rc=002&ptn=1&d=2026-10-31T00%3A00%3A00&sd=2026-09-27&ed=2026-10-31
+02	スキップ	https://yoyacool.e-harp.jp/yokkaichi/FacilityAvailability/Index/242021/0401?rc=002&ptn=1&d=2026-10-31T00%3A00%3A00&sd=2026-09-27&ed=2026-10-31
+03	click	https://yoyacool.e-harp.jp/yokkaichi/FacilityAvailability/Index/242021/0401?rc=002&ptn=1&d=2026-10-31T00%3A00%3A00&sd=2026-11-01&ed=2026-12-05
+04	click	https://yoyacool.e-harp.jp/yokkaichi/FacilityAvailability/Index/242021/0401?rc=002&ptn=1&d=2026-10-31T00%3A00%3A00&sd=2026-11-29&ed=2027-01-02

@@ -1,0 +1,265 @@
+<!DOCTYPE html><html lang="ja"><head><!-- Global site tag (gtag.js) - Google Analytics -->
+<script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-D8E2HNV49J&amp;cx=c&amp;gtm=4e6as1"></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-171242105-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171242105-1');
+</script>
+<meta charset="utf-8"><title>
+	可児市施設予約システム
+</title><meta name="keywords" content="施設予約,施設管理,公共施設,スポーツ施設,文化施設,インターネット予約"><meta name="description" content="インターネットを利用して、施設の検索、空き状況の閲覧、予約申込、抽選申込、予約状況の確認などが行えます。"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="../Css/Common.css?260219"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="../Common/javascript.js"></script>
+	<script src="../Common/jquery.js"></script>
+	<script src="../Common/jquery.Cookie.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var L_SIZE = '95%'; //大きいサイズ
+            var M_SIZE = '85%';  //デフォルトのサイズ
+            var S_SIZE = '75%';  //小さいサイズ
+            var L_BUTTON = '34px'; //大きいサイズ
+            var M_BUTTON = '27px';  //デフォルトのサイズ
+            var S_BUTTON = '24px';  //小さいサイズ
+
+            // サイズの取得
+            var fontsize = $.cookie("fontsize");
+            var buttonsize = $.cookie('buttonsize')
+            if (fontsize == null) { fontsize = M_SIZE }
+            if (buttonsize == null) { buttonsize = M_BUTTON }
+
+            $("body").css("font-size", fontsize);
+            $(".button").css("height", buttonsize);
+            $(".button2").css("height", buttonsize);
+            $(".buttonWide").css("height", buttonsize);
+            $(".searchButton").css("height", buttonsize);
+
+
+            $('#lnkFontSizeLarge').click(function () {
+                $("body").css("font-size", L_SIZE);
+                $(".button").css("height", L_BUTTON);
+                $(".button2").css("height", L_BUTTON);
+                $(".buttonWide").css("height", L_BUTTON);
+                $(".searchButton").css("height", L_BUTTON);
+                $.cookie("fontsize", L_SIZE, { path: '/', expires: 3 });
+                $.cookie("buttonsize", L_BUTTON, { path: '/', expires: 3 });
+                return false;
+            });
+
+            $('#lnkFontSizeMiddle').click(function () {
+                $("body").css("font-size", M_SIZE);
+                $(".button").css("height", M_BUTTON);
+                $(".button2").css("height", M_BUTTON);
+                $(".buttonWide").css("height", M_BUTTON);
+                $(".searchButton").css("height", M_BUTTON);
+                $.cookie("fontsize", M_SIZE, { path: '/', expires: 3 });
+                $.cookie("buttonsize", M_BUTTON, { path: '/', expires: 3 });
+                return false;
+            });
+
+            $('#lnkFontSizeSmall').click(function () {
+                $("body").css("font-size", S_SIZE);
+                $(".button").css("height", S_BUTTON);
+                $(".button2").css("height", S_BUTTON);
+                $(".buttonWide").css("height", S_BUTTON);
+                $(".searchButton").css("height", S_BUTTON);
+                $.cookie("fontsize", S_SIZE, { path: '/', expires: 3 });
+                $.cookie("buttonsize", S_BUTTON, { path: '/', expires: 3 });
+                return false;
+            });
+        });    
+    </script>
+    
+	<link rel="stylesheet" href="../Css/Schedule.css">
+    <script src="../Common/Schedule.js"></script>
+    </head>
+<body style="font-size: 85%;">
+	<noscript><div class="errorMessage">お使いのブラウザではJavaScriptが無効になっています。このページをご利用される場合、JavaScriptを有効にする必要があります。</div></noscript> 
+	<form name="aspnetForm" method="post" action="./UserScheduleDay.aspx" id="aspnetForm">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTMxMDU3MzM0Ng8WDB4LRkFDSUxJVFlfSUQCAh4NU0NIRURVTEVfREFURQYA2Jk+82TfiB4SU0NIRURVTEVfVklFV19UWVBFZh4RRkFDSUxJVFlfR1JPVVBfSUQCAR4WTkFUSU9OQUxfSE9MSURBWV9UQUJMRTKkFwABAAAA/////wEAAAAAAAAADAIAAABOU3lzdGVtLkRhdGEsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAVU3lzdGVtLkRhdGEuRGF0YVRhYmxlAwAAABlEYXRhVGFibGUuUmVtb3RpbmdWZXJzaW9uCVhtbFNjaGVtYQtYbWxEaWZmR3JhbQMBAQ5TeXN0ZW0uVmVyc2lvbgIAAAAJAwAAAAYEAAAAmQY8P3htbCB2ZXJzaW9uPSIxLjAiIGVuY29kaW5nPSJ1dGYtMTYiPz4NCjx4czpzY2hlbWEgeG1sbnM9IiIgeG1sbnM6eHM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hIiB4bWxuczptc2RhdGE9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206eG1sLW1zZGF0YSI+DQogIDx4czplbGVtZW50IG5hbWU9Ik5BVElPTkFMX0hPTElEQVlfVEFCTEUiPg0KICAgIDx4czpjb21wbGV4VHlwZT4NCiAgICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iTkFUSU9OQUxfSE9MSURBWSIgdHlwZT0ieHM6ZGF0ZVRpbWUiIG1zZGF0YTp0YXJnZXROYW1lc3BhY2U9IiIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJOQVRJT05BTF9IT0xJREFZX05BTUUiIHR5cGU9InhzOnN0cmluZyIgbXNkYXRhOnRhcmdldE5hbWVzcGFjZT0iIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICA8L3hzOnNlcXVlbmNlPg0KICAgIDwveHM6Y29tcGxleFR5cGU+DQogIDwveHM6ZWxlbWVudD4NCiAgPHhzOmVsZW1lbnQgbmFtZT0idG1wRGF0YVNldCIgbXNkYXRhOklzRGF0YVNldD0idHJ1ZSIgbXNkYXRhOk1haW5EYXRhVGFibGU9Ik5BVElPTkFMX0hPTElEQVlfVEFCTEUiIG1zZGF0YTpVc2VDdXJyZW50TG9jYWxlPSJ0cnVlIj4NCiAgICA8eHM6Y29tcGxleFR5cGU+DQogICAgICA8eHM6Y2hvaWNlIG1pbk9jY3Vycz0iMCIgbWF4T2NjdXJzPSJ1bmJvdW5kZWQiIC8+DQogICAgPC94czpjb21wbGV4VHlwZT4NCiAgPC94czplbGVtZW50Pg0KPC94czpzY2hlbWE+BgUAAADeDjxkaWZmZ3I6ZGlmZmdyYW0geG1sbnM6bXNkYXRhPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOnhtbC1tc2RhdGEiIHhtbG5zOmRpZmZncj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp4bWwtZGlmZmdyYW0tdjEiPg0KICA8dG1wRGF0YVNldD4NCiAgICA8TkFUSU9OQUxfSE9MSURBWV9UQUJMRSBkaWZmZ3I6aWQ9Ik5BVElPTkFMX0hPTElEQVlfVEFCTEUxIiBtc2RhdGE6cm93T3JkZXI9IjAiIGRpZmZncjpoYXNDaGFuZ2VzPSJpbnNlcnRlZCI+DQogICAgICA8TkFUSU9OQUxfSE9MSURBWT4yMDI2LTExLTAzVDAwOjAwOjAwKzA5OjAwPC9OQVRJT05BTF9IT0xJREFZPg0KICAgICAgPE5BVElPTkFMX0hPTElEQVlfTkFNRT7mlofljJbjga7ml6U8L05BVElPTkFMX0hPTElEQVlfTkFNRT4NCiAgICA8L05BVElPTkFMX0hPTElEQVlfVEFCTEU+DQogICAgPE5BVElPTkFMX0hPTElEQVlfVEFCTEUgZGlmZmdyOmlkPSJOQVRJT05BTF9IT0xJREFZX1RBQkxFMiIgbXNkYXRhOnJvd09yZGVyPSIxIiBkaWZmZ3I6aGFzQ2hhbmdlcz0iaW5zZXJ0ZWQiPg0KICAgICAgPE5BVElPTkFMX0hPTElEQVk+MjAyNi0xMS0yM1QwMDowMDowMCswOTowMDwvTkFUSU9OQUxfSE9MSURBWT4NCiAgICAgIDxOQVRJT05BTF9IT0xJREFZX05BTUU+5Yuk5Yq05oSf6Kyd44Gu5pelPC9OQVRJT05BTF9IT0xJREFZX05BTUU+DQogICAgPC9OQVRJT05BTF9IT0xJREFZX1RBQkxFPg0KICAgIDxOQVRJT05BTF9IT0xJREFZX1RBQkxFIGRpZmZncjppZD0iTkFUSU9OQUxfSE9MSURBWV9UQUJMRTMiIG1zZGF0YTpyb3dPcmRlcj0iMiIgZGlmZmdyOmhhc0NoYW5nZXM9Imluc2VydGVkIj4NCiAgICAgIDxOQVRJT05BTF9IT0xJREFZPjIwMjctMDEtMDFUMDA6MDA6MDArMDk6MDA8L05BVElPTkFMX0hPTElEQVk+DQogICAgICA8TkFUSU9OQUxfSE9MSURBWV9OQU1FPuWFg+aXpTwvTkFUSU9OQUxfSE9MSURBWV9OQU1FPg0KICAgIDwvTkFUSU9OQUxfSE9MSURBWV9UQUJMRT4NCiAgICA8TkFUSU9OQUxfSE9MSURBWV9UQUJMRSBkaWZmZ3I6aWQ9Ik5BVElPTkFMX0hPTElEQVlfVEFCTEU0IiBtc2RhdGE6cm93T3JkZXI9IjMiIGRpZmZncjpoYXNDaGFuZ2VzPSJpbnNlcnRlZCI+DQogICAgICA8TkFUSU9OQUxfSE9MSURBWT4yMDI3LTAxLTExVDAwOjAwOjAwKzA5OjAwPC9OQVRJT05BTF9IT0xJREFZPg0KICAgICAgPE5BVElPTkFMX0hPTElEQVlfTkFNRT7miJDkurrjga7ml6U8L05BVElPTkFMX0hPTElEQVlfTkFNRT4NCiAgICA8L05BVElPTkFMX0hPTElEQVlfVEFCTEU+DQogICAgPE5BVElPTkFMX0hPTElEQVlfVEFCTEUgZGlmZmdyOmlkPSJOQVRJT05BTF9IT0xJREFZX1RBQkxFNSIgbXNkYXRhOnJvd09yZGVyPSI0IiBkaWZmZ3I6aGFzQ2hhbmdlcz0iaW5zZXJ0ZWQiPg0KICAgICAgPE5BVElPTkFMX0hPTElEQVk+MjAyNy0wMi0xMVQwMDowMDowMCswOTowMDwvTkFUSU9OQUxfSE9MSURBWT4NCiAgICAgIDxOQVRJT05BTF9IT0xJREFZX05BTUU+5bu65Zu96KiY5b+144Gu5pelPC9OQVRJT05BTF9IT0xJREFZX05BTUU+DQogICAgPC9OQVRJT05BTF9IT0xJREFZX1RBQkxFPg0KICAgIDxOQVRJT05BTF9IT0xJREFZX1RBQkxFIGRpZmZncjppZD0iTkFUSU9OQUxfSE9MSURBWV9UQUJMRTYiIG1zZGF0YTpyb3dPcmRlcj0iNSIgZGlmZmdyOmhhc0NoYW5nZXM9Imluc2VydGVkIj4NCiAgICAgIDxOQVRJT05BTF9IT0xJREFZPjIwMjctMDItMjNUMDA6MDA6MDArMDk6MDA8L05BVElPTkFMX0hPTElEQVk+DQogICAgICA8TkFUSU9OQUxfSE9MSURBWV9OQU1FPuWkqeeah+iqleeUn+aXpTwvTkFUSU9OQUxfSE9MSURBWV9OQU1FPg0KICAgIDwvTkFUSU9OQUxfSE9MSURBWV9UQUJMRT4NCiAgPC90bXBEYXRhU2V0Pg0KPC9kaWZmZ3I6ZGlmZmdyYW0+BAMAAAAOU3lzdGVtLlZlcnNpb24EAAAABl9NYWpvcgZfTWlub3IGX0J1aWxkCV9SZXZpc2lvbgAAAAAICAgIAgAAAAAAAAD//////////wseE0xPVF9BUFBfQ09VTlRfVEFCTEUylyMAAQAAAP////8BAAAAAAAAAAwCAAAATlN5c3RlbS5EYXRhLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OQUBAAAAFVN5c3RlbS5EYXRhLkRhdGFUYWJsZQMAAAAZRGF0YVRhYmxlLlJlbW90aW5nVmVyc2lvbglYbWxTY2hlbWELWG1sRGlmZkdyYW0DAQEOU3lzdGVtLlZlcnNpb24CAAAACQMAAAAGBAAAAJwNPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTE2Ij8+DQo8eHM6c2NoZW1hIHhtbG5zPSIiIHhtbG5zOnhzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6bXNkYXRhPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOnhtbC1tc2RhdGEiPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJMT1RfQVBQX0NPVU5UX1RBQkxFIj4NCiAgICA8eHM6Y29tcGxleFR5cGU+DQogICAgICA8eHM6c2VxdWVuY2U+DQogICAgICAgIDx4czplbGVtZW50IG5hbWU9IkZBQ0lMSVRZX0RFVEFJTF9JRCIgdHlwZT0ieHM6aW50IiBtc2RhdGE6dGFyZ2V0TmFtZXNwYWNlPSIiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iREFURSIgdHlwZT0ieHM6ZGF0ZVRpbWUiIG1zZGF0YTp0YXJnZXROYW1lc3BhY2U9IiIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJDT1VOVCIgdHlwZT0ieHM6aW50IiBtc2RhdGE6dGFyZ2V0TmFtZXNwYWNlPSIiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iU1RBUlRfVElNRSIgdHlwZT0ieHM6c3RyaW5nIiBtc2RhdGE6dGFyZ2V0TmFtZXNwYWNlPSIiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRU5EX1RJTUUiIHR5cGU9InhzOnN0cmluZyIgbXNkYXRhOnRhcmdldE5hbWVzcGFjZT0iIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgIDx4czplbGVtZW50IG5hbWU9IkZBQ0lMSVRZX1NQQUNFX05BTUUiIHR5cGU9InhzOnN0cmluZyIgbXNkYXRhOnRhcmdldE5hbWVzcGFjZT0iIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgIDx4czplbGVtZW50IG5hbWU9IkZBQ0lMSVRZX1NQQUNFX1NUQVJUIiB0eXBlPSJ4czppbnQiIG1zZGF0YTp0YXJnZXROYW1lc3BhY2U9IiIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJGQUNJTElUWV9TUEFDRV9FTkQiIHR5cGU9InhzOmludCIgbXNkYXRhOnRhcmdldE5hbWVzcGFjZT0iIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgIDx4czplbGVtZW50IG5hbWU9IkZBQ0lMSVRZX1NQQUNFX1NUQVJUMiIgdHlwZT0ieHM6aW50IiBtc2RhdGE6dGFyZ2V0TmFtZXNwYWNlPSIiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRkFDSUxJVFlfU1BBQ0VfRU5EMiIgdHlwZT0ieHM6aW50IiBtc2RhdGE6dGFyZ2V0TmFtZXNwYWNlPSIiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRkFDSUxJVFlfU1BBQ0VfQ09VTlQiIHR5cGU9InhzOmludCIgbXNkYXRhOnRhcmdldE5hbWVzcGFjZT0iIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICA8L3hzOnNlcXVlbmNlPg0KICAgIDwveHM6Y29tcGxleFR5cGU+DQogIDwveHM6ZWxlbWVudD4NCiAgPHhzOmVsZW1lbnQgbmFtZT0idG1wRGF0YVNldCIgbXNkYXRhOklzRGF0YVNldD0idHJ1ZSIgbXNkYXRhOk1haW5EYXRhVGFibGU9IkxPVF9BUFBfQ09VTlRfVEFCTEUiIG1zZGF0YTpVc2VDdXJyZW50TG9jYWxlPSJ0cnVlIj4NCiAgICA8eHM6Y29tcGxleFR5cGU+DQogICAgICA8eHM6Y2hvaWNlIG1pbk9jY3Vycz0iMCIgbWF4T2NjdXJzPSJ1bmJvdW5kZWQiIC8+DQogICAgPC94czpjb21wbGV4VHlwZT4NCiAgPC94czplbGVtZW50Pg0KPC94czpzY2hlbWE+BgUAAADOEzxkaWZmZ3I6ZGlmZmdyYW0geG1sbnM6bXNkYXRhPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOnhtbC1tc2RhdGEiIHhtbG5zOmRpZmZncj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp4bWwtZGlmZmdyYW0tdjEiPg0KICA8dG1wRGF0YVNldD4NCiAgICA8TE9UX0FQUF9DT1VOVF9UQUJMRSBkaWZmZ3I6aWQ9IkxPVF9BUFBfQ09VTlRfVEFCTEUxIiBtc2RhdGE6cm93T3JkZXI9IjAiIGRpZmZncjpoYXNDaGFuZ2VzPSJpbnNlcnRlZCI+DQogICAgICA8RkFDSUxJVFlfREVUQUlMX0lEPjM2PC9GQUNJTElUWV9ERVRBSUxfSUQ+DQogICAgICA8REFURT4yMDI2LTEyLTI5VDAwOjAwOjAwKzA5OjAwPC9EQVRFPg0KICAgICAgPENPVU5UPi0xPC9DT1VOVD4NCiAgICA8L0xPVF9BUFBfQ09VTlRfVEFCTEU+DQogICAgPExPVF9BUFBfQ09VTlRfVEFCTEUgZGlmZmdyOmlkPSJMT1RfQVBQX0NPVU5UX1RBQkxFMiIgbXNkYXRhOnJvd09yZGVyPSIxIiBkaWZmZ3I6aGFzQ2hhbmdlcz0iaW5zZXJ0ZWQiPg0KICAgICAgPEZBQ0lMSVRZX0RFVEFJTF9JRD40NDwvRkFDSUxJVFlfREVUQUlMX0lEPg0KICAgICAgPERBVEU+MjAyNi0xMi0yOVQwMDowMDowMCswOTowMDwvREFURT4NCiAgICAgIDxDT1VOVD4tMTwvQ09VTlQ+DQogICAgPC9MT1RfQVBQX0NPVU5UX1RBQkxFPg0KICAgIDxMT1RfQVBQX0NPVU5UX1RBQkxFIGRpZmZncjppZD0iTE9UX0FQUF9DT1VOVF9UQUJMRTMiIG1zZGF0YTpyb3dPcmRlcj0iMiIgZGlmZmdyOmhhc0NoYW5nZXM9Imluc2VydGVkIj4NCiAgICAgIDxGQUNJTElUWV9ERVRBSUxfSUQ+Mzc8L0ZBQ0lMSVRZX0RFVEFJTF9JRD4NCiAgICAgIDxEQVRFPjIwMjYtMTItMjlUMDA6MDA6MDArMDk6MDA8L0RBVEU+DQogICAgICA8Q09VTlQ+LTE8L0NPVU5UPg0KICAgIDwvTE9UX0FQUF9DT1VOVF9UQUJMRT4NCiAgICA8TE9UX0FQUF9DT1VOVF9UQUJMRSBkaWZmZ3I6aWQ9IkxPVF9BUFBfQ09VTlRfVEFCTEU0IiBtc2RhdGE6cm93T3JkZXI9IjMiIGRpZmZncjpoYXNDaGFuZ2VzPSJpbnNlcnRlZCI+DQogICAgICA8RkFDSUxJVFlfREVUQUlMX0lEPjM4PC9GQUNJTElUWV9ERVRBSUxfSUQ+DQogICAgICA8REFURT4yMDI2LTEyLTI5VDAwOjAwOjAwKzA5OjAwPC9EQVRFPg0KICAgICAgPENPVU5UPi0xPC9DT1VOVD4NCiAgICA8L0xPVF9BUFBfQ09VTlRfVEFCTEU+DQogICAgPExPVF9BUFBfQ09VTlRfVEFCTEUgZGlmZmdyOmlkPSJMT1RfQVBQX0NPVU5UX1RBQkxFNSIgbXNkYXRhOnJvd09yZGVyPSI0IiBkaWZmZ3I6aGFzQ2hhbmdlcz0iaW5zZXJ0ZWQiPg0KICAgICAgPEZBQ0lMSVRZX0RFVEFJTF9JRD4zOTwvRkFDSUxJVFlfREVUQUlMX0lEPg0KICAgICAgPERBVEU+MjAyNi0xMi0yOVQwMDowMDowMCswOTowMDwvREFURT4NCiAgICAgIDxDT1VOVD4tMTwvQ09VTlQ+DQogICAgPC9MT1RfQVBQX0NPVU5UX1RBQkxFPg0KICAgIDxMT1RfQVBQX0NPVU5UX1RBQkxFIGRpZmZncjppZD0iTE9UX0FQUF9DT1VOVF9UQUJMRTYiIG1zZGF0YTpyb3dPcmRlcj0iNSIgZGlmZmdyOmhhc0NoYW5nZXM9Imluc2VydGVkIj4NCiAgICAgIDxGQUNJTElUWV9ERVRBSUxfSUQ+NDA8L0ZBQ0lMSVRZX0RFVEFJTF9JRD4NCiAgICAgIDxEQVRFPjIwMjYtMTItMjlUMDA6MDA6MDArMDk6MDA8L0RBVEU+DQogICAgICA8Q09VTlQ+LTE8L0NPVU5UPg0KICAgIDwvTE9UX0FQUF9DT1VOVF9UQUJMRT4NCiAgICA8TE9UX0FQUF9DT1VOVF9UQUJMRSBkaWZmZ3I6aWQ9IkxPVF9BUFBfQ09VTlRfVEFCTEU3IiBtc2RhdGE6cm93T3JkZXI9IjYiIGRpZmZncjpoYXNDaGFuZ2VzPSJpbnNlcnRlZCI+DQogICAgICA8RkFDSUxJVFlfREVUQUlMX0lEPjQxPC9GQUNJTElUWV9ERVRBSUxfSUQ+DQogICAgICA8REFURT4yMDI2LTEyLTI5VDAwOjAwOjAwKzA5OjAwPC9EQVRFPg0KICAgICAgPENPVU5UPi0xPC9DT1VOVD4NCiAgICA8L0xPVF9BUFBfQ09VTlRfVEFCTEU+DQogICAgPExPVF9BUFBfQ09VTlRfVEFCTEUgZGlmZmdyOmlkPSJMT1RfQVBQX0NPVU5UX1RBQkxFOCIgbXNkYXRhOnJvd09yZGVyPSI3IiBkaWZmZ3I6aGFzQ2hhbmdlcz0iaW5zZXJ0ZWQiPg0KICAgICAgPEZBQ0lMSVRZX0RFVEFJTF9JRD40MjwvRkFDSUxJVFlfREVUQUlMX0lEPg0KICAgICAgPERBVEU+MjAyNi0xMi0yOVQwMDowMDowMCswOTowMDwvREFURT4NCiAgICAgIDxDT1VOVD4tMTwvQ09VTlQ+DQogICAgPC9MT1RfQVBQX0NPVU5UX1RBQkxFPg0KICAgIDxMT1RfQVBQX0NPVU5UX1RBQkxFIGRpZmZncjppZD0iTE9UX0FQUF9DT1VOVF9UQUJMRTkiIG1zZGF0YTpyb3dPcmRlcj0iOCIgZGlmZmdyOmhhc0NoYW5nZXM9Imluc2VydGVkIj4NCiAgICAgIDxGQUNJTElUWV9ERVRBSUxfSUQ+NDM8L0ZBQ0lMSVRZX0RFVEFJTF9JRD4NCiAgICAgIDxEQVRFPjIwMjYtMTItMjlUMDA6MDA6MDArMDk6MDA8L0RBVEU+DQogICAgICA8Q09VTlQ+LTE8L0NPVU5UPg0KICAgIDwvTE9UX0FQUF9DT1VOVF9UQUJMRT4NCiAgPC90bXBEYXRhU2V0Pg0KPC9kaWZmZ3I6ZGlmZmdyYW0+BAMAAAAOU3lzdGVtLlZlcnNpb24EAAAABl9NYWpvcgZfTWlub3IGX0J1aWxkCV9SZXZpc2lvbgAAAAAICAgIAgAAAAAAAAD//////////wsWAmYPZBYEAgEPZBYCZg8WAh4EVGV4dAW8AjwhLS0gR2xvYmFsIHNpdGUgdGFnIChndGFnLmpzKSAtIEdvb2dsZSBBbmFseXRpY3MgLS0+CjxzY3JpcHQgYXN5bmMgc3JjPSJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbS9ndGFnL2pzP2lkPVVBLTE3MTI0MjEwNS0xIj48L3NjcmlwdD4KPHNjcmlwdD4KICB3aW5kb3cuZGF0YUxheWVyID0gd2luZG93LmRhdGFMYXllciB8fCBbXTsKICBmdW5jdGlvbiBndGFnKCl7ZGF0YUxheWVyLnB1c2goYXJndW1lbnRzKTt9CiAgZ3RhZygnanMnLCBuZXcgRGF0ZSgpKTsKCiAgZ3RhZygnY29uZmlnJywgJ1VBLTE3MTI0MjEwNS0xJyk7Cjwvc2NyaXB0PgpkAgMPZBYIAgEPZBYEAgEPDxYCHwYFIeWPr+WFkOW4guaWveioreS6iOe0hFdlYuOCteOCpOODiGRkAgUPDxYCHwZkZGQCAw9kFiYCBw88KwAKAQAPFgQeC1Zpc2libGVEYXRlBgDYmT7zZN+IHgJTRBYBBgDYmT7zZN+IZGQCCQ8PFgIeCEltYWdlVXJsBSN+L2ltYWdlL2thbmkvS1lC44K544K/44K444Ki44OgLmpwZ2RkAgsPFgIeCWlubmVyaHRtbAUP44K544K/44K444Ki44OgZAINDw8WAh8GBQ/jgrnjgr/jgrjjgqLjg6BkZAIPDw8WAh8GBTTlj6/lhZDluILlnYLmiLg5ODfnlarlnLA044CA5Y+v5YWQ5biC6YGL5YuV5YWs5ZyS5YaFZGQCEQ8PFgIfBgUY44Kr44Ok44OQ44K544K/44K444Ki44OgZGQCEg8PFgIfBgUa77yIVEVMIO+8miAwNTc0LTYwLTExMjDvvIlkZAIUDw8WAh8GBQsxMi8yOO+9njEvNGRkAhYPDxYCHwYFCjk6MDAtMjE6MDBkZAIYDw8WBB8GZR4HVmlzaWJsZWhkZAIcDw8WAh8LaGRkAh4PDxYCHwtoZGQCIA8QZA8WC2YCAQICAgMCBAIFAgYCBwIIAgkCChYLEAUh5pa96Kit44KS6YG45oqe44GX44Gm44GP44Gg44GV44GEZWcQBRjjgqvjg6Tjg5Djgrnjgr/jgrjjgqLjg6AFAjM1ZxAFIuOCueOCv+OCuOOCouODoCDjg4rjgqTjgr/jg7znhafmmI4FAjM2ZxAFIuOCueOCv+OCuOOCouODoCDjgrnjgrPjgqLjg5zjg7zjg4kFAjQ0ZxAFJeOCueOCv+OCuOOCouODoCDjg5/jg7zjg4bjgqPjg7PjgrDlrqQFAjM3ZxAFGeOCueOCv+OCuOOCouODoCDmnKzpg6jlrqQFAjM4ZxAFGeOCueOCv+OCuOOCouODoCDlvbnlk6HlrqQFAjM5ZxAFGeOCueOCv+OCuOOCouODoCDmlL7pgIHlrqQFAjQwZxAFHOOCueOCv+OCuOOCouODoCDlr6nliKTmjqflrqQFAjQxZxAFGeOCueOCv+OCuOOCouODoCDoqJjogIXlrqQFAjQyZxAFH+OCueOCv+OCuOOCouODoCDlhoXpg6joprPopqflrqQFAjQzZ2RkAiYPFgIfC2cWBAIBDw8WBB4JQmFja0NvbG9yCfr6+gAeBF8hU0ICCGRkAgMPDxYCHwYFBuepuuOBjWRkAigPFgIfC2cWBAIBDw8WBB8MCaqqqgAfDQIIZGQCAw8PFgIfBgUM5LqI57SE5LiN5Y+vZGQCKg8WAh8LZxYEAgEPDxYEHwwJRMx3AB8NAghkZAIDDw8WAh8GBQnkuojntITmuIhkZAIyDxYCHwtoFgQCAQ8PFgQfDAn/7swAHw0CCGRkAgMPDxYCHwYFD+aKvemBuOeUs+i+vOWPr2RkAjYPDxYCHwYFHzIwMjYg5bm0IDEyIOaciCAyOSDml6XvvIjngavvvIlkZAI4D2QWAgIBDxBkZBYAZAIFDw8WBB8GBRLlj6/lhZDluILjg5vjg7zjg6AeC05hdmlnYXRlVXJsBRtodHRwczovL3d3dy5jaXR5LmthbmkubGcuanBkZAILDw8WAh8GBShDb3B5cmlnaHQgQ2l0eS1LYW5pIEFsbCByaWdodHMgcmVzZXJ2ZWQuZGRk7Lvwl/XlfYv2zlpx3ks6XU1oeEy02wcF7C/4s0tXqrY=">
+
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="BB07824D">
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAEYOm9jwsR0lCdHd/Y8SY9BhdeleWtIVaEStlpDJtpMTbozn/1B1Fv7E69RrP4TRCVnQ47whhDzPM/zeiHeYwWIEffmf65SDSJq7AdQUsZIJg9EhhLxqhU9QgRKwx6Cc9pBEKLMVLp6VAZDn02urfKDVCPMcw4q/fOGsraDlp99rP7alsy2RGzqbCKKkBiRmjdVRZSWB0Vb7tFc/cHfiucwMQjRQVSlZpd2tsHlcKvK5WihMgXVvkAP3AubM2DZXqM1PPBHcaWpRdrhbsVIN8l6RFppGzpx0kgnzxhxZ8jU/UllEGr6YuGozHynd/DdgxkwWr8fHPZ1YCxbRAyKLV6iwCdA7+y/fl6x9FrX+C94BwyuDAPDtH6WBzsPEfAl+b6pmjWw7CqZA0alUS+eOMhu0sYtSao7SUWUGAywpG5hXyTH1f2NNU5mCwv89D89s5KPLa03qQpRUNGAfcI9h+y0xa1gnz1td+LBUO/8tWKYu0IY3bPWKVVEeulaaaUv1Xo+JPZvZkNWFgUmGv5Rd8AkOskABzf3IqLsg69bFGJDHqQIWSmS5ULuFH6NWiHtU/Akdl7zrwvULqnEnMVLRqSbmB/wiwBC0Mcn/OIrbRILEKJTHBcOHWF2Ome9C6l87JdATW8no1oWIwFAUev/rHEDvYVmV4Yi25nVNmz2/WGSpXPsr85qhoECxGvRCTcXE5+Gx+n1wsXN7PQOqGhH7BwA2b7Gm+s/CglD1JPvqf3p0waKta5PF4tWFYluiCPH13GxGL4uIohnPm22E2Fw4dVWNtdbAxI0/J55sWoPqILBfjq5asdCpAmFL6XqqJwupbqGeF8n0wFPVrwFJRO/GczDTEAPSz/mKQQUeEYUibk8m5RVmGmM1J4WG789GKTguhkHTrAOTZw6YbGlRRw2T62jlOyXJniwhHpIBUk7BehaToiFYVWlA023QZIiWVgi1+enwjlUjZNkoqs8hnj4Ivu9DqzO0gyUinCgC9UKd2kLF8czXCDmOTfI7m9sbBJtI8j19m8+CGaYLPL3Kk7C7Au1VKLXe+yiWiFtXAs+NyCf3KOVDJk5gVCJxnePfyULlrPYqIDoo+BO+SzAb/Xc/Mjdmn+mXXpPugI72Ydeh9kryyfpxMbKll2wfRHBy6JsEdOXgY5rnJLycVR8SBhGMDfnCjshFf619a2ZC0R9pGTrC91k2ivVKwp52gXp/LVKMb0/c1FeTwIMT+b+hasd1yOIVX/nAXbj+VwmVCOAUS+KMYvpIufRixBfRTMMJ/rP2bIBxpNl/uyjsHSkSEID/FjjYVH7730ie2Ui8jAKBgqf5lnRfDEYuROm7Wih608pItCY7KbxEgNJKRpe8i9cUYjp/81DX/rW19N9KOOVED7OasSunCLsmb3KKryCuwM1+3KNvqt5c558BP1M6VZ2WNYxaVpiTR0Q7MpXHKDD50bX8c4GoXqHK/CBlksILX5s+rGZ7PKgvFhd/UCrh6PvV7qCAF0+8PQAeSYNiPouwegO0yVxCtQfH5vq34jpTyVb5QTc=">
+        <div class="mainTable">
+            <div id="ctl00_MasterHeaderPanel">
+	
+            <div class="masterHeader">
+                <header>
+			        <a id="ctl00_lnkSystemTitle" class="masterTitle" href="javascript:__doPostBack('ctl00$lnkSystemTitle','')">可児市施設予約Webサイト</a>
+                    <p class="masterHeaderMenuArea">
+                        
+                    </p>
+                    <span id="ctl00_lblUserName" class="masterLoginArea"></span>
+                </header>
+            </div>
+            <nav id="ctl00_Navigation" class="Navigation">
+                <input class="menu-btn" type="checkbox" id="menu-btn">
+                <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+                <ul id="ctl00_NavigationList" class="NavigationList"><li><h2><input type="submit" name="ctl00$navigationButtonUserMain" value="HOME" id="ctl00_navigationButtonUserMain"></h2></li><li><h2><input type="submit" name="ctl00$navigationButtonScheduleSearch" value="空き状況検索" id="ctl00_navigationButtonScheduleSearch"></h2></li><li><h2><input type="submit" name="ctl00$navigationButtonFacilityList" value="施設検索" id="ctl00_navigationButtonFacilityList"></h2></li><li><h2><input type="submit" name="ctl00$navigationButtonUserRegist" value="利用者登録" id="ctl00_navigationButtonUserRegist"></h2></li></ul>
+            </nav>
+            
+</div>
+		    
+	<div class="mainTable">
+        <div class="headerArea">
+            <div class="headerLeft">空き状況 ＞ １日表示<h1>空き状況の確認</h1></div>
+            <div class="headerRight">
+                <input type="submit" name="ctl00$MasterContentPlaceHolder$btnScheduleSearch" value="空き状況を検索" id="ctl00_MasterContentPlaceHolder_btnScheduleSearch" class="button" style="height: 27px;">
+                <input type="submit" name="ctl00$MasterContentPlaceHolder$btnReturnHeader" value="戻る" id="ctl00_MasterContentPlaceHolder_btnReturnHeader" class="button2" style="height: 27px;">
+            </div>
+        </div>
+        
+        <div class="calendarArea">
+			<table id="ctl00_MasterContentPlaceHolder_ScheduleCalendar" cellspacing="0" cellpadding="1" title="カレンダー" bordercolor="#225588" border="0" width="240" height="220" bgcolor="White">
+	<tbody><tr><td colspan="7" bgcolor="#225588" height="28"><font face="Verdana" color="#003399"><table cellspacing="0" border="0" width="100%">
+		<tbody><tr><td width="15%"><font face="Verdana" color="White"><b><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','V9801')" style="color:White" title="先月へ移動">前月</a></b></font></td><td align="center" width="70%"><font face="Verdana" color="White"><b>2026年12月</b></font></td><td align="right" width="15%"><font face="Verdana" color="White"><b><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','V9862')" style="color:White" title="来月へ移動">翌月</a></b></font></td></tr>
+	</tbody></table></font></td></tr><tr><th align="center" abbr="日曜日" scope="col" bgcolor="#7799BB" height="15"><font face="Verdana" color="#EEF8FF">日</font></th><th align="center" abbr="月曜日" scope="col" bgcolor="#7799BB" height="15"><font face="Verdana" color="#EEF8FF">月</font></th><th align="center" abbr="火曜日" scope="col" bgcolor="#7799BB" height="15"><font face="Verdana" color="#EEF8FF">火</font></th><th align="center" abbr="水曜日" scope="col" bgcolor="#7799BB" height="15"><font face="Verdana" color="#EEF8FF">水</font></th><th align="center" abbr="木曜日" scope="col" bgcolor="#7799BB" height="15"><font face="Verdana" color="#EEF8FF">木</font></th><th align="center" abbr="金曜日" scope="col" bgcolor="#7799BB" height="15"><font face="Verdana" color="#EEF8FF">金</font></th><th align="center" abbr="土曜日" scope="col" bgcolor="#7799BB" height="15"><font face="Verdana" color="#EEF8FF">土</font></th></tr><tr><td align="center" bgcolor="White" height="21" width="14%"><font face="Verdana" color="#999999"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9829')" style="color:#999999" title="11月29日">29</a></font></td><td align="center" bgcolor="White" height="21" width="14%"><font face="Verdana" color="#999999"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9830')" style="color:#999999" title="11月30日">30</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9831')" style="color:#003399" title="12月1日">1</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9832')" style="color:#003399" title="12月2日">2</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9833')" style="color:#003399" title="12月3日">3</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9834')" style="color:#003399" title="12月4日">4</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="Red"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9835')" style="color:Red" title="12月5日">5</a></font></td></tr><tr><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="Red"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9836')" style="color:Red" title="12月6日">6</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9837')" style="color:#003399" title="12月7日">7</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9838')" style="color:#003399" title="12月8日">8</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9839')" style="color:#003399" title="12月9日">9</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9840')" style="color:#003399" title="12月10日">10</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9841')" style="color:#003399" title="12月11日">11</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="Red"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9842')" style="color:Red" title="12月12日">12</a></font></td></tr><tr><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="Red"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9843')" style="color:Red" title="12月13日">13</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9844')" style="color:#003399" title="12月14日">14</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9845')" style="color:#003399" title="12月15日">15</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9846')" style="color:#003399" title="12月16日">16</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9847')" style="color:#003399" title="12月17日">17</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9848')" style="color:#003399" title="12月18日">18</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="Red"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9849')" style="color:Red" title="12月19日">19</a></font></td></tr><tr><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="Red"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9850')" style="color:Red" title="12月20日">20</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9851')" style="color:#003399" title="12月21日">21</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9852')" style="color:#003399" title="12月22日">22</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9853')" style="color:#003399" title="12月23日">23</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9854')" style="color:#003399" title="12月24日">24</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9855')" style="color:#003399" title="12月25日">25</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="Red"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9856')" style="color:Red" title="12月26日">26</a></font></td></tr><tr><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="Red"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9857')" style="color:Red" title="12月27日">27</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9858')" style="color:#003399" title="12月28日">28</a></font></td><td align="center" bgcolor="#EE3333" height="21" width="14%"><font face="Verdana" color="White"><b><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9859')" style="color:White" title="12月29日">29</a></b></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9860')" style="color:#003399" title="12月30日">30</a></font></td><td align="center" bgcolor="#E7F3CC" height="21" width="14%"><font face="Verdana" color="#003399"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9861')" style="color:#003399" title="12月31日">31</a></font></td><td align="center" bgcolor="White" height="21" width="14%"><font face="Verdana" color="#999999"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9862')" style="color:#999999" title="1月1日">1</a></font></td><td align="center" bgcolor="White" height="21" width="14%"><font face="Verdana" color="#999999"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9863')" style="color:#999999" title="1月2日">2</a></font></td></tr><tr><td align="center" bgcolor="White" height="21" width="14%"><font face="Verdana" color="#999999"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9864')" style="color:#999999" title="1月3日">3</a></font></td><td align="center" bgcolor="White" height="21" width="14%"><font face="Verdana" color="#999999"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9865')" style="color:#999999" title="1月4日">4</a></font></td><td align="center" bgcolor="White" height="21" width="14%"><font face="Verdana" color="#999999"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9866')" style="color:#999999" title="1月5日">5</a></font></td><td align="center" bgcolor="White" height="21" width="14%"><font face="Verdana" color="#999999"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9867')" style="color:#999999" title="1月6日">6</a></font></td><td align="center" bgcolor="White" height="21" width="14%"><font face="Verdana" color="#999999"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9868')" style="color:#999999" title="1月7日">7</a></font></td><td align="center" bgcolor="White" height="21" width="14%"><font face="Verdana" color="#999999"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9869')" style="color:#999999" title="1月8日">8</a></font></td><td align="center" bgcolor="White" height="21" width="14%"><font face="Verdana" color="#999999"><a href="javascript:__doPostBack('ctl00$MasterContentPlaceHolder$ScheduleCalendar','9870')" style="color:#999999" title="1月9日">9</a></font></td></tr>
+</tbody></table>
+		</div>
+
+        <div class="facilityPanelArea">
+            <div class="clearText"><h3>施設情報</h3></div>
+            <div class="facilityPanel" style="width:100%;">
+                <img id="ctl00_MasterContentPlaceHolder_FacilityImage" class="facilityPanelImageForSchedule" src="../image/kani/KYB%E3%82%B9%E3%82%BF%E3%82%B8%E3%82%A2%E3%83%A0.jpg" alt="施設画像" border="0">
+                <div class="facilityNameBackForSchedule"><p id="ctl00_MasterContentPlaceHolder_facilityNameBackForSchedule" class="textDownLine hiddenText">スタジアム</p></div>
+                <span id="ctl00_MasterContentPlaceHolder_lblFacilityName" class="facilityName textDownLine">スタジアム</span>
+                <div class="facilityPanelComment">
+				    <span class="facilityDataTitle">所在地　　</span>
+                    <span id="ctl00_MasterContentPlaceHolder_lblAddress" class="facilityDataValue">可児市坂戸987番地4　可児市運動公園内</span><br>
+				    <span class="facilityDataTitle">連絡先　　</span>
+                    <span id="ctl00_MasterContentPlaceHolder_lblContactName" class="facilityDataValue">カヤバスタジアム</span><span id="ctl00_MasterContentPlaceHolder_lblContactTel">（TEL ： 0574-60-1120）</span><br>
+				    <span class="facilityDataTitle">定休日　　</span>
+                    <span id="ctl00_MasterContentPlaceHolder_lblFacilityHoliday" class="facilityDataValue">12/28～1/4</span><br>
+				    <span class="facilityDataTitle">営業時間　</span>
+                    <span id="ctl00_MasterContentPlaceHolder_lblAvailableTime" class="facilityDataValue">9:00-21:00</span><br>
+                    
+                    <div class="facilityPanelButton">
+                    <input type="submit" name="ctl00$MasterContentPlaceHolder$btnGuide" value="施設情報" id="ctl00_MasterContentPlaceHolder_btnGuide" class="facilityPanelGuideButton">
+                    
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div class="viewTypeArea">
+			<h3>表示切替</h3>
+			<select name="ctl00$MasterContentPlaceHolder$ddlStatusFacilityList" id="ctl00_MasterContentPlaceHolder_ddlStatusFacilityList">
+	<option value="">施設を選択してください</option>
+	<option value="35">カヤバスタジアム</option>
+	<option value="36">スタジアム ナイター照明</option>
+	<option value="44">スタジアム スコアボード</option>
+	<option value="37">スタジアム ミーティング室</option>
+	<option value="38">スタジアム 本部室</option>
+	<option value="39">スタジアム 役員室</option>
+	<option value="40">スタジアム 放送室</option>
+	<option value="41">スタジアム 審判控室</option>
+	<option value="42">スタジアム 記者室</option>
+	<option value="43">スタジアム 内部観覧室</option>
+
+</select>
+			<span class="scheduleLinkButton"><input type="submit" name="ctl00$MasterContentPlaceHolder$btnToMonth" value="月間表示" id="ctl00_MasterContentPlaceHolder_btnToMonth" class="button2" style="height: 27px;">
+			<input type="submit" name="ctl00$MasterContentPlaceHolder$calendar" value="カレンダー表示" id="ctl00_MasterContentPlaceHolder_calendar" class="button2" style="height: 27px;"></span>
+        </div>
+
+		<div class="colorTypeArea">
+            <div class="clearText"><h3>凡例</h3></div>
+            <div id="ctl00_MasterContentPlaceHolder_ColorArea1" class="colorType">
+                <span id="ctl00_MasterContentPlaceHolder_Color1" class="color">　</span>
+                <span id="ctl00_MasterContentPlaceHolder_Title1">空き</span>
+            </div>
+            <div id="ctl00_MasterContentPlaceHolder_ColorArea2" class="colorType">
+                <span id="ctl00_MasterContentPlaceHolder_Color2" class="color">　</span>
+                <span id="ctl00_MasterContentPlaceHolder_Title2">予約不可</span>
+            </div>
+            <div id="ctl00_MasterContentPlaceHolder_ColorArea3" class="colorType">
+                <span id="ctl00_MasterContentPlaceHolder_Color3" class="color">　</span>
+                <span id="ctl00_MasterContentPlaceHolder_Title3">予約済</span>
+            </div>
+            
+            
+            
+            
+            <div class="colorType"><span id="ctl00_MasterContentPlaceHolder_lblMessage"></span></div>
+        </div>
+
+		<div class="scheduleHeader">
+            <div class="clearText"><h3>表示日を変更</h3></div>
+            <div class="scheduleConditionArea">
+                <span id="ctl00_MasterContentPlaceHolder_lblCondition" class="viewDate">2026 年 12 月 29 日（火）</span>
+				
+            </div>
+		    <input type="submit" name="ctl00$MasterContentPlaceHolder$btnPrevious" value="<<前日を表示" id="ctl00_MasterContentPlaceHolder_btnPrevious" class="button2 previous" style="height: 27px;">
+		    <input type="submit" name="ctl00$MasterContentPlaceHolder$btnNext" value="翌日を表示 >>" id="ctl00_MasterContentPlaceHolder_btnNext" class="button2 next" style="height: 27px;">
+		</div>
+        <div id="ctl00_MasterContentPlaceHolder_SchedulePanel" class="schedulePanel">
+	
+		    <table id="ctl00_MasterContentPlaceHolder_ScheduleTable" class="schedule" border="0">
+		<tbody><tr class="ScheduleTimeRow">
+			<td class="ScheduleTimeTitle" colspan="3">時間</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">9</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">10</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">11</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">12</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">13</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">14</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">15</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">16</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">17</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">18</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">19</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">20</td>
+		</tr><tr class="ScheduleSpaceRow">
+			<td class="ScheduleSpace" colspan="51"></td>
+		</tr><tr class="ScheduleFacilityRow">
+			<td title="抽選申込 0 件" class="ScheduleFacilityOnly" colspan="3" rowspan="1"><h3>カヤバスタジアム</h3></td><td class="ScheduleCanNotReserve" colspan="48" bgcolor="#AAAAAA">年末年始</td>
+		</tr><tr class="ScheduleSpaceRow">
+			<td class="ScheduleSpace" colspan="51"></td>
+		</tr><tr class="ScheduleFacilityRow">
+			<td title="抽選申込 0 件" class="ScheduleFacilityOnly" colspan="3" rowspan="1"><h3>ナイター照明</h3></td><td class="ScheduleCanNotReserve" colspan="48" bgcolor="#AAAAAA">年末年始</td>
+		</tr><tr class="ScheduleSpaceRow">
+			<td class="ScheduleSpace" colspan="51"></td>
+		</tr><tr class="ScheduleFacilityRow">
+			<td title="抽選申込 0 件" class="ScheduleFacilityOnly" colspan="3" rowspan="1"><h3>スコアボード</h3></td><td class="ScheduleCanNotReserve" colspan="48" bgcolor="#AAAAAA">年末年始</td>
+		</tr><tr class="ScheduleSpaceRow">
+			<td class="ScheduleSpace" colspan="51"></td>
+		</tr><tr class="ScheduleFacilityRow">
+			<td title="抽選申込 0 件" class="ScheduleFacilityOnly" colspan="3" rowspan="1"><h3>ミーティング室</h3></td><td class="ScheduleCanNotReserve" colspan="48" bgcolor="#AAAAAA">年末年始</td>
+		</tr><tr class="ScheduleSpaceRow">
+			<td class="ScheduleSpace" colspan="51"></td>
+		</tr><tr class="ScheduleFacilityRow">
+			<td title="抽選申込 0 件" class="ScheduleFacilityOnly" colspan="3" rowspan="1"><h3>本部室</h3></td><td class="ScheduleCanNotReserve" colspan="48" bgcolor="#AAAAAA">年末年始</td>
+		</tr><tr class="ScheduleSpaceRow">
+			<td class="ScheduleSpace" colspan="51"></td>
+		</tr><tr class="ScheduleFacilityRow">
+			<td title="抽選申込 0 件" class="ScheduleFacilityOnly" colspan="3" rowspan="1"><h3>役員室</h3></td><td class="ScheduleCanNotReserve" colspan="48" bgcolor="#AAAAAA">年末年始</td>
+		</tr><tr class="ScheduleSpaceRow">
+			<td class="ScheduleSpace" colspan="51"></td>
+		</tr><tr class="ScheduleFacilityRow">
+			<td title="抽選申込 0 件" class="ScheduleFacilityOnly" colspan="3" rowspan="1"><h3>放送室</h3></td><td class="ScheduleCanNotReserve" colspan="48" bgcolor="#AAAAAA">年末年始</td>
+		</tr><tr class="ScheduleSpaceRow">
+			<td class="ScheduleSpace" colspan="51"></td>
+		</tr><tr class="ScheduleFacilityRow">
+			<td title="抽選申込 0 件" class="ScheduleFacilityOnly" colspan="3" rowspan="1"><h3>審判控室</h3></td><td class="ScheduleCanNotReserve" colspan="48" bgcolor="#AAAAAA">年末年始</td>
+		</tr><tr class="ScheduleSpaceRow">
+			<td class="ScheduleSpace" colspan="51"></td>
+		</tr><tr class="ScheduleFacilityRow">
+			<td title="抽選申込 0 件" class="ScheduleFacilityOnly" colspan="3" rowspan="1"><h3>記者室</h3></td><td class="ScheduleCanNotReserve" colspan="48" bgcolor="#AAAAAA">年末年始</td>
+		</tr><tr class="ScheduleSpaceRow">
+			<td class="ScheduleSpace" colspan="51"></td>
+		</tr><tr class="ScheduleFacilityRow">
+			<td title="抽選申込 0 件" class="ScheduleFacilityOnly" colspan="3" rowspan="1"><h3>内部観覧室</h3></td><td class="ScheduleCanNotReserve" colspan="48" bgcolor="#AAAAAA">年末年始</td>
+		</tr><tr class="ScheduleSpaceRow">
+			<td class="ScheduleSpace" colspan="51"></td>
+		</tr><tr class="ScheduleTimeRow">
+			<td class="ScheduleTimeTitle" colspan="3">時間</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">9</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">10</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">11</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">12</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">13</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">14</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">15</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">16</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">17</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">18</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">19</td><td class="ScheduleTime" colspan="4" style="width: 6.41667%;">20</td>
+		</tr><tr class="ScheduleDummyRow">
+			<td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td><td class="ScheduleDummy"></td>
+		</tr>
+	</tbody></table>
+        
+</div>
+     </div>
+
+            <footer>
+	    	    <hr>
+                 <p class="masterHeaderMenuArea">
+                    <a id="ctl00_lnkMunicipalityHomePage" class="masterHeaderMenu " href="https://www.city.kani.lg.jp" target="_blank">可児市ホーム</a>
+                    <a id="ctl00_lnkAgreement" class="masterHeaderMenu " href="javascript:__doPostBack('ctl00$lnkAgreement','')">利用規約</a>
+			        <a id="ctl00_lnkFAQ" class="masterHeaderMenu " href="javascript:__doPostBack('ctl00$lnkFAQ','')">よくある質問</a>
+                </p>
+                <small><span id="ctl00_lblCopyright">Copyright City-Kani All rights reserved.</span></small>
+	        </footer>
+        </div>
+	</form>
+
+</body></html>
