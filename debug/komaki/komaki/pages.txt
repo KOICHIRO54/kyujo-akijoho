@@ -1,0 +1,10 @@
+01	https://www.pf489.com/komaki/webR/	https://www.pf489.com/komaki/WebR/Home/WgR_ModeSelect
+02	施設名から探す	https://www.pf489.com/komaki/WebR/Home/WgR_ModeSelect
+03	fill	https://www.pf489.com/komaki/WebR/Home/WgR_ModeSelect
+04	click	https://www.pf489.com/komaki/WebR/Yoyaku/WgR_ShisetsuKensaku
+05	総合運動場（野球場）	https://www.pf489.com/komaki/WebR/Yoyaku/WgR_ShisetsuKensaku
+06	次へ進む	https://www.pf489.com/komaki/WebR/Yoyaku/WgR_ShisetsubetsuAkiJoukyou
+07	click	https://www.pf489.com/komaki/WebR/Yoyaku/WgR_ShisetsubetsuAkiJoukyou
+08	click	https://www.pf489.com/komaki/WebR/Yoyaku/WgR_ShisetsubetsuAkiJoukyou
+09	click	https://www.pf489.com/komaki/WebR/Yoyaku/WgR_ShisetsubetsuAkiJoukyou
+10	click	https://www.pf489.com/komaki/WebR/Yoyaku/WgR_ShisetsubetsuAkiJoukyou
