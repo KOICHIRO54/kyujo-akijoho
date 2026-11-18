@@ -1,25 +1,25 @@
 {
- "generated_at": "2026-11-18T03:57+09:00",
+ "generated_at": "2026-11-18T13:42+09:00",
  "fetched_at": {
-  "yokkaichi2": "2026-11-17T14:31+09:00",
-  "yokkaichi1": "2026-11-17T14:31+09:00",
-  "mizuho": "2026-10-31T19:03+09:00",
   "tajimi": "2026-11-09T19:26+09:00",
   "komaki": "2026-11-09T19:26+09:00",
-  "shinshiro": "2026-11-18T03:57+09:00",
-  "kourogi": "2026-11-18T03:57+09:00",
-  "obu": "2026-11-18T03:57+09:00",
-  "hokusei": "2026-11-18T03:57+09:00",
-  "kani": "2026-11-18T03:57+09:00",
-  "ichii": "2026-11-18T03:57+09:00",
-  "seto": "2026-11-18T03:57+09:00",
-  "gamagori": "2026-11-18T03:57+09:00",
-  "shinrin": "2026-11-18T03:57+09:00",
-  "handa": "2026-11-18T03:57+09:00",
-  "miyoshi": "2026-11-18T03:57+09:00",
-  "kasugai": "2026-11-18T03:57+09:00",
-  "agui": "2026-11-18T03:57+09:00",
-  "ichinomiya": "2026-11-18T03:57+09:00"
+  "mizuho": "2026-10-31T19:03+09:00",
+  "obu": "2026-11-18T13:42+09:00",
+  "seto": "2026-11-18T13:42+09:00",
+  "kasugai": "2026-11-18T13:42+09:00",
+  "agui": "2026-11-18T13:42+09:00",
+  "ichinomiya": "2026-11-18T13:42+09:00",
+  "shinrin": "2026-11-18T13:42+09:00",
+  "kani": "2026-11-18T13:42+09:00",
+  "ichii": "2026-11-18T13:42+09:00",
+  "yokkaichi2": "2026-11-18T13:42+09:00",
+  "handa": "2026-11-18T13:42+09:00",
+  "miyoshi": "2026-11-18T13:42+09:00",
+  "kourogi": "2026-11-18T13:42+09:00",
+  "hokusei": "2026-11-18T13:42+09:00",
+  "shinshiro": "2026-11-18T13:42+09:00",
+  "gamagori": "2026-11-18T13:42+09:00",
+  "yokkaichi1": "2026-11-18T13:42+09:00"
  },
  "status": {
   "aichi_kyodo:kasugai": {
@@ -78,7 +78,8 @@
   },
   "nagoya_sporec:mizuho": {
    "ok": false,
-   "error": "StepError: プルダウンが見つからない: select[name=syumoku]"
+   "count": 0,
+   "error": "空き表を読み取れず（debug/ を確認）"
   },
   "net_aichi:kourogi": {
    "ok": true,
@@ -104,9 +105,15 @@
    "ok": false,
    "error": "TimeoutError: Page.goto: Timeout 30000ms exceeded.\nCall log:\nnavigating to \"https://www2.pf489.com/tajimi/WebR/\", waiting until \"domcontentloaded\"\n"
   },
-  "yokkaichi": {
-   "ok": false,
-   "error": "robots.txt で禁止されているため取得しない"
+  "yokkaichi:yokkaichi1": {
+   "ok": true,
+   "count": 98,
+   "error": null
+  },
+  "yokkaichi:yokkaichi2": {
+   "ok": true,
+   "count": 98,
+   "error": null
   }
  },
  "slots": [
@@ -1018,7 +1025,7 @@
    "date": "2026-11-23",
    "slot": "3面 09:00-17:00",
    "status": "予約済",
-   "raw": "0/3面空き"
+   "raw": "1/3面空き"
   },
   {
    "field": "ichinomiya",
@@ -2263,8 +2270,8 @@
    "field": "ichinomiya",
    "date": "2026-12-03",
    "slot": "終日（日単位の目安）",
-   "status": "空き",
-   "raw": "○"
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "kani",
@@ -3040,8 +3047,8 @@
    "field": "ichinomiya",
    "date": "2026-12-08",
    "slot": "終日（日単位の目安）",
-   "status": "空き",
-   "raw": "○"
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "kani",
@@ -3166,8 +3173,8 @@
    "field": "ichinomiya",
    "date": "2026-12-11",
    "slot": "終日（日単位の目安）",
-   "status": "空き",
-   "raw": "○"
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "kani",
@@ -3824,8 +3831,8 @@
    "field": "ichinomiya",
    "date": "2026-12-14",
    "slot": "終日（日単位の目安）",
-   "status": "空き",
-   "raw": "○"
+   "status": "一部空き",
+   "raw": "△"
   },
   {
    "field": "kani",
@@ -3866,8 +3873,8 @@
    "field": "yokkaichi2",
    "date": "2026-12-14",
    "slot": "終日（日単位の目安）",
-   "status": "予約済",
-   "raw": "空きなし"
+   "status": "空き",
+   "raw": "空き状況のみ"
   },
   {
    "field": "ichinomiya",
@@ -3993,14 +4000,14 @@
    "date": "2026-12-17",
    "slot": "終日（日単位の目安）",
    "status": "空き",
-   "raw": "利用可能"
+   "raw": "空き状況のみ"
   },
   {
    "field": "yokkaichi2",
    "date": "2026-12-17",
    "slot": "終日（日単位の目安）",
    "status": "空き",
-   "raw": "利用可能"
+   "raw": "空き状況のみ"
   },
   {
    "field": "ichinomiya",
