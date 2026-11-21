@@ -1,0 +1,8 @@
+01	https://www.net.city.nagoya.jp/sporec/index.html	https://www.net.city.nagoya.jp/sporec/index.html
+02	施設ごとの検索・予約	https://www.net.city.nagoya.jp/cgi-bin/sp05001
+03	野球（硬式）	https://www.net.city.nagoya.jp/cgi-bin/sp05001
+04	['パロマ瑞穂野球場']	https://www.net.city.nagoya.jp/cgi-bin/sp05001
+05	{MM}	https://www.net.city.nagoya.jp/cgi-bin/sp05001
+06	{DD}	https://www.net.city.nagoya.jp/cgi-bin/sp05001
+07	指定日以降の土日祝	https://www.net.city.nagoya.jp/cgi-bin/sp05001
+08	照会	https://www.net.city.nagoya.jp/cgi-bin/sp05002
