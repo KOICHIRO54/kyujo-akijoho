@@ -1,0 +1,3 @@
+01	https://www.net.city.nagoya.jp/sporec/index.html	https://www.net.city.nagoya.jp/sporec/index.html
+02	施設ごとの検索・予約	https://www.net.city.nagoya.jp/sporec/Service_Err.html
+03	error	https://www.net.city.nagoya.jp/sporec/Service_Err.html
